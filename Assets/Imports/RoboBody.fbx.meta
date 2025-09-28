@@ -22,7 +22,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -80,7 +80,167 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: RoboBody(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_Body
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_L_Finger_1
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_L_Finger_2
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_L_Finger_3
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_R_Finger_3
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_R_Finger2
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_R_Finger_1
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cute_Robot_4_Legs
+      parentName: RoboBody(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pelvis
+      parentName: RoboBody(Clone)
+      position: {x: 0, y: 0.44877806, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: upperarm_L
+      parentName: pelvis
+      position: {x: -0.19500034, y: 0.19638424, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: lowerarm_L
+      parentName: upperarm_L
+      position: {x: -0.17271465, y: -2.1316282e-16, z: -0.0063926564}
+      rotation: {x: 7.6580716e-34, y: -1.394148e-18, z: 5.4930124e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: hand_L
+      parentName: lowerarm_L
+      position: {x: -0.12490399, y: 7.105427e-17, z: 0.0063926564}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: finger1_L
+      parentName: hand_L
+      position: {x: -0.09743491, y: -0.0004520007, z: 0.036655284}
+      rotation: {x: -1.4016566e-15, y: 1.7347235e-17, z: -2.3833383e-32, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: finger2_L
+      parentName: hand_L
+      position: {x: -0.09743491, y: 0.032148574, z: -0.017017448}
+      rotation: {x: -2.164935e-15, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: finger3_L
+      parentName: hand_L
+      position: {x: -0.09743491, y: -0.031875618, z: -0.018134449}
+      rotation: {x: 0, y: 8.673617e-18, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: upperarm_R
+      parentName: pelvis
+      position: {x: 0.19499893, y: 0.19638403, z: 3.122415e-32}
+      rotation: {x: 1, y: -2.1972043e-16, z: 1.3453996e-32, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: lowerarm_R
+      parentName: upperarm_R
+      position: {x: 0.17271607, y: 2.842171e-16, z: 0.0063926564}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: hand_R
+      parentName: lowerarm_R
+      position: {x: 0.124904, y: -4.2632563e-16, z: -0.0063926564}
+      rotation: {x: 0, y: -1.2325952e-32, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: finger1_R
+      parentName: hand_R
+      position: {x: 0.097435, y: 0.000452, z: -0.0366553}
+      rotation: {x: 0.7062233, y: 0, z: -0, w: 0.70798916}
+      scale: {x: 1, y: 1, z: 1}
+    - name: finger2_R
+      parentName: hand_R
+      position: {x: 0.097435, y: -0.032149, z: 0.0170174}
+      rotation: {x: -0.25875744, y: -2.7018718e-17, z: 1.1226953e-16, w: 0.9659424}
+      scale: {x: 1, y: 1, z: 1}
+    - name: finger3_R
+      parentName: hand_R
+      position: {x: 0.097435, y: 0.031875, z: 0.018134398}
+      rotation: {x: 0.9664651, y: 1.4255153e-17, z: -5.364959e-17, w: -0.256798}
+      scale: {x: 1, y: 1, z: 1}
+    - name: neck
+      parentName: pelvis
+      position: {x: -0, y: 0.36901668, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: head
+      parentName: neck
+      position: {x: -0, y: 0.076291956, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: thigh_L
+      parentName: pelvis
+      position: {x: -0.08536748, y: -0.06522796, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: calf_L
+      parentName: thigh_L
+      position: {x: 1.7763568e-17, y: -0.13595465, z: 0.0036819305}
+      rotation: {x: 4.3368087e-18, y: 1.7347235e-17, z: -7.523164e-35, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: foot_L
+      parentName: calf_L
+      position: {x: -1.7763568e-17, y: -0.15657337, z: -0.0036819305}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ball_L
+      parentName: foot_L
+      position: {x: -0.017557584, y: -0.079850756, z: 0.05851359}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: thigh_R
+      parentName: pelvis
+      position: {x: 0.08536749, y: -0.06522796, z: 0}
+      rotation: {x: 1, y: -0, z: 0, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: calf_R
+      parentName: thigh_R
+      position: {x: 7.105427e-17, y: 0.13595499, z: -0.0036819305}
+      rotation: {x: 7.610098e-33, y: 9.3048166e-18, z: -8.178666e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: foot_R
+      parentName: calf_R
+      position: {x: -7.105427e-17, y: 0.156573, z: 0.0036819305}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ball_R
+      parentName: foot_R
+      position: {x: 0.0175575, y: 0.07985078, z: -0.058513597}
+      rotation: {x: -9.62965e-35, y: 2.220446e-16, z: 4.3368087e-19, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -89,15 +249,15 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: pelvis
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
