@@ -31,10 +31,16 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
+
     [SerializeField][Range(0, 1)] private float blendLockInputSeconds = 0.75f;
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
 
     public bool isBlending { get; private set; }
+
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInputs>();
+    }
 }
