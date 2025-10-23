@@ -82,6 +82,11 @@ public class PlayerInputs : MonoBehaviour
         }
     }
 
+    private void SetInputLocked(bool lockStatus)
+    {
+        inputLocked = lockStatus;
+    }
+
     private void HandleJump(InputAction.CallbackContext context)
     {
         OnJump?.Invoke();
@@ -144,6 +149,7 @@ public class PlayerInputs : MonoBehaviour
         reference.action.performed -= actionHandler;
     }
 
+    // For the inputs that also require an exit unlike one shot actions
     private static void SubscribeChanged(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
     {
         if (reference == null || reference.action == null) return;

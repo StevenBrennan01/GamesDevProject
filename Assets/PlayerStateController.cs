@@ -1,7 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-
 public enum MovementMode
 {
     FirstPerson,
