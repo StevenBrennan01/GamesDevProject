@@ -41,5 +41,6 @@ public class PlayerStateController : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInputs>();
+        
     }
 }

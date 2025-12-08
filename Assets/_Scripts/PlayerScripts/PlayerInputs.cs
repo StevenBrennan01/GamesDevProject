@@ -37,7 +37,7 @@ public class PlayerInputs : MonoBehaviour
 
     public event Action OnJump;
     public event Action OnInteract;
-    public event Action OnTogglePlaceOrPickup; // Deals with Deals with just movement mode change, anims, audio, etc,
+    public event Action OnTogglePlaceOrPickup; // Deals with just movement mode change, anims, audio, etc,
     public event Action OnCrouch;
 
     private void OnEnable()
@@ -52,7 +52,7 @@ public class PlayerInputs : MonoBehaviour
         SubscribePerformed(jumpAction, HandleJump);
         SubscribePerformed(interactAction, HandleInteract);
         SubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
-        SubscribeChanged(crouchAction, HandleCrouchChanged);
+        SubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
     private void OnDisable()
@@ -64,10 +64,10 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(interactAction);
         DisableAction(togglePlaceOrPickupAction);
 
-        UnsunscribePerformed(jumpAction, HandleJump);
-        UnsunscribePerformed(interactAction, HandleInteract);
-        UnsunscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
-        UnsunscribeChanged(crouchAction, HandleCrouchChanged);
+        UnsubscribePerformed(jumpAction, HandleJump);
+        UnsubscribePerformed(interactAction, HandleInteract);
+        UnsubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
+        UnsubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
     private void Update()
@@ -82,7 +82,8 @@ public class PlayerInputs : MonoBehaviour
         }
     }
 
-    private void SetInputLocked(bool lockStatus)
+    // Public method to allow external classes access to lock/unlock input.
+    public void SetInputLocked(bool lockStatus)
     {
         inputLocked = lockStatus;
     }
@@ -143,21 +144,21 @@ public class PlayerInputs : MonoBehaviour
         reference.action.performed += actionHandler;
     }
 
-    private static void UnsunscribePerformed(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
+    private static void UnsubscribePerformed(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
     {
         if (reference == null || reference.action == null) return;
         reference.action.performed -= actionHandler;
     }
 
     // For the inputs that also require an exit unlike one shot actions
-    private static void SubscribeChanged(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
+    private static void SubscribeToggled(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
     {
         if (reference == null || reference.action == null) return;
         reference.action.performed += actionHandler;
         reference.action.canceled += actionHandler;
     }
 
-    private static void UnsunscribeChanged(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
+    private static void UnsubscribeToggled(InputActionReference reference, Action<InputAction.CallbackContext> actionHandler)
     {
         if (reference == null || reference.action == null) return;
         reference.action.performed -= actionHandler;
