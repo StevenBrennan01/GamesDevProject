@@ -22,8 +22,8 @@ public class PlayerInputs : MonoBehaviour
     [Tooltip("Button - Interact")]
     [SerializeField] private InputActionReference interactAction;
 
-    [Tooltip("Button - Head placed / Perspective changed")]
-    [SerializeField] private InputActionReference togglePlaceOrPickupAction;
+    //[Tooltip("Button - Head placed / Perspective changed")]
+    //[SerializeField] private InputActionReference togglePlaceOrPickupAction;
 
     [Header("Settings")]
     [Tooltip("Scales the look input (mouse/stick) before consumers read it.")]
@@ -47,11 +47,11 @@ public class PlayerInputs : MonoBehaviour
         EnableAction(jumpAction);
         EnableAction(crouchAction);
         EnableAction(interactAction);
-        EnableAction(togglePlaceOrPickupAction);
+        //EnableAction(togglePlaceOrPickupAction);
 
         SubscribePerformed(jumpAction, HandleJump);
         SubscribePerformed(interactAction, HandleInteract);
-        SubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
+        //SubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
         SubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
@@ -62,11 +62,11 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(jumpAction);
         DisableAction(crouchAction);
         DisableAction(interactAction);
-        DisableAction(togglePlaceOrPickupAction);
+        //DisableAction(togglePlaceOrPickupAction);
 
         UnsubscribePerformed(jumpAction, HandleJump);
         UnsubscribePerformed(interactAction, HandleInteract);
-        UnsubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
+        //UnsubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
         UnsubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
@@ -98,10 +98,10 @@ public class PlayerInputs : MonoBehaviour
         OnInteract?.Invoke();
     }
 
-    private void HandlePlaceOrPickup(InputAction.CallbackContext context)
-    {
-        OnTogglePlaceOrPickup?.Invoke();
-    }
+    //private void HandlePlaceOrPickup(InputAction.CallbackContext context)
+    //{
+    //    OnTogglePlaceOrPickup?.Invoke();
+    //}
 
     private void HandleCrouchChanged(InputAction.CallbackContext context)
     {
