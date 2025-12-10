@@ -4,30 +4,35 @@ using UnityEngine;
 public class HeadPlacementVolume : MonoBehaviour
 {
     [Tooltip("The anchor that the player head will become a child of.")]
-    [SerializeField] private Transform placementAnchor;
+    public Transform placementAnchor;
 
     [Tooltip("Trigger collider to detect for player presence")]
     private BoxCollider volumeCollider;
 
     private string playerTag = "Player"; //The Player Tag
+    public bool canPlace;
 
     private void Awake()
     {
         volumeCollider = GetComponent<BoxCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)// Allow for placement etc.
     {
         if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag)) return;
-        // Allow for placement etc.
+        if (other.tag == playerTag)
+        {
+            canPlace = true;
+        }
     }
 
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) // Disallow for placement etc.
     {
         if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag)) return;
-        // Disallow for placement etc.
+        if (other.tag == playerTag)
+        {
+            canPlace = false;
+        }
     }
-
-
 }
