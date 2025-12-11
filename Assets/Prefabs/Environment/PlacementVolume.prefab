@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 4846442962652430628}
   - component: {fileID: 5090028170181982359}
   - component: {fileID: 7071027544725762585}
+  - component: {fileID: -7710212469651755635}
   m_Layer: 0
   m_Name: PlacementVolume
   m_TagString: Untagged
@@ -191,3 +192,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
   placementAnchor: {fileID: 0}
   canPlace: 0
+--- !u!114 &-7710212469651755635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7100244615159172513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cd259d9555b6b46aea9ae3d9946710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetCurrentVolume

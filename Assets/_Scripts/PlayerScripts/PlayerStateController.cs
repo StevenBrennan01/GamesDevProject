@@ -16,9 +16,11 @@ public enum CameraMode
 
 public class PlayerStateController : MonoBehaviour
 {
+    private PlayerInputs playerInput;
+
     [Header("References")]
     [Space(10)]
-    private PlayerInputs playerInput;
+
     [SerializeField] private GameObject playerBody;
 
     [Tooltip("Cinemachine VCam for the carried mount 'hands'")]
@@ -30,20 +32,34 @@ public class PlayerStateController : MonoBehaviour
     [SerializeField] private Transform carriedMount; // The hands of the player
     [SerializeField] private Transform headMount; // The head pivot that will be blended to upon placed
 
+    [SerializeField] private Transform firstPersonYawRoot; //Playerbody root
+    [SerializeField] private Transform firstPersonPitchPivot; // In this case the Carried Cam Pivot
+
     [Tooltip("Priority values for Active and Inactive Vcameras")]
-    private int activePriority = 20;
-    private int inactivePriority = 10;
+    private int activePriority = 5;
+    private int inactivePriority = 1;
 
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
     [SerializeField][Range(0, 1)] private float blendLockInputSeconds = 0.55f;
 
-    [Header("Second-Person Rotation Bounds")]
+    [Header("Second-Person View Attributes")]
+    [Space(2)]
+    [Header("Second-Person Look Bounds")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
     [SerializeField, Range(0, 89)] private float placedPitchClamp = 30f;
 
-    // TEMPORARY MANUAL VOLUME TO TEST HEAD PLACEMENT
-    [SerializeField] private HeadPlacementVolume currentPlacementVolume;
+    [Header("First-Person View Attributes")]
+    [Space(2)]
+    [Header("First-Person Look Bounds")]
+    [SerializeField, Range(0, 89)] private float firstPersonPitchClamp = 85f;
+    [SerializeField] private Vector2 firstPersonLookSensitivity = Vector2.one;
+
+
+    [Header("Currently Active Placement Volume")]
+    [Space(2)]
+    // public for testing, privatise when done
+    public HeadPlacementVolume currentPlacementVolume;
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
@@ -51,9 +67,11 @@ public class PlayerStateController : MonoBehaviour
 
     // Neutral rotation for the head and placement, rotations and offsets are applied relative to this
     private Quaternion neutralHeadRotation;
-
     private float placedYawOffset;
     private float placedPitchOffset;
+
+    private float fpYaw;
+    private float fpPitch;
 
     private void Awake()
     {
@@ -62,17 +80,30 @@ public class PlayerStateController : MonoBehaviour
 
         CurrentMovementMode = MovementMode.FirstPerson;
         InitializeCameraMode(CameraMode.Carried); // Using initialize method, no blend lock on start
-        //SetCameraMode(CameraMode.Carried);
+
+        if (firstPersonYawRoot != null)
+        {
+            fpYaw = firstPersonYawRoot.eulerAngles.y;
+        }
+        if (firstPersonPitchPivot != null)
+        {
+            float pitch = firstPersonPitchPivot.localEulerAngles.x;
+            fpPitch = (pitch > 180f) ? pitch - 360f : pitch;
+            fpPitch = Mathf.Clamp(fpPitch, -firstPersonPitchClamp, firstPersonPitchClamp);
+        }
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
     {
-        playerInput.OnTogglePlaceOrPickup += TogglePlaceOrPickup;
+        playerInput.OnTogglePlaceOrPickup += HandlePlaceOrPickup;
     }
 
     private void OnDisable ()
     {
-        playerInput.OnTogglePlaceOrPickup -= TogglePlaceOrPickup;
+        playerInput.OnTogglePlaceOrPickup -= HandlePlaceOrPickup;
     }
 
     private void Update()
@@ -81,12 +112,16 @@ public class PlayerStateController : MonoBehaviour
         {
             ApplySecondPersonLook(playerInput?.Look ?? Vector2.zero);
         }
+        else if (CurrentCameraMode == CameraMode.Carried)
+        {
+            ApplyFirstPersonLook(playerInput?.Look ?? Vector2.zero);
+        }
 
         Vector2 moveInput = playerInput?.Move ?? Vector2.zero;
         Vector3 moveWorld = ComputeMovementDirection(moveInput);
     }
 
-    private void TogglePlaceOrPickup()
+    private void HandlePlaceOrPickup()
     {
         if (isBlending) return;
 
@@ -199,14 +234,14 @@ public class PlayerStateController : MonoBehaviour
         headVirtualCamera.Priority = inactivePriority;
     }
 
-    private IEnumerator LockInputDuringBlend(float seconds)
+    private IEnumerator LockInputDuringBlend(float lockSeconds)
     {
         isBlending = true;
         playerInput.SetInputLocked(true);
 
         // Could use CinemachineBrain.ActiveBlend == null
-        // However, waiting a short moment after blend ends to avoid overlap issues
-        yield return new WaitForSeconds(seconds);
+        // However, waiting 0.05s after blend ends to try avoid overlap issues
+        yield return new WaitForSeconds(lockSeconds);
 
         playerInput.SetInputLocked(false);
         isBlending = false;
@@ -228,6 +263,18 @@ public class PlayerStateController : MonoBehaviour
         Quaternion pitchRot = Quaternion.AngleAxis(placedPitchOffset, Vector3.right);
 
         headMount.rotation = neutralHeadRotation * yawRot * pitchRot;
+    }
+
+    private void ApplyFirstPersonLook(Vector2 lookDelta)
+    {
+        float yawDelta = lookDelta.x * firstPersonLookSensitivity.x;
+        float pitchDelta = -lookDelta.y * firstPersonLookSensitivity.y;
+
+        fpYaw += yawDelta;
+        fpPitch = Mathf.Clamp(fpPitch + pitchDelta, -firstPersonPitchClamp, firstPersonPitchClamp);
+
+        firstPersonYawRoot.rotation = Quaternion.Euler(0f, fpYaw, 0f);
+        firstPersonPitchPivot.localRotation = Quaternion.Euler(fpPitch, 0f, 0f);
     }
 
     public Vector3 ComputeMovementDirection(Vector2 moveInput)
@@ -254,5 +301,10 @@ public class PlayerStateController : MonoBehaviour
 
         Vector3 moveWorld = forward * moveInput.y + right * moveInput.x;
         return moveWorld;
+    }
+
+    public void SetCurrentPlacementVolume(HeadPlacementVolume volume)
+    {
+        currentPlacementVolume = volume;
     }
 }

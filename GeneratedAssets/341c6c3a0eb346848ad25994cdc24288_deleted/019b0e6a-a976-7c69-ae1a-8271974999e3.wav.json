@@ -1,0 +1,13 @@
+{
+    "asset": "341c6c3a0eb346848ad25994cdc24288",
+    "fileName": "019b0e6a-a976-7c69-ae1a-8271974999e3.wav",
+    "prompt": "metal pipe crash",
+    "negativePrompt": "music, distorted",
+    "model": "5de0686a-fb27-40e5-9df0-28ae810d70ca",
+    "modelName": "ElevenLabs Sound Effects V2",
+    "customSeed": -1,
+    "w3CTraceId": "440cf50a934bc3cb33a1c9103a17b605",
+    "duration": 1.8899999856948853,
+    "autoTrim": true,
+    "hasReference": false
+}

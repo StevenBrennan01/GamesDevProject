@@ -904,6 +904,7 @@ GameObject:
   - component: {fileID: 3181155381484123845}
   - component: {fileID: 6094467427498797126}
   - component: {fileID: 856983647568322666}
+  - component: {fileID: 7551325115280973815}
   - component: {fileID: 5786084102686542378}
   m_Layer: 0
   m_Name: PlayerCharacter
@@ -969,7 +970,8 @@ MonoBehaviour:
   jumpAction: {fileID: 3018930012689361117, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   crouchAction: {fileID: -7802924432107250857, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   interactAction: {fileID: -6219605337524994383, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  lookSensitivity: {x: 1, y: 1}
+  togglePlaceOrPickupAction: {fileID: 0}
+  isCrouching: 0
 --- !u!114 &6094467427498797126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,9 +989,13 @@ MonoBehaviour:
   headVirtualCamera: {fileID: 0}
   carriedMount: {fileID: 3408005370780828068}
   headMount: {fileID: 6262018006005715580}
-  blendLockInputSeconds: 0.75
+  firstPersonYawRoot: {fileID: 5901632443591692325}
+  firstPersonPitchPivot: {fileID: 3408005370780828068}
+  blendLockInputSeconds: 0.55
   placedYawClamp: 45
   placedPitchClamp: 30
+  firstPersonPitchClamp: 85
+  firstPersonLookSensitivity: {x: 1, y: 0.15}
   currentPlacementVolume: {fileID: 0}
 --- !u!114 &856983647568322666
 MonoBehaviour:
@@ -1003,10 +1009,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e46c0e680f5cae43b44fed68eda73af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  walkSpeed: 4
-  crouchSpeedMultiplier: 0.6
+  walkSpeed: 1.25
+  crouchSpeedMultiplier: 0.5
   gravity: -9.81
-  groundedGravityPushdown: 2
+  groundedGravityPushdown: 0
+--- !u!114 &7551325115280973815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4330762907796356662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a95103b9794c14fb47c27bd3a43b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractions
+  playerEyes: {fileID: 0}
 --- !u!143 &5786084102686542378
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1025,13 +1044,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 0.84
-  m_Radius: 0.18
+  m_Height: 0.85
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.41, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &4937999925760213343
 GameObject:
   m_ObjectHideFlags: 0

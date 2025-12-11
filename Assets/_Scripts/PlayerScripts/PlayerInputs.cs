@@ -22,23 +22,23 @@ public class PlayerInputs : MonoBehaviour
     [Tooltip("Button - Interact")]
     [SerializeField] private InputActionReference interactAction;
 
-    //[Tooltip("Button - Head placed / Perspective changed")]
-    //[SerializeField] private InputActionReference togglePlaceOrPickupAction;
+    [Tooltip("Button - Head placed / Perspective changed")]
+    [SerializeField] private InputActionReference placeOrPickupAction; // Should be the same key as interact (is this needed?)
 
     [Header("Settings")]
     [Tooltip("Scales the look input (mouse/stick) before consumers read it.")]
-    [SerializeField] private Vector2 lookSensitivity = Vector2.one;
+    //[SerializeField] private Vector2 lookSensitivity = Vector2.one;
 
     public Vector2 Move { get; private set; }
     public Vector2 Look { get; private set; }
     public bool canInteract { get; private set; }
-    public bool isCrouching { get; private set; }
+    [SerializeField] public bool isCrouching;
     public bool inputLocked { get; private set; }
 
     public event Action OnJump;
     public event Action OnInteract;
     public event Action OnTogglePlaceOrPickup; // Deals with just movement mode change, anims, audio, etc,
-    public event Action OnCrouch;
+    //public event Action OnCrouch; Not currently in use as polling bool for check
 
     private void OnEnable()
     {
@@ -47,11 +47,11 @@ public class PlayerInputs : MonoBehaviour
         EnableAction(jumpAction);
         EnableAction(crouchAction);
         EnableAction(interactAction);
-        //EnableAction(togglePlaceOrPickupAction);
+        EnableAction(placeOrPickupAction);
 
         SubscribePerformed(jumpAction, HandleJump);
         SubscribePerformed(interactAction, HandleInteract);
-        //SubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
+        SubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         SubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
@@ -62,18 +62,18 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(jumpAction);
         DisableAction(crouchAction);
         DisableAction(interactAction);
-        //DisableAction(togglePlaceOrPickupAction);
+        DisableAction(placeOrPickupAction);
 
         UnsubscribePerformed(jumpAction, HandleJump);
         UnsubscribePerformed(interactAction, HandleInteract);
-        //UnsubscribePerformed(togglePlaceOrPickupAction, HandlePlaceOrPickup);
+        UnsubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         UnsubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
     private void Update()
     {
         Move = ReadVector2(moveAction);
-        Look = Vector2.Scale(ReadVector2(lookAction), lookSensitivity);
+        Look = ReadVector2(lookAction);
 
         if (inputLocked)
         {
@@ -98,20 +98,22 @@ public class PlayerInputs : MonoBehaviour
         OnInteract?.Invoke();
     }
 
-    //private void HandlePlaceOrPickup(InputAction.CallbackContext context)
-    //{
-    //    OnTogglePlaceOrPickup?.Invoke();
-    //}
+    private void HandlePlaceOrPickup(InputAction.CallbackContext context)
+    {
+        OnTogglePlaceOrPickup?.Invoke();
+    }
 
     private void HandleCrouchChanged(InputAction.CallbackContext context)
     {
+        if (inputLocked) return;
+
         if (isCrouching)
         {
             isCrouching = false;
             return;
         }
 
-        if (context.started)
+        if (context.performed)
         {
             isCrouching = true;
         }
