@@ -22,6 +22,7 @@ public class PlayerStateController : MonoBehaviour
     [Space(10)]
 
     [SerializeField] private GameObject playerBody;
+    [SerializeField] private GameObject playerHead;
 
     [Tooltip("Cinemachine VCam for the carried mount 'hands'")]
     [SerializeField] private CinemachineCamera carriedVirtualCamera;
@@ -29,8 +30,8 @@ public class PlayerStateController : MonoBehaviour
     [Tooltip("Cinemachine VCam for the placed head cam")]
     [SerializeField] private CinemachineCamera headVirtualCamera;
 
+    [Tooltip("The hands of the player")]
     [SerializeField] private Transform carriedMount; // The hands of the player
-    [SerializeField] private Transform headMount; // The head pivot that will be blended to upon placed
 
     [SerializeField] private Transform firstPersonYawRoot; //Playerbody root
     [SerializeField] private Transform firstPersonPitchPivot; // In this case the Carried Cam Pivot
@@ -41,7 +42,7 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
-    [SerializeField][Range(0, 1)] private float blendLockInputSeconds = 0.55f;
+    [SerializeField][Range(0, 1)] private float blendLockInputSeconds = 0.75f;
 
     [Header("Second-Person View Attributes")]
     [Space(2)]
@@ -138,7 +139,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void TryPlaceHead()
     {
-        if (currentPlacementVolume == null) // Manually testing a current volume
+        if (currentPlacementVolume == null)
         {
             Debug.LogWarning("no volume to place head was found, aborting action");
             return;
@@ -146,7 +147,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (playerBody != null && !currentPlacementVolume.canPlace)
         {
-            // Player is not within the volume bounds
+            // Player exists but not within the volume bounds
             return;
         }
 
@@ -157,18 +158,18 @@ public class PlayerStateController : MonoBehaviour
             return;
         }
 
-        headMount.position = anchor.position;
-        headMount.rotation = anchor.rotation;
+        playerHead.transform.position = anchor.position;
+        playerHead.transform.rotation = anchor.rotation;
 
-        neutralHeadRotation = headMount.rotation;
+        neutralHeadRotation = playerHead.transform.rotation;
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
 
         if (headVirtualCamera != null)
         {
-            headVirtualCamera.transform.SetParent(headMount.transform, false);
-            headVirtualCamera.transform.localPosition = Vector3.zero;
-            headVirtualCamera.transform.localRotation = Quaternion.identity;
+            playerHead.transform.SetParent(anchor.transform, false);
+            playerHead.transform.localPosition = Vector3.zero;
+            playerHead.transform.localRotation = Quaternion.identity;
         }
 
         SetCameraMode(CameraMode.Placed);
@@ -177,15 +178,25 @@ public class PlayerStateController : MonoBehaviour
 
     private void TryPickupHead()
     {
-        if (carriedMount != null && headVirtualCamera != null)
+        if (currentPlacementVolume == null)
         {
-            headVirtualCamera.transform.SetParent(carriedMount.transform, false);
-            headVirtualCamera.transform.localPosition = Vector3.zero;
-            headVirtualCamera.transform.localRotation = Quaternion.identity;
+            Debug.LogWarning("Not within volume to pickup head");
+            return;
         }
 
+        playerHead.transform.position = carriedMount.position;
+        playerHead.transform.rotation = carriedMount.rotation;
+
+        neutralHeadRotation = playerHead.transform.rotation;
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
+
+        if (carriedMount != null && carriedVirtualCamera != null)
+        {
+            playerHead.transform.SetParent(carriedMount.transform, false);
+            playerHead.transform.localPosition = Vector3.zero;
+            playerHead.transform.localRotation = Quaternion.identity;
+        }
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
@@ -263,7 +274,13 @@ public class PlayerStateController : MonoBehaviour
         Quaternion yawRot = Quaternion.AngleAxis(placedYawOffset, Vector3.up);
         Quaternion pitchRot = Quaternion.AngleAxis(placedPitchOffset, Vector3.right);
 
-        headMount.rotation = neutralHeadRotation * yawRot * pitchRot;
+        //playerHead.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
+        currentPlacementVolume.placementAnchor.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
+        // Above currently works for the correct blend and detach/reattachment of the head, however currently it breaks when the player leaves
+        // the currentPlacementVolume, obviously because it doesn't exist anymore.
+        // Maybe the solution is setting the Vcams target to be anchor within the newest volume it enters?
+        // But it also still needs a way of looking around when the player leaves the zone as when the player leaves, the above function to
+        // Look around within second person breaks and fails
     }
 
     private void ApplyFirstPersonLook(Vector2 lookDelta)
