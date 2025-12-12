@@ -274,8 +274,8 @@ public class PlayerStateController : MonoBehaviour
         Quaternion yawRot = Quaternion.AngleAxis(placedYawOffset, Vector3.up);
         Quaternion pitchRot = Quaternion.AngleAxis(placedPitchOffset, Vector3.right);
 
-        //playerHead.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
-        currentPlacementVolume.placementAnchor.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
+        playerHead.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
+        //currentPlacementVolume.placementAnchor.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
         // Above currently works for the correct blend and detach/reattachment of the head, however currently it breaks when the player leaves
         // the currentPlacementVolume, obviously because it doesn't exist anymore.
         // Maybe the solution is setting the Vcams target to be anchor within the newest volume it enters?
