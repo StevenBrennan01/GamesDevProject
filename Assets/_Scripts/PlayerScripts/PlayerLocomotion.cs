@@ -32,8 +32,10 @@ public class PlayerLocomotion : MonoBehaviour
 
     [Header("Ground Check Values")]
     [SerializeField] private float groundCheckOffset = 0.1f;
+    [SerializeField] private float groundCheckRadius = 0.4f;
     [SerializeField] private float groundCheckDistance = 0.25f;
     [SerializeField] private float maxGroundSlope = 45f;
+    [SerializeField] private LayerMask groundLayer;
     private bool isGrounded;
 
     private float crouchLerpT;
@@ -66,8 +68,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         UpdateCrouchCapsule(playerInput.isCrouching);
 
-
-
+        GroundCheck();
 
         if (playerInput.inputLocked || playerState.isBlending)
         {
@@ -99,12 +100,13 @@ public class PlayerLocomotion : MonoBehaviour
     private void OnJump()
     {
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
-        if (playerState.isBlending || playerInput.inputLocked) return;
-        if (!controller.isGrounded) return;
+        if (playerInput.inputLocked) return;
+        if (playerInput.isCrouching) return;
 
-        Debug.Log("Attempting Jump");
-
-        verticalVelocity.y = jumpVelocity;
+        if (isGrounded)
+        {
+            verticalVelocity.y = jumpVelocity;
+        }
     }
 
     private void UpdateVerticalVelocity()
@@ -152,7 +154,32 @@ public class PlayerLocomotion : MonoBehaviour
     private void GroundCheck()
     {
         Vector3 origin = transform.TransformPoint(controller.center);
+        origin.y += -groundCheckOffset;
 
+        float radius = Mathf.Min(controller.radius - 0.02f, groundCheckRadius);
+        float castDistance = groundCheckDistance;
+
+        if (Physics.SphereCast(origin, radius, Vector3.down, out RaycastHit hit, castDistance, groundLayer, QueryTriggerInteraction.Ignore))
+        {
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (slopeAngle <= maxGroundSlope)
+            {
+                isGrounded = true;
+            }
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (controller == null) return;
+
+        Gizmos.color = isGrounded ? Color.green : Color.red;
+        Vector3 origin = transform.TransformPoint(controller.center);
+        origin.y += -groundCheckOffset;
+        Gizmos.DrawWireSphere(origin + Vector3.down * groundCheckDistance, Mathf.Min(controller.radius - 0.02f, groundCheckRadius));
+    }
 }
