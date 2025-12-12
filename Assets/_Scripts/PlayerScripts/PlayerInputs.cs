@@ -90,6 +90,9 @@ public class PlayerInputs : MonoBehaviour
 
     private void HandleJump(InputAction.CallbackContext context)
     {
+        if (inputLocked) return;
+
+        Debug.Log("Should be jumping now");
         OnJump?.Invoke();
     }
 

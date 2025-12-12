@@ -15,10 +15,28 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField, Range(0, 5)] private float walkSpeed = 2f;
     [SerializeField, Range(0, 5)] private float crouchSpeedMultiplier = 0.6f;
 
+    [Header("Jumping")]
+    [SerializeField] private float jumpVelocity = 3f;
+
     [Header("Gravity Values")]
     [Space(10)]
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float groundedGravityPushdown = 2f;
+
+    [Header("Crouch Capsule")]
+    [SerializeField] private float standHeight = 0.85f;
+    [SerializeField] private float crouchHeight = 0.4f;
+    [SerializeField] private float standCenterY = 0.9f;
+    [SerializeField] private float crouchCenterY = 0.6f;
+    [SerializeField] private float crouchLerpSeconds = 0.12f;
+
+    [Header("Ground Check Values")]
+    [SerializeField] private float groundCheckOffset = 0.1f;
+    [SerializeField] private float groundCheckDistance = 0.25f;
+    [SerializeField] private float maxGroundSlope = 45f;
+    private bool isGrounded;
+
+    private float crouchLerpT;
 
     private void Awake()
     {
@@ -28,6 +46,10 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (playerInput == null) Debug.LogError("Reference to PlayerInputs is missing");
         if (playerState == null) Debug.LogError("Reference to PlayerStateController is missing");
+
+        controller.height = standHeight;
+        controller.center = new Vector3(controller.center.x, standCenterY, controller.center.z);
+        crouchLerpT = 0f;
     }
 
     private void OnEnable()
@@ -42,6 +64,11 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Update()
     {
+        UpdateCrouchCapsule(playerInput.isCrouching);
+
+
+
+
         if (playerInput.inputLocked || playerState.isBlending)
         {
             ApplyVerticalGravityOnly();
@@ -71,11 +98,13 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void OnJump()
     {
-        if (playerState.CurrentMovementMode == MovementMode.FirstPerson) return;
-        if (playerState.isBlending ||playerInput.inputLocked) return;
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+        if (playerState.isBlending || playerInput.inputLocked) return;
         if (!controller.isGrounded) return;
 
-        //jump logic 
+        Debug.Log("Attempting Jump");
+
+        verticalVelocity.y = jumpVelocity;
     }
 
     private void UpdateVerticalVelocity()
@@ -99,4 +128,31 @@ public class PlayerLocomotion : MonoBehaviour
         UpdateVerticalVelocity();
         controller.Move(verticalVelocity * Time.deltaTime);
     }
+
+    private void UpdateCrouchCapsule(bool crouching)
+    {
+        float targetT = crouching ? 1f : 0f;
+
+        if (Mathf.Approximately(crouchLerpSeconds, 0f))
+        {
+            crouchLerpT = targetT;
+        }
+        else
+        {
+            float speed = 1f / Mathf.Max(crouchLerpSeconds, 0.0001f);
+            crouchLerpT = Mathf.MoveTowards(crouchLerpT, targetT, speed * Time.deltaTime);
+        }
+
+        float height = Mathf.Lerp(standHeight, crouchHeight, crouchLerpT);
+        float centerY = Mathf.Lerp(standCenterY, crouchCenterY, crouchLerpT);
+        controller.height = height;
+        controller.center = new Vector3(controller.center.x, centerY, controller.center.z);
+    }
+
+    private void GroundCheck()
+    {
+        Vector3 origin = transform.TransformPoint(controller.center);
+
+    }
+
 }

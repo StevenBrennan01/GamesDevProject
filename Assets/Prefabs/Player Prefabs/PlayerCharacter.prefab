@@ -970,7 +970,7 @@ MonoBehaviour:
   jumpAction: {fileID: 3018930012689361117, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   crouchAction: {fileID: -7802924432107250857, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   interactAction: {fileID: -6219605337524994383, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  togglePlaceOrPickupAction: {fileID: 0}
+  placeOrPickupAction: {fileID: 0}
   isCrouching: 0
 --- !u!114 &6094467427498797126
 MonoBehaviour:
@@ -989,13 +989,14 @@ MonoBehaviour:
   headVirtualCamera: {fileID: 0}
   carriedMount: {fileID: 3408005370780828068}
   headMount: {fileID: 6262018006005715580}
-  firstPersonYawRoot: {fileID: 5901632443591692325}
+  firstPersonYawRoot: {fileID: 6234532314677427864}
   firstPersonPitchPivot: {fileID: 3408005370780828068}
   blendLockInputSeconds: 0.55
   placedYawClamp: 45
   placedPitchClamp: 30
+  secondPersonLookSensitivity: {x: 0.1, y: 0.1}
   firstPersonPitchClamp: 85
-  firstPersonLookSensitivity: {x: 1, y: 0.15}
+  firstPersonLookSensitivity: {x: 0.15, y: 0.15}
   currentPlacementVolume: {fileID: 0}
 --- !u!114 &856983647568322666
 MonoBehaviour:
@@ -1011,8 +1012,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   walkSpeed: 1.25
   crouchSpeedMultiplier: 0.5
+  jumpVelocity: 3
   gravity: -9.81
   groundedGravityPushdown: 0
+  standHeight: 1.8
+  crouchHeight: 1.2
+  standCenterY: 0.9
+  crouchCenterY: 0.6
+  crouchLerpSeconds: 0.12
 --- !u!114 &7551325115280973815
 MonoBehaviour:
   m_ObjectHideFlags: 0

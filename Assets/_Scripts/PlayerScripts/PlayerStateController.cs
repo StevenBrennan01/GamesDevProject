@@ -48,6 +48,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("Second-Person Look Bounds")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
     [SerializeField, Range(0, 89)] private float placedPitchClamp = 30f;
+    [SerializeField] private Vector2 secondPersonLookSensitivity = Vector2.one;
 
     [Header("First-Person View Attributes")]
     [Space(2)]
@@ -63,7 +64,7 @@ public class PlayerStateController : MonoBehaviour
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
-    public bool isBlending { get; private set; } = false;
+    public bool isBlending /*{ get; private set; }*/ = false;
 
     // Neutral rotation for the head and placement, rotations and offsets are applied relative to this
     private Quaternion neutralHeadRotation;
@@ -249,11 +250,11 @@ public class PlayerStateController : MonoBehaviour
 
     private void ApplySecondPersonLook(Vector2 lookDelta)
     {
-        float yaw = lookDelta.x;
-        float pitch = -lookDelta.y;
+        float yawDelta = lookDelta.x * secondPersonLookSensitivity.x;
+        float pitchDelta = -lookDelta.y * secondPersonLookSensitivity.y;
 
-        placedYawOffset += yaw;
-        placedPitchOffset += pitch;
+        placedYawOffset += yawDelta;
+        placedPitchOffset += pitchDelta;
 
         placedYawOffset = Mathf.Clamp(placedYawOffset, -placedYawClamp, placedYawClamp);
         placedPitchOffset = Mathf.Clamp(placedPitchOffset, -placedPitchClamp, placedPitchClamp);
