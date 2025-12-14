@@ -3,17 +3,17 @@ using UnityEngine;
 public class PlayerInteractions : MonoBehaviour
 {
     private PlayerInputs playerInput;
+    private PlayerStateController playerState;
 
-    [Header("References")]
-    [Space(10)]
-
-    [Tooltip("The head/eyes of the object that the linetrace for interactions will fire from")]
-    [SerializeField] private Transform playerEyes;
+    private InteractionVolume activeZone;
 
     private void Awake()
     {
         if (playerInput == null) playerInput = GetComponent<PlayerInputs>();
-        if (playerInput == null) Debug.LogError("PlayerInputs reference is missing");
+        if (playerInput == null) Debug.LogError("PlayerInputs reference is missing / not found");
+
+        if (playerState == null) playerState = GetComponent<PlayerStateController>();
+        if (playerState == null) Debug.LogError("PlayerState reference is missing / not found");
     }
 
     private void OnEnable()
@@ -26,10 +26,25 @@ public class PlayerInteractions : MonoBehaviour
         playerInput.OnInteract -= TryInteract;
     }
 
+    public void SetCurrentZone(InteractionVolume currentZone)
+    {
+        activeZone = currentZone;
+    }
+
+    public void ClearCurrentZone(InteractionVolume currentZone)
+    {
+        if (activeZone == currentZone)
+        {
+            activeZone = null;
+        }
+    }
+
     private void TryInteract()
     {
-        // Cast linetrace
-        // Check for interact object
-        // Complete interaction
+        if (activeZone == null) return;
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+        if (playerState.isBlending || playerInput.inputLocked) return;
+
+        activeZone.ExecuteInteraction(gameObject);
     }
 }

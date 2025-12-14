@@ -17,7 +17,7 @@ public class HeadPlacementVolume : MonoBehaviour
         volumeCollider = GetComponent<BoxCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)// Allow for placement etc.
+    private void OnTriggerStay(Collider other)// Allow for placement etc.
     {
         if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag)) return;
         if (other.tag == playerTag)
@@ -25,7 +25,6 @@ public class HeadPlacementVolume : MonoBehaviour
             canPlace = true;
         }
     }
-
 
     private void OnTriggerExit(Collider other) // Disallow for placement etc.
     {

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 7071027544725762585}
   - component: {fileID: -7710212469651755635}
   m_Layer: 0
-  m_Name: PlacementVolume
+  m_Name: HeadPlacementVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

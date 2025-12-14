@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -21,19 +22,19 @@ public class PlayerStateController : MonoBehaviour
     [Header("References")]
     [Space(10)]
 
-    [SerializeField] private GameObject playerBody;
+    [SerializeField] private GameObject playerBody; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerHead;
 
     [Tooltip("Cinemachine VCam for the carried mount 'hands'")]
     [SerializeField] private CinemachineCamera carriedVirtualCamera;
 
     [Tooltip("Cinemachine VCam for the placed head cam")]
-    [SerializeField] private CinemachineCamera headVirtualCamera;
+    [SerializeField] private CinemachineCamera placedVirtualCamera;
 
     [Tooltip("The hands of the player")]
     [SerializeField] private Transform carriedMount; // The hands of the player
 
-    [SerializeField] private Transform firstPersonYawRoot; //Playerbody root
+    [SerializeField] private Transform firstPersonYawRoot; //Playerbody root (the pelvis)
     [SerializeField] private Transform firstPersonPitchPivot; // In this case the Carried Cam Pivot
 
     [Tooltip("Priority values for Active and Inactive Vcameras")]
@@ -42,21 +43,18 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
-    [SerializeField][Range(0, 1)] private float blendLockInputSeconds = 0.75f;
+    [SerializeField][Range(0, 1)] private float blendLockInputSeconds;
 
     [Header("Second-Person View Attributes")]
-    [Space(2)]
-    [Header("Second-Person Look Bounds")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
     [SerializeField, Range(0, 89)] private float placedPitchClamp = 30f;
     [SerializeField] private Vector2 secondPersonLookSensitivity = Vector2.one;
+    [SerializeField, Range(0, 80)] private float secondPersonFieldOfView;
 
     [Header("First-Person View Attributes")]
-    [Space(2)]
-    [Header("First-Person Look Bounds")]
     [SerializeField, Range(0, 89)] private float firstPersonPitchClamp = 85f;
     [SerializeField] private Vector2 firstPersonLookSensitivity = Vector2.one;
-
+    [SerializeField, Range(0, 80)] private float firstPersonFieldOfView;
 
     [Header("Currently Active Placement Volume")]
     [Space(2)]
@@ -121,6 +119,9 @@ public class PlayerStateController : MonoBehaviour
 
         Vector2 moveInput = playerInput?.Move ?? Vector2.zero;
         Vector3 moveWorld = ComputeMovementDirection(moveInput);
+
+        carriedVirtualCamera.Lens.FieldOfView = firstPersonFieldOfView;
+        placedVirtualCamera.Lens.FieldOfView = secondPersonFieldOfView;
     }
 
     private void HandlePlaceOrPickup()
@@ -141,18 +142,18 @@ public class PlayerStateController : MonoBehaviour
     {
         if (currentPlacementVolume == null)
         {
-            Debug.LogWarning("no volume to place head was found, aborting action");
+            Debug.LogWarning("Player is not within a valid volume bounds");
             return;
         }
 
         if (playerBody != null && !currentPlacementVolume.canPlace)
         {
-            // Player exists but not within the volume bounds
+            Debug.LogWarning("Player cannot currently place");
             return;
         }
 
         Transform anchor = currentPlacementVolume.placementAnchor;
-        if (anchor == null)
+        if (currentPlacementVolume != null && anchor == null)
         {
             Debug.LogError("No Anchor for head placement exists within this volume");
             return;
@@ -165,7 +166,7 @@ public class PlayerStateController : MonoBehaviour
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
 
-        if (headVirtualCamera != null)
+        if (placedVirtualCamera != null)
         {
             playerHead.transform.SetParent(anchor.transform, false);
             playerHead.transform.localPosition = Vector3.zero;
@@ -180,23 +181,33 @@ public class PlayerStateController : MonoBehaviour
     {
         if (currentPlacementVolume == null)
         {
-            Debug.LogWarning("Not within volume to pickup head");
+            Debug.LogWarning("Not within volume to pick up head");
             return;
         }
 
-        playerHead.transform.position = carriedMount.position;
-        playerHead.transform.rotation = carriedMount.rotation;
+        //playerHead.transform.position = carriedMount.position;
+        //playerHead.transform.rotation = carriedMount.rotation;
 
         neutralHeadRotation = playerHead.transform.rotation;
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
 
-        if (carriedMount != null && carriedVirtualCamera != null)
-        {
-            playerHead.transform.SetParent(carriedMount.transform, false);
-            playerHead.transform.localPosition = Vector3.zero;
-            playerHead.transform.localRotation = Quaternion.identity;
-        }
+        //if (carriedMount != null && carriedVirtualCamera != null)
+        //{
+        //    playerHead.transform.SetParent(carriedMount.transform, false);
+        //    playerHead.transform.localPosition = Vector3.zero;
+        //    playerHead.transform.localRotation = Quaternion.identity;
+        //}
+
+        // carriedMount currently equals the transform of the playerHeadPivot also.
+        // This is because the head now does not actually return to the player, but remains at the current anchor -
+        // until the player interacts with a new anchor. Then, the head gets put on new anchor -
+        // and the camera shifts to new anchor.
+        // This is ok right now as the head is invisible
+        // as of RIGHT NOW, this is a fix, not perfect but it works as I can gate place points 
+        // so the player cannot access 2 at once, 
+        // This could be made better with some kind of headRetrieved? bool to mitigate this.
+
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
@@ -206,7 +217,7 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentCameraMode = targetMode;
 
-        if (carriedVirtualCamera == null || headVirtualCamera == null)
+        if (carriedVirtualCamera == null || placedVirtualCamera == null)
         {
             Debug.LogError("At least one VCam reference is missing");
             return;
@@ -216,12 +227,12 @@ public class PlayerStateController : MonoBehaviour
         if (targetMode == CameraMode.Carried)
         {
             carriedVirtualCamera.Priority = activePriority;
-            headVirtualCamera.Priority = inactivePriority;
+            placedVirtualCamera.Priority = inactivePriority;
         }
         else if (targetMode == CameraMode.Placed)
         {
             carriedVirtualCamera.Priority = inactivePriority;
-            headVirtualCamera.Priority = activePriority;
+            placedVirtualCamera.Priority = activePriority;
         }
 
         StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
@@ -231,7 +242,7 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentCameraMode = targetMode;
 
-        if (carriedVirtualCamera == null || headVirtualCamera == null)
+        if (carriedVirtualCamera == null || placedVirtualCamera == null)
         {
             Debug.LogError("At least one VCam reference is missing");
             return;
@@ -243,7 +254,7 @@ public class PlayerStateController : MonoBehaviour
 
         // INITIALIZING WITH CARRIED MODE
         carriedVirtualCamera.Priority = activePriority;
-        headVirtualCamera.Priority = inactivePriority;
+        placedVirtualCamera.Priority = inactivePriority;
     }
 
     private IEnumerator LockInputDuringBlend(float lockSeconds)
@@ -300,9 +311,9 @@ public class PlayerStateController : MonoBehaviour
         if(moveInput == Vector2.zero) return Vector3.zero;
 
         Transform basis;
-        if (CurrentMovementMode == MovementMode.SecondPerson && headVirtualCamera != null) // Is in 2nd Person
+        if (CurrentMovementMode == MovementMode.SecondPerson && placedVirtualCamera != null) // Is in 2nd Person
         {
-            basis = headVirtualCamera.transform;
+            basis = placedVirtualCamera.transform;
         }
         else if (carriedVirtualCamera != null) // Is in 1st Person
         {
