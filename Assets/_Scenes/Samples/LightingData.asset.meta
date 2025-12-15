@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f369cbcdbd823e6459e1fc452656e8f4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 293721
+  packageName: Warehouse & Factory Essential Pack
+  packageVersion: 1.0
+  assetPath: Assets/Scenes/Samples/LightingData.asset
+  uploadId: 713859

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -22,6 +21,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("References")]
     [Space(10)]
 
+    [SerializeField] private GameObject playerCharacter; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerBody; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerHead;
 
@@ -80,6 +80,7 @@ public class PlayerStateController : MonoBehaviour
 
         CurrentMovementMode = MovementMode.FirstPerson;
         InitializeCameraMode(CameraMode.Carried); // Using initialize method, no blend lock on start
+        playerBody.SetActive(false); // Set body to invisible when in FP to avoid body clipping
 
         if (firstPersonYawRoot != null)
         {
@@ -146,7 +147,7 @@ public class PlayerStateController : MonoBehaviour
             return;
         }
 
-        if (playerBody != null && !currentPlacementVolume.canPlace)
+        if (playerCharacter != null && !currentPlacementVolume.canPlace)
         {
             Debug.LogWarning("Player cannot currently place");
             return;
@@ -158,6 +159,8 @@ public class PlayerStateController : MonoBehaviour
             Debug.LogError("No Anchor for head placement exists within this volume");
             return;
         }
+
+        playerBody.SetActive(true);
 
         playerHead.transform.position = anchor.position;
         playerHead.transform.rotation = anchor.rotation;
@@ -263,6 +266,9 @@ public class PlayerStateController : MonoBehaviour
 
         playerInput.SetInputLocked(false);
         isBlending = false;
+
+        // Setting body to be invisible in first person after blend so to avoid body clipping
+        if (CurrentMovementMode == MovementMode.FirstPerson) playerBody.SetActive(false);
     }
 
     private void ApplySecondPersonLook(Vector2 lookDelta)
