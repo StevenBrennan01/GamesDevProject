@@ -42,9 +42,14 @@ public class PlayerInteractions : MonoBehaviour
     private void TryInteract()
     {
         if (activeZone == null) return;
-        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerState.isBlending || playerInput.inputLocked) return;
-
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
+        {
+            Debug.Log("You need to be in second-person to interact!");
+            // Show some UI for this or something
+            return;
+        }
+        
         activeZone.ExecuteInteraction(gameObject);
     }
 }

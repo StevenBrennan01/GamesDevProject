@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IInteraction
 {
-    void PerformInteraction(GameObject interactor);
+   public void PerformInteraction(GameObject interactor);
 }

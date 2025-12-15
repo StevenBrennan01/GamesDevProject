@@ -179,11 +179,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void TryPickupHead()
     {
-        if (currentPlacementVolume == null)
-        {
-            Debug.LogWarning("Not within volume to pick up head");
-            return;
-        }
+        if (currentPlacementVolume == null) return;
 
         //playerHead.transform.position = carriedMount.position;
         //playerHead.transform.rotation = carriedMount.rotation;
@@ -207,7 +203,6 @@ public class PlayerStateController : MonoBehaviour
         // as of RIGHT NOW, this is a fix, not perfect but it works as I can gate place points 
         // so the player cannot access 2 at once, 
         // This could be made better with some kind of headRetrieved? bool to mitigate this.
-
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;

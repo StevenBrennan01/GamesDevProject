@@ -1,0 +1,13 @@
+{
+    "asset": "ac786c719c1967d46b41e7e431d4f105",
+    "fileName": "019b21fa-98a5-7e8a-ad01-e31cb18d4e21.wav",
+    "prompt": "Metal Door Open",
+    "negativePrompt": "",
+    "model": "5de0686a-fb27-40e5-9df0-28ae810d70ca",
+    "modelName": "ElevenLabs Sound Effects V2",
+    "customSeed": -1,
+    "w3CTraceId": "124a67f186a2a572a3043397c94d8e3a",
+    "duration": 1.0,
+    "autoTrim": true,
+    "hasReference": false
+}
