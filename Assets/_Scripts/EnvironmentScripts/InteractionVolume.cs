@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent (typeof(Collider))]
@@ -5,16 +6,27 @@ using UnityEngine;
 public class InteractionVolume : MonoBehaviour
 {
     [Tooltip("Object/Script being interacted with that utilises the IInteraction contract")]
-    [SerializeField] private MonoBehaviour interactionBehaviour;
-
+    [SerializeField] private MonoBehaviour interactionObject;
     private IInteraction interaction;
-
     private Collider volumeTrigger;
     //private Rigidbody volumeRB;
 
+    [Header("Interaction Settings")]
+    [Space(5)]
+    [SerializeField] private bool isDoorInteraction;
+    private bool isLeverPulled = false;
+    private bool canPull = true;
+    private Animator leverAnim = null;
+
+    [SerializeField] private bool isPlatformInteraction;
+
+    [SerializeField, Range(0, 5)] private float interactBlockSeconds = 2f;
+
     private void Awake()
     {
-        interaction = interactionBehaviour as IInteraction;
+        interaction = interactionObject as IInteraction;
+
+        leverAnim = GetComponentInChildren<Animator>();
 
         volumeTrigger = GetComponent<Collider>();
         if (!volumeTrigger.isTrigger)
@@ -22,7 +34,7 @@ public class InteractionVolume : MonoBehaviour
             volumeTrigger.isTrigger = true;
         }
 
-        if (interactionBehaviour == null || interaction == null)
+        if (interactionObject == null || interaction == null)
         {
             Debug.LogError($"InteractionZone '{name}': Requires a script/interaction behaviour");
         }
@@ -42,6 +54,40 @@ public class InteractionVolume : MonoBehaviour
         if (interaction != null)
         {
             interaction.PerformInteraction(interactor);
+
+            if (isDoorInteraction)
+            {
+                if (!isLeverPulled && canPull)
+                {
+                    leverAnim.Play("LeverPullAnim");
+                    canPull = false;
+
+                    StartCoroutine(LeverPullCountdown());
+                    isLeverPulled = true;
+                }
+                else if (isLeverPulled && canPull)
+                {
+                    leverAnim.Play("LeverPushAnim");
+                    canPull = false;
+
+                    StartCoroutine(LeverPullCountdown());
+                    isLeverPulled = false;
+                }
+            }
+
+            else
+            {
+                // Platform interactions and stuff
+            }
+        }
+    }
+
+    private IEnumerator LeverPullCountdown()
+    {
+        if (canPull == false)
+        {
+            yield return new WaitForSeconds(interactBlockSeconds);
+            canPull = true;
         }
     }
 
