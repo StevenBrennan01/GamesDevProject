@@ -22,6 +22,13 @@ public class InteractionVolume : MonoBehaviour
 
     [SerializeField, Range(0, 5)] private float interactBlockSeconds = 2f;
 
+    [Space(5)]
+    [Header("Lever Settings")]
+    [Space(5)]
+    [SerializeField] private GameObject LEDLight;
+    [SerializeField] private Material OnMat;
+    [SerializeField] private Material OffMat; // Make it so that it switches based on lever being up or down
+
     private void Awake()
     {
         interaction = interactionObject as IInteraction;

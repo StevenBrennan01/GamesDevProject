@@ -150,6 +150,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &170968669 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 813002801494035390, guid: 09a00375db0054f429e87e6c295604af, type: 3}
+  m_PrefabInstance: {fileID: 4087250244353889333}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &235476651
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,6 +803,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionVolume
       objectReference: {fileID: 0}
+    - target: {fileID: 6033494188663009380, guid: 25709dabd6c0e7543a48e3b1f430b2ef, type: 3}
+      propertyPath: OnMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 650646556f5bb7d44ad85a1ee74c39a2, type: 2}
+    - target: {fileID: 6033494188663009380, guid: 25709dabd6c0e7543a48e3b1f430b2ef, type: 3}
+      propertyPath: OffMat
+      value: 
+      objectReference: {fileID: -791598910875471247, guid: 280e85922aa6a494ca6dec33926d4084, type: 3}
+    - target: {fileID: 6033494188663009380, guid: 25709dabd6c0e7543a48e3b1f430b2ef, type: 3}
+      propertyPath: LEDLight
+      value: 
+      objectReference: {fileID: 170968669}
     - target: {fileID: 6033494188663009380, guid: 25709dabd6c0e7543a48e3b1f430b2ef, type: 3}
       propertyPath: interactionObject
       value: 
@@ -1757,6 +1774,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 441373849}
     m_Modifications:
+    - target: {fileID: 54115242132449662, guid: 09a00375db0054f429e87e6c295604af, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.00025
+      objectReference: {fileID: 0}
     - target: {fileID: 438901585754036124, guid: 09a00375db0054f429e87e6c295604af, type: 3}
       propertyPath: m_Name
       value: PowerLever
