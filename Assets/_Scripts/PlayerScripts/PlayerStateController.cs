@@ -80,7 +80,7 @@ public class PlayerStateController : MonoBehaviour
 
         CurrentMovementMode = MovementMode.FirstPerson;
         InitializeCameraMode(CameraMode.Carried); // Using initialize method, no blend lock on start
-        //playerBody.SetActive(false); // Set body to invisible when in FP to avoid body clipping
+        //playerBody.SetActive(false); // Currently inactive but will set body to invisible when in first person to avoid body clipping
 
         if (firstPersonYawRoot != null)
         {

@@ -5,8 +5,8 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 {
     [SerializeField] private Animator metalDoor = null;
 
-    [SerializeField] private bool isOpen = false;
-    [SerializeField] private bool isAnimating = false;
+    private bool isOpen = false;
+    private bool isAnimating = false;
 
     public void PerformInteraction(GameObject interactor)
     {

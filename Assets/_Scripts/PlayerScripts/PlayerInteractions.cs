@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerInteractions : MonoBehaviour
@@ -5,7 +6,11 @@ public class PlayerInteractions : MonoBehaviour
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
 
-    private InteractionVolume activeZone;
+    [SerializeField, Range(0, 5)] private float playerLockSeconds;
+
+    [Header("Interaction Settings")]
+    [Space(5)]
+    [HideInInspector] public InteractionVolume activeZone = null;
 
     private void Awake()
     {
@@ -49,7 +54,17 @@ public class PlayerInteractions : MonoBehaviour
             // Show some UI for this or something
             return;
         }
-        
+
         activeZone.ExecuteInteraction(gameObject);
+        StartCoroutine(LockInputDuringBlend(playerLockSeconds)); // Pause player whilst interaction is happening
+    }
+
+    private IEnumerator LockInputDuringBlend(float lockSeconds)
+    {
+        playerInput.SetInputLocked(true);
+
+        yield return new WaitForSeconds(lockSeconds);
+
+        playerInput.SetInputLocked(false);
     }
 }

@@ -1,0 +1,111 @@
+using UnityEngine;
+
+public class AnimatorController : MonoBehaviour
+{
+    private PlayerInputs playerInput;
+    private PlayerLocomotion locomotion;
+    private PlayerStateController playerState;
+    private PlayerInteractions interactions;
+
+    private Animator animator;
+    //private CharacterController characterController;
+
+    private static readonly int VelocityHash = Animator.StringToHash("Velocity");
+    private static readonly int GroundedHash = Animator.StringToHash("isGrounded");
+    private static readonly int CrouchingHash = Animator.StringToHash("isCrouching");
+    private static readonly int JumpHash = Animator.StringToHash("jumpTriggered");
+    private static readonly int InteractHash = Animator.StringToHash("interactTriggered");
+
+    [Tooltip("Smoothing time (seconds) for Velocity parameter damping.")]
+    [SerializeField, Range(0f, 0.5f)] private float velocityDampTime = 0.08f;
+
+    [Tooltip("Multiplier applied to velocity before sending to Animator.")]
+    [SerializeField] private float velocityMultiplier = 1f;
+
+    private void Awake()
+    {
+        animator = gameObject.GetComponent<Animator>();
+        //characterController = gameObject.GetComponent<CharacterController>();
+
+        playerInput = gameObject.GetComponent<PlayerInputs>();
+        locomotion = gameObject.GetComponent<PlayerLocomotion>();
+        playerState = gameObject.GetComponent<PlayerStateController>();
+        interactions = gameObject.GetComponent<PlayerInteractions>();
+    }
+
+    private void OnEnable()
+    {
+        if (playerInput != null)
+        {
+            playerInput.OnJump += HandleJumpAnim;
+            playerInput.OnInteract += HandleInteractAnim;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (playerInput != null)
+        {
+            playerInput.OnJump -= HandleJumpAnim;
+            playerInput.OnInteract -= HandleInteractAnim;
+        }
+    }
+
+    private void Update()
+    {
+        if (playerInput == null || playerState == null) return;
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+
+        animator.SetBool(CrouchingHash, playerInput.isCrouching);
+        bool grounded = locomotion.isGrounded;
+        animator.SetBool(GroundedHash, grounded);
+
+        float velocity01 = ComputeVelocity();
+        animator.SetFloat(VelocityHash, velocity01, velocityDampTime, Time.deltaTime);
+    }
+
+    private float ComputeVelocity()
+    {
+        float v = playerInput != null ? Mathf.Clamp01(playerInput.Move.magnitude) : 0f;
+
+        //if (playerInput || characterController == null)
+        //{
+        //    // 0..1 based on input stick magnitude
+        //    v = playerInput != null ? Mathf.Clamp01(playerInput.Move.magnitude) : 0f;
+        //}
+        //else // Can reduce as we will NOT be using the character controller magnitude for this purpose
+        //{
+        //    // world-space horizontal speed (scaled down to something usable)
+        //    Vector3 hv = characterController.velocity;
+        //    hv.y = 0f;
+        //    v = hv.magnitude;
+        //}
+
+        return v * velocityMultiplier;
+    }
+
+    private void HandleJumpAnim()
+    {
+        if (playerState == null || playerInput == null || locomotion == null) return;
+
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+        if (playerState.isBlending || playerInput.inputLocked) return;
+        if (playerInput.isCrouching) return;
+        if (!locomotion.isGrounded) return;
+
+        animator.SetTrigger(JumpHash);
+    }
+
+    private void HandleInteractAnim()
+    {
+        if (playerState == null || playerInput == null || locomotion == null) return;
+
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+        if (playerState.isBlending || playerInput.inputLocked) return;
+        if (playerInput.isCrouching) return;
+        if (!locomotion.isGrounded) return;
+        if (interactions.activeZone == null) return;
+
+        animator.SetTrigger(InteractHash);
+    }
+}
