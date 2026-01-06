@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
@@ -36,7 +35,8 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 0.25f;
     [SerializeField] private float maxGroundSlope = 45f;
     [SerializeField] private LayerMask groundLayer;
-    private bool isGrounded;
+
+    public bool isGrounded;
 
     private float crouchLerpT;
 

@@ -2017,6 +2017,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -3.432733e-13
       objectReference: {fileID: 0}
+    - target: {fileID: 3915508299312672872, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: m_CullingMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4199644954498623270, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -61.37525
