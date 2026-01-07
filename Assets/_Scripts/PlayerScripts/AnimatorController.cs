@@ -7,7 +7,7 @@ public class AnimatorController : MonoBehaviour
     private PlayerStateController playerState;
     private PlayerInteractions interactions;
 
-    private Animator animator;
+    [SerializeField] private Animator animator;
     //private CharacterController characterController;
 
     private static readonly int VelocityHash = Animator.StringToHash("Velocity");
@@ -24,13 +24,10 @@ public class AnimatorController : MonoBehaviour
 
     private void Awake()
     {
-        animator = gameObject.GetComponent<Animator>();
-        //characterController = gameObject.GetComponent<CharacterController>();
-
-        playerInput = gameObject.GetComponent<PlayerInputs>();
-        locomotion = gameObject.GetComponent<PlayerLocomotion>();
-        playerState = gameObject.GetComponent<PlayerStateController>();
-        interactions = gameObject.GetComponent<PlayerInteractions>();
+        playerInput = gameObject.GetComponentInParent<PlayerInputs>();
+        locomotion = gameObject.GetComponentInParent<PlayerLocomotion>();
+        playerState = gameObject.GetComponentInParent<PlayerStateController>();
+        interactions = gameObject.GetComponentInParent<PlayerInteractions>();
     }
 
     private void OnEnable()
@@ -101,7 +98,6 @@ public class AnimatorController : MonoBehaviour
         if (playerState == null || playerInput == null || locomotion == null) return;
 
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
-        if (playerState.isBlending || playerInput.inputLocked) return;
         if (playerInput.isCrouching) return;
         if (!locomotion.isGrounded) return;
         if (interactions.activeZone == null) return;

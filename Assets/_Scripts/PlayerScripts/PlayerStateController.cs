@@ -80,7 +80,7 @@ public class PlayerStateController : MonoBehaviour
 
         CurrentMovementMode = MovementMode.FirstPerson;
         InitializeCameraMode(CameraMode.Carried); // Using initialize method, no blend lock on start
-        //playerBody.SetActive(false); // Currently inactive but will set body to invisible when in first person to avoid body clipping
+        playerBody.SetActive(false); // Currently inactive but will set body to invisible when in first person to avoid body clipping
 
         if (firstPersonYawRoot != null)
         {
@@ -268,7 +268,7 @@ public class PlayerStateController : MonoBehaviour
         isBlending = false;
 
         // Setting body to be invisible in first person after blend so to avoid body clipping
-        //if (CurrentMovementMode == MovementMode.FirstPerson) playerBody.SetActive(false);
+        if (CurrentMovementMode == MovementMode.FirstPerson) playerBody.SetActive(false);
     }
 
     private void ApplySecondPersonLook(Vector2 lookDelta)
