@@ -133,22 +133,22 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void UpdateCrouchCapsule(bool crouching)
     {
-        float targetT = crouching ? 1f : 0f;
+        //float targetT = crouching ? 1f : 0f;
 
-        if (Mathf.Approximately(crouchLerpSeconds, 0f))
-        {
-            crouchLerpT = targetT;
-        }
-        else
-        {
-            float speed = 1f / Mathf.Max(crouchLerpSeconds, 0.0001f);
-            crouchLerpT = Mathf.MoveTowards(crouchLerpT, targetT, speed * Time.deltaTime);
-        }
+        //if (Mathf.Approximately(crouchLerpSeconds, 0f))
+        //{
+        //    crouchLerpT = targetT;
+        //}
+        //else
+        //{
+        //    float speed = 1f / Mathf.Max(crouchLerpSeconds, 0.0001f);
+        //    crouchLerpT = Mathf.MoveTowards(crouchLerpT, targetT, speed * Time.deltaTime);
+        //}
 
-        float height = Mathf.Lerp(standHeight, crouchHeight, crouchLerpT);
-        float centerY = Mathf.Lerp(standCenterY, crouchCenterY, crouchLerpT);
-        controller.height = height;
-        controller.center = new Vector3(controller.center.x, centerY, controller.center.z);
+        //float height = Mathf.Lerp(standHeight, crouchHeight, crouchLerpT);
+        //float centerY = Mathf.Lerp(standCenterY, crouchCenterY, crouchLerpT);
+        //controller.height = height;
+        //controller.center = new Vector3(controller.center.x, centerY, controller.center.z);
     }
 
     private void GroundCheck()

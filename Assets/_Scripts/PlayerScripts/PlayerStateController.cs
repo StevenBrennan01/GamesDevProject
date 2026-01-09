@@ -180,7 +180,7 @@ public class PlayerStateController : MonoBehaviour
         CurrentMovementMode = MovementMode.SecondPerson;
     }
 
-    private void TryPickupHead()
+    private void TryPickupHead() // Put a delay here so that the player visibly does a pickup anim then the head moves
     {
         if (currentPlacementVolume == null) return;
 
