@@ -36,6 +36,8 @@ public class AnimatorController : MonoBehaviour
         {
             playerInput.OnJump += HandleJumpAnim;
             playerInput.OnInteract += HandleInteractAnim;
+
+            playerInput.OnTogglePlaceOrPickup += PlaceOrPickupAnim;
         }
     }
 
@@ -45,6 +47,8 @@ public class AnimatorController : MonoBehaviour
         {
             playerInput.OnJump -= HandleJumpAnim;
             playerInput.OnInteract -= HandleInteractAnim;
+
+            playerInput.OnTogglePlaceOrPickup -= PlaceOrPickupAnim;
         }
     }
 
@@ -101,6 +105,18 @@ public class AnimatorController : MonoBehaviour
         if (playerInput.isCrouching) return;
         if (!locomotion.isGrounded) return;
         if (interactions.activeZone == null) return;
+
+        animator.SetTrigger(InteractHash);
+    }
+
+    private void PlaceOrPickupAnim()
+    {
+        if (playerState == null || playerInput == null || locomotion == null) return;
+
+        //if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+        if (playerInput.isCrouching) return;
+        if (!locomotion.isGrounded) return;
+        if (playerState.currentPlacementVolume == null) return;
 
         animator.SetTrigger(InteractHash);
     }

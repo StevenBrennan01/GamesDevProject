@@ -162,6 +162,8 @@ public class PlayerStateController : MonoBehaviour
 
         playerBody.SetActive(true);
 
+        // Here we will want the player body to face the head placement Volume straight away
+
         playerHead.transform.position = anchor.position;
         playerHead.transform.rotation = anchor.rotation;
 
@@ -178,6 +180,22 @@ public class PlayerStateController : MonoBehaviour
 
         SetCameraMode(CameraMode.Placed);
         CurrentMovementMode = MovementMode.SecondPerson;
+
+        StartCoroutine(PlaceThenPause());
+    }
+
+    private IEnumerator PlaceThenPause()
+    {
+        // placing of the head happens above
+        // Then anim plays on anim controller
+        playerInput.SetInputLocked(true);
+
+        // Why isn't this freezing the fucking player?
+
+        yield return new WaitForSeconds(1f);
+
+        // Let animation finish
+        playerInput.SetInputLocked(false);
     }
 
     private void TryPickupHead() // Put a delay here so that the player visibly does a pickup anim then the head moves
@@ -207,8 +225,21 @@ public class PlayerStateController : MonoBehaviour
         // so the player cannot access 2 at once, 
         // This could be made better with some kind of headRetrieved? bool to mitigate this.
 
+        StartCoroutine(PauseThenPickup());
+    }
+
+    private IEnumerator PauseThenPickup()
+    {
+        playerInput.SetInputLocked(true);
+
+        // Make the player face the head
+
+        yield return new WaitForSeconds(1f);
+
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
+
+        playerInput.SetInputLocked(false);
     }
 
     private void SetCameraMode(CameraMode targetMode)
