@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum MovementMode
@@ -64,7 +63,7 @@ public class PlayerStateController : MonoBehaviour
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
-    public bool isBlending /*{ get; private set; }*/ = false;
+    public bool isBlending = false;
 
     // Neutral rotation for the head and placement, rotations and offsets are applied relative to this
     private Quaternion neutralHeadRotation;

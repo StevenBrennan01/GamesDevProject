@@ -317,7 +317,8 @@ MonoBehaviour:
   carriedMount: {fileID: 5671790931530551728}
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
-  blendLockInputSeconds: 0.3
+  blendLockInputSeconds: 1.75
+  startLockInputSeconds: 0
   placedYawClamp: 45
   placedPitchClamp: 30
   secondPersonLookSensitivity: {x: 0.1, y: 0.1}
