@@ -43,7 +43,7 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
-    [SerializeField][Range(0, 1)] private float blendLockInputSeconds;
+    [SerializeField][Range(0, 2)] private float blendLockInputSeconds;
 
     [Header("Second-Person View Attributes")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
@@ -180,22 +180,6 @@ public class PlayerStateController : MonoBehaviour
 
         SetCameraMode(CameraMode.Placed);
         CurrentMovementMode = MovementMode.SecondPerson;
-
-        StartCoroutine(PlaceThenPause());
-    }
-
-    private IEnumerator PlaceThenPause()
-    {
-        // placing of the head happens above
-        // Then anim plays on anim controller
-        playerInput.SetInputLocked(true);
-
-        // Why isn't this freezing the fucking player?
-
-        yield return new WaitForSeconds(1f);
-
-        // Let animation finish
-        playerInput.SetInputLocked(false);
     }
 
     private void TryPickupHead() // Put a delay here so that the player visibly does a pickup anim then the head moves
@@ -225,21 +209,36 @@ public class PlayerStateController : MonoBehaviour
         // so the player cannot access 2 at once, 
         // This could be made better with some kind of headRetrieved? bool to mitigate this.
 
+        //SetCameraMode(CameraMode.Carried);
+        //CurrentMovementMode = MovementMode.FirstPerson;
+
         StartCoroutine(PauseThenPickup());
     }
 
     private IEnumerator PauseThenPickup()
     {
         playerInput.SetInputLocked(true);
+        isBlending = true;
 
         // Make the player face the head
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
 
+        StartCoroutine(DisablePlayerBody());
+    }
+
+    private IEnumerator DisablePlayerBody()
+    {
+        // 0.5 is just shy of the camera blend so to not see the body vanish, but not hide it too soon.
+        yield return new WaitForSeconds(0.5f);
+
+        playerBody.SetActive(false);
         playerInput.SetInputLocked(false);
+
+        isBlending = false;
     }
 
     private void SetCameraMode(CameraMode targetMode)
@@ -262,9 +261,29 @@ public class PlayerStateController : MonoBehaviour
         {
             carriedVirtualCamera.Priority = inactivePriority;
             placedVirtualCamera.Priority = activePriority;
+
+            StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
         }
 
-        StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
+        //StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
+    }
+    private IEnumerator LockInputDuringBlend(float lockSeconds)
+    {
+        isBlending = true;
+        if (!playerInput.inputLocked)
+        {
+            playerInput.SetInputLocked(true);
+        }
+
+        // Could use CinemachineBrain.ActiveBlend == null
+        // However, waiting 0.05s after blend ends to try avoid overlap issues
+        yield return new WaitForSeconds(lockSeconds);
+
+        playerInput.SetInputLocked(false);
+        isBlending = false;
+
+        // Setting body to be invisible in first person after blend so to avoid body clipping
+        if (CurrentMovementMode == MovementMode.FirstPerson) playerBody.SetActive(false);
     }
 
     private void InitializeCameraMode(CameraMode targetMode)
@@ -284,22 +303,6 @@ public class PlayerStateController : MonoBehaviour
         // INITIALIZING WITH CARRIED MODE
         carriedVirtualCamera.Priority = activePriority;
         placedVirtualCamera.Priority = inactivePriority;
-    }
-
-    private IEnumerator LockInputDuringBlend(float lockSeconds)
-    {
-        isBlending = true;
-        playerInput.SetInputLocked(true);
-
-        // Could use CinemachineBrain.ActiveBlend == null
-        // However, waiting 0.05s after blend ends to try avoid overlap issues
-        yield return new WaitForSeconds(lockSeconds);
-
-        playerInput.SetInputLocked(false);
-        isBlending = false;
-
-        // Setting body to be invisible in first person after blend so to avoid body clipping
-        if (CurrentMovementMode == MovementMode.FirstPerson) playerBody.SetActive(false);
     }
 
     private void ApplySecondPersonLook(Vector2 lookDelta)
