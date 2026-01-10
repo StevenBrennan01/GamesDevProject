@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3399871848992249623}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.109210014, z: 0.0067685}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0067685}
   m_LocalScale: {x: 0.24467999, y: 0.4078, z: 0.24467999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 5743714552456242581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4846442962652430628}
   - component: {fileID: 5090028170181982359}
+  - component: {fileID: 760427758197782188}
   - component: {fileID: 7071027544725762585}
   - component: {fileID: -7710212469651755635}
   m_Layer: 0
@@ -172,11 +173,32 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.75, y: 1, z: 0.75}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &760427758197782188
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7100244615159172513}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7071027544725762585
 MonoBehaviour:
@@ -190,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0680ca21442ab5d468448f8a7efc44b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
-  placementAnchor: {fileID: 0}
+  placementAnchor: {fileID: 2015638222538621725}
   canPlace: 0
 --- !u!114 &-7710212469651755635
 MonoBehaviour:

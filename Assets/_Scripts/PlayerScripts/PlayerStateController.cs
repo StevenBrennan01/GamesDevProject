@@ -143,7 +143,7 @@ public class PlayerStateController : MonoBehaviour
     {
         if (currentPlacementVolume == null)
         {
-            Debug.LogWarning("Player is not within a valid volume bounds");
+            Debug.LogWarning("Player is not within a valid head bounds");
             return;
         }
 
@@ -209,9 +209,6 @@ public class PlayerStateController : MonoBehaviour
         // so the player cannot access 2 at once, 
         // This could be made better with some kind of headRetrieved? bool to mitigate this.
 
-        //SetCameraMode(CameraMode.Carried);
-        //CurrentMovementMode = MovementMode.FirstPerson;
-
         StartCoroutine(PauseThenPickup());
     }
 
@@ -222,19 +219,20 @@ public class PlayerStateController : MonoBehaviour
 
         // Make the player face the head
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.5f); //1.5f = just before anim ends
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
 
-        StartCoroutine(DisablePlayerBody());
+        StartCoroutine(HidePlayerBody());
     }
 
-    private IEnumerator DisablePlayerBody()
+    private IEnumerator HidePlayerBody()
     {
-        // 0.5 is just shy of the camera blend so to not see the body vanish, but not hide it too soon.
+        // 0.5 is just shy of the camera blend so to not see the body vanish, but not hide it too late.
         yield return new WaitForSeconds(0.5f);
 
+        // Disabling body in first person so to avoid clipping
         playerBody.SetActive(false);
         playerInput.SetInputLocked(false);
 
@@ -269,21 +267,27 @@ public class PlayerStateController : MonoBehaviour
     }
     private IEnumerator LockInputDuringBlend(float lockSeconds)
     {
-        isBlending = true;
+        if (!isBlending)
+        {
+            isBlending = true;
+        }
         if (!playerInput.inputLocked)
         {
             playerInput.SetInputLocked(true);
         }
 
         // Could use CinemachineBrain.ActiveBlend == null
-        // However, waiting 0.05s after blend ends to try avoid overlap issues
+        // but waiting longer to avoid overlap issues and let anims play
         yield return new WaitForSeconds(lockSeconds);
 
-        playerInput.SetInputLocked(false);
-        isBlending = false;
-
-        // Setting body to be invisible in first person after blend so to avoid body clipping
-        if (CurrentMovementMode == MovementMode.FirstPerson) playerBody.SetActive(false);
+        if (isBlending)
+        {
+            isBlending = false;
+        }
+        if (playerInput.inputLocked)
+        {
+            playerInput.SetInputLocked(false);
+        }
     }
 
     private void InitializeCameraMode(CameraMode targetMode)
@@ -296,11 +300,11 @@ public class PlayerStateController : MonoBehaviour
             return;
         }
 
-        // INITIALIZING WITH PLACED MODE
+        // INITIALIZES WITH PLACED MODE
         //carriedVirtualCamera.Priority = inactivePriority;
         //headVirtualCamera.Priority = activePriority;
 
-        // INITIALIZING WITH CARRIED MODE
+        // INITIALIZES WITH CARRIED MODE
         carriedVirtualCamera.Priority = activePriority;
         placedVirtualCamera.Priority = inactivePriority;
     }
