@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum MovementMode
@@ -43,7 +44,8 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
-    [SerializeField][Range(0, 2)] private float blendLockInputSeconds;
+    [SerializeField, Range(0, 2)] private float blendLockInputSeconds;
+    [SerializeField, Range(0, 10)] private float startLockInputSeconds;
 
     [Header("Second-Person View Attributes")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
@@ -58,8 +60,7 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Currently Active Placement Volume")]
     [Space(2)]
-    // public for testing, privatise when done
-    public HeadPlacementVolume currentPlacementVolume;
+    [HideInInspector] public HeadPlacementVolume currentPlacementVolume;
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
@@ -79,8 +80,7 @@ public class PlayerStateController : MonoBehaviour
         if (playerInput == null) { Debug.LogError("Player Input reference is missing"); }
 
         CurrentMovementMode = MovementMode.FirstPerson;
-        InitializeCameraMode(CameraMode.Carried); // Using initialize method, no blend lock on start
-        playerBody.SetActive(false); // Currently inactive but will set body to invisible when in first person to avoid body clipping
+        //playerBody.SetActive(false);
 
         if (firstPersonYawRoot != null)
         {
@@ -290,25 +290,6 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
-    private void InitializeCameraMode(CameraMode targetMode)
-    {
-        CurrentCameraMode = targetMode;
-
-        if (carriedVirtualCamera == null || placedVirtualCamera == null)
-        {
-            Debug.LogError("At least one VCam reference is missing");
-            return;
-        }
-
-        // INITIALIZES WITH PLACED MODE
-        //carriedVirtualCamera.Priority = inactivePriority;
-        //headVirtualCamera.Priority = activePriority;
-
-        // INITIALIZES WITH CARRIED MODE
-        carriedVirtualCamera.Priority = activePriority;
-        placedVirtualCamera.Priority = inactivePriority;
-    }
-
     private void ApplySecondPersonLook(Vector2 lookDelta)
     {
         float yawDelta = lookDelta.x * secondPersonLookSensitivity.x;
@@ -374,5 +355,62 @@ public class PlayerStateController : MonoBehaviour
     public void SetCurrentPlacementVolume(HeadPlacementVolume volume)
     {
         currentPlacementVolume = volume;
+    }
+    private void InitializeCameraMode(CameraMode targetMode)
+    {
+        CurrentCameraMode = targetMode;
+
+        if (carriedVirtualCamera == null || placedVirtualCamera == null)
+        {
+            Debug.LogError("At least one VCam reference is missing");
+            return;
+        }
+
+        // INITIALIZES WITH PLACED MODE
+        carriedVirtualCamera.Priority = inactivePriority;
+        placedVirtualCamera.Priority = activePriority;
+
+        // INITIALIZES WITH CARRIED MODE
+        //carriedVirtualCamera.Priority = activePriority;
+        //placedVirtualCamera.Priority = inactivePriority;
+    }
+
+    public void PlaceHeadOnStart(HeadPlacementVolume startVolume)
+    {
+        StartCoroutine(LockInput(startLockInputSeconds));
+
+        if (startVolume == null || startVolume.placementAnchor == null)
+        {
+            Debug.LogError("PlaceHeadAtStart: Volume or placement anchor is missing");
+            return;
+        }
+
+        SetCurrentPlacementVolume(startVolume);
+
+        playerHead.transform.position = startVolume.placementAnchor.position;
+        playerHead.transform.rotation = startVolume.placementAnchor.rotation;
+
+        neutralHeadRotation = playerHead.transform.rotation;
+        placedYawOffset = 0f;
+        placedPitchOffset = 0f;
+
+        if (placedVirtualCamera != null)
+        {
+            playerHead.transform.SetParent(startVolume.placementAnchor.transform, false);
+            playerHead.transform.localPosition = Vector3.zero;
+            playerHead.transform.localRotation = Quaternion.identity;
+        }
+
+        CurrentMovementMode = MovementMode.SecondPerson;
+        InitializeCameraMode(CameraMode.Placed);
+    }
+
+    private IEnumerator LockInput(float lockSeconds)
+    {
+        playerInput.SetInputLocked(true);
+
+        yield return new WaitForSeconds(lockSeconds);
+
+        playerInput.SetInputLocked(false);
     }
 }

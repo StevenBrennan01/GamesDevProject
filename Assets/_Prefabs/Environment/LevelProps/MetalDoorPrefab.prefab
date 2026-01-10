@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 455784414961110653, guid: d4a0ce30e91e1ac489e0ef4e4396a85b, type: 3}
       propertyPath: m_Name
-      value: MetalDoorPrefab Variant
+      value: MetalDoorPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 943668147428971719, guid: d4a0ce30e91e1ac489e0ef4e4396a85b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 943668147428971719, guid: d4a0ce30e91e1ac489e0ef4e4396a85b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 943668147428971719, guid: d4a0ce30e91e1ac489e0ef4e4396a85b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 943668147428971719, guid: d4a0ce30e91e1ac489e0ef4e4396a85b, type: 3}
       propertyPath: m_LocalRotation.w
