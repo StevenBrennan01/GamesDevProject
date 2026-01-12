@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8699441573431310588}
   - component: {fileID: 2449913336708095028}
   - component: {fileID: 4174102584185491318}
+  - component: {fileID: 732857000200730417}
   m_Layer: 0
   m_Name: HeadVisualiser
   m_TagString: Untagged
@@ -27,9 +28,9 @@ Transform:
   m_GameObject: {fileID: 3399871848992249623}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0067685}
-  m_LocalScale: {x: 0.24467999, y: 0.4078, z: 0.24467999}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -0.05, z: 0.005}
+  m_LocalScale: {x: 0.39, y: 0.65, z: 0.39}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2015638222538621725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -90,6 +91,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &732857000200730417
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399871848992249623}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 961b841f00aaf7842aae8264211d2613, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5743714552456242581
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 5743714552456242581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0.105, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -131,10 +154,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4846442962652430628}
-  - component: {fileID: 5090028170181982359}
-  - component: {fileID: 760427758197782188}
   - component: {fileID: 7071027544725762585}
   - component: {fileID: -7710212469651755635}
+  - component: {fileID: 5090028170181982359}
+  - component: {fileID: 8008846570777830901}
   m_Layer: 0
   m_Name: HeadPlacementVolume
   m_TagString: Untagged
@@ -156,8 +179,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2015638222538621725}
+  - {fileID: 1382587482116634305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7071027544725762585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7100244615159172513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0680ca21442ab5d468448f8a7efc44b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
+  placementAnchor: {fileID: 2015638222538621725}
+  headVisualiser: {fileID: 3399871848992249623}
+  visualiserRotateSpeed: 150
+  canPlace: 0
+--- !u!114 &-7710212469651755635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7100244615159172513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cd259d9555b6b46aea9ae3d9946710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetCurrentVolume
 --- !u!65 &5090028170181982359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -177,10 +229,10 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.75, y: 1, z: 0.75}
+  m_Size: {x: 0.7, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &760427758197782188
-BoxCollider:
+--- !u!136 &8008846570777830901
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -197,32 +249,86 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7071027544725762585
-MonoBehaviour:
+--- !u!1001 &5655123735892315943
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4846442962652430628}
+    m_Modifications:
+    - target: {fileID: 6205738471227335516, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_Name
+      value: Oil_Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.28571427
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.28571427
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0000029504295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+--- !u!4 &1382587482116634305 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6725254053460933094, guid: da2de7b5b2deb4442ad3594596cfed77, type: 3}
+  m_PrefabInstance: {fileID: 5655123735892315943}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7100244615159172513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0680ca21442ab5d468448f8a7efc44b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
-  placementAnchor: {fileID: 2015638222538621725}
-  canPlace: 0
---- !u!114 &-7710212469651755635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7100244615159172513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2cd259d9555b6b46aea9ae3d9946710, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SetCurrentVolume

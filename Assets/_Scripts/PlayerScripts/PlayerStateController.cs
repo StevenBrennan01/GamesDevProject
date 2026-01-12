@@ -37,6 +37,12 @@ public class PlayerStateController : MonoBehaviour
     [SerializeField] private Transform firstPersonYawRoot; //Playerbody root (the pelvis)
     [SerializeField] private Transform firstPersonPitchPivot; // In this case the Carried Cam Pivot
 
+    [Header("Player Start in First Person, or Second Person?")]
+    [Space(10)]
+    [Tooltip("Will player be starting in FP or SP? Check box if starting in SP, then set freeze time below")]
+    [SerializeField] private bool playerStartInSecondPerson;
+    [SerializeField, Range(0, 10)] private float startLockInputSeconds;
+
     [Tooltip("Priority values for Active and Inactive Vcameras")]
     private int activePriority = 5;
     private int inactivePriority = 1;
@@ -44,7 +50,6 @@ public class PlayerStateController : MonoBehaviour
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
     [SerializeField, Range(0, 2)] private float blendLockInputSeconds;
-    [SerializeField, Range(0, 10)] private float startLockInputSeconds;
 
     [Header("Second-Person View Attributes")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
@@ -59,7 +64,7 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Currently Active Placement Volume")]
     [Space(2)]
-    [HideInInspector] public HeadPlacementVolume currentPlacementVolume;
+    public HeadPlacementVolume currentPlacementVolume = null;
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
@@ -78,8 +83,17 @@ public class PlayerStateController : MonoBehaviour
         if (playerInput == null) playerInput = GetComponent<PlayerInputs>();
         if (playerInput == null) { Debug.LogError("Player Input reference is missing"); }
 
-        CurrentMovementMode = MovementMode.FirstPerson;
-        //playerBody.SetActive(false);
+        if (currentPlacementVolume != null)
+        {
+            currentPlacementVolume = null;
+        }
+
+        if (!playerStartInSecondPerson)
+        {
+            CurrentMovementMode = MovementMode.FirstPerson;
+            InitializeCameraMode(CameraMode.Carried);
+            playerBody.SetActive(false);
+        }
 
         if (firstPersonYawRoot != null)
         {
@@ -179,6 +193,8 @@ public class PlayerStateController : MonoBehaviour
 
         SetCameraMode(CameraMode.Placed);
         CurrentMovementMode = MovementMode.SecondPerson;
+
+        currentPlacementVolume.headVisualiser.SetActive(false);
     }
 
     private void TryPickupHead() // Put a delay here so that the player visibly does a pickup anim then the head moves
@@ -234,6 +250,8 @@ public class PlayerStateController : MonoBehaviour
         // Disabling body in first person so to avoid clipping
         playerBody.SetActive(false);
         playerInput.SetInputLocked(false);
+
+        currentPlacementVolume.headVisualiser.SetActive(true);
 
         isBlending = false;
     }
@@ -366,23 +384,33 @@ public class PlayerStateController : MonoBehaviour
         }
 
         // INITIALIZES WITH PLACED MODE
-        carriedVirtualCamera.Priority = inactivePriority;
-        placedVirtualCamera.Priority = activePriority;
-
-        // INITIALIZES WITH CARRIED MODE
-        //carriedVirtualCamera.Priority = activePriority;
-        //placedVirtualCamera.Priority = inactivePriority;
+        if (targetMode == CameraMode.Placed)
+        {
+            carriedVirtualCamera.Priority = inactivePriority;
+            placedVirtualCamera.Priority = activePriority;
+        }
+        
+        if (targetMode == CameraMode.Carried)
+        {
+            // INITIALIZES WITH CARRIED MODE
+            carriedVirtualCamera.Priority = activePriority;
+            placedVirtualCamera.Priority = inactivePriority;
+        }
     }
 
     public void PlaceHeadOnStart(HeadPlacementVolume startVolume)
     {
-        StartCoroutine(LockInput(startLockInputSeconds));
+        if (!playerStartInSecondPerson) return;
 
         if (startVolume == null || startVolume.placementAnchor == null)
         {
-            Debug.LogError("PlaceHeadAtStart: Volume or placement anchor is missing");
+            Debug.LogWarning("PlaceHeadAtStart: Volume or placement anchor is missing");
             return;
         }
+
+        startVolume.headVisualiser.SetActive(false);
+
+        StartCoroutine(LockInput(startLockInputSeconds));
 
         SetCurrentPlacementVolume(startVolume);
 
@@ -402,6 +430,8 @@ public class PlayerStateController : MonoBehaviour
 
         CurrentMovementMode = MovementMode.SecondPerson;
         InitializeCameraMode(CameraMode.Placed);
+
+        currentPlacementVolume = null;
     }
 
     private IEnumerator LockInput(float lockSeconds)
