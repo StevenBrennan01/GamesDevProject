@@ -31,7 +31,7 @@ public class PlayerInputs : MonoBehaviour
 
     public Vector2 Move { get; private set; }
     public Vector2 Look { get; private set; }
-    public bool canInteract { get; private set; }
+    //public bool canInteract { get; private set; }
 
     [SerializeField] public bool isCrouching;
     public bool inputLocked { get; private set; }

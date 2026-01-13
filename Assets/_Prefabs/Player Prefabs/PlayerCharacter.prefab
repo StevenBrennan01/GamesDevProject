@@ -317,7 +317,7 @@ MonoBehaviour:
   carriedMount: {fileID: 5671790931530551728}
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
-  playerStartInSecondPerson: 0
+  playerStartInSecondPerson: 1
   startLockInputSeconds: 0
   blendLockInputSeconds: 1.75
   placedYawClamp: 45
@@ -352,7 +352,7 @@ MonoBehaviour:
   crouchCenterY: 0.6
   crouchLerpSeconds: 0.12
   groundCheckOffset: 0.1
-  groundCheckRadius: 0.4
+  groundCheckRadius: 0.175
   groundCheckDistance: 0.25
   maxGroundSlope: 45
   groundLayer:
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a95103b9794c14fb47c27bd3a43b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractions
-  playerLockSeconds: 2.25
+  playerLockSeconds: 1.25
   activeZone: {fileID: 0}
 --- !u!143 &970298166419111237
 CharacterController:
@@ -396,7 +396,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1552476929332663431
 GameObject:

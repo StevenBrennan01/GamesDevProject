@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
@@ -15,9 +16,10 @@ public class AnimatorController : MonoBehaviour
     private static readonly int CrouchingHash = Animator.StringToHash("isCrouching");
     private static readonly int JumpHash = Animator.StringToHash("jumpTriggered");
     private static readonly int InteractHash = Animator.StringToHash("interactTriggered");
+    private static readonly int HeadHash = Animator.StringToHash("headTriggered");
 
     [Tooltip("Smoothing time (seconds) for Velocity parameter damping.")]
-    [SerializeField, Range(0f, 0.5f)] private float velocityDampTime = 0.08f;
+    [SerializeField, Range(0f, 0.5f)] private float velocityDampTime = 0f;
 
     [Tooltip("Multiplier applied to velocity before sending to Animator.")]
     [SerializeField] private float velocityMultiplier = 1f;
@@ -101,6 +103,7 @@ public class AnimatorController : MonoBehaviour
     {
         if (playerState == null || playerInput == null || locomotion == null) return;
 
+        if (!interactions.canInteract) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerInput.isCrouching) return;
         if (!locomotion.isGrounded) return;
@@ -113,11 +116,19 @@ public class AnimatorController : MonoBehaviour
     {
         if (playerState == null || playerInput == null || locomotion == null) return;
 
-        //if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerInput.isCrouching) return;
         if (!locomotion.isGrounded) return;
         if (playerState.currentPlacementVolume == null) return;
 
-        animator.SetTrigger(InteractHash);
+        StartCoroutine(DebounceAnimation());
+    }
+
+    // Coroutine waits for body to be activated in Controller
+    // then plays animation, so to not animate nothing
+    private IEnumerator DebounceAnimation()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        animator.SetTrigger(HeadHash);
     }
 }

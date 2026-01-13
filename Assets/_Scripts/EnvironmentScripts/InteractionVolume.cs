@@ -20,7 +20,7 @@ public class InteractionVolume : MonoBehaviour
 
     [SerializeField] private bool isPlatformInteraction;
 
-    [SerializeField, Range(0, 5)] private float interactBlockSeconds = 2f;
+    [SerializeField, Range(0, 5)] public float interactBlockSeconds = 2f;
 
     [Space(5)]
     [Header("Lever Settings")]

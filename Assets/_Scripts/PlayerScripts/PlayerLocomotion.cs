@@ -70,11 +70,11 @@ public class PlayerLocomotion : MonoBehaviour
 
         GroundCheck();
 
-        if (playerInput.inputLocked || playerState.isBlending)
-        {
-            ApplyVerticalGravityOnly();
-            return;
-        }
+        //if (playerInput.inputLocked || playerState.isBlending)
+        //{
+        //    ApplyVerticalGravityOnly();
+        //    return;
+        //}
 
         Vector2 moveInput = playerInput.Move;
         Vector3 dir = playerState.ComputeMovementDirection(moveInput);
@@ -111,7 +111,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void UpdateVerticalVelocity()
     {
-        if (controller.isGrounded)
+        if (isGrounded)
         {
             // Keep a slight downward push to remain grounded; reset accumulated fall speed
             if (verticalVelocity.y <= 0f)
@@ -125,11 +125,11 @@ public class PlayerLocomotion : MonoBehaviour
         }
     }
 
-    private void ApplyVerticalGravityOnly()
-    {
-        UpdateVerticalVelocity();
-        controller.Move(verticalVelocity * Time.deltaTime);
-    }
+    //private void ApplyVerticalGravityOnly()
+    //{
+    //    UpdateVerticalVelocity();
+    //    controller.Move(verticalVelocity * Time.deltaTime);
+    //}
 
     private void UpdateCrouchCapsule(bool crouching)
     {

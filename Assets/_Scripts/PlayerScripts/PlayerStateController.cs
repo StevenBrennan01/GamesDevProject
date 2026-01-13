@@ -197,7 +197,7 @@ public class PlayerStateController : MonoBehaviour
         currentPlacementVolume.headVisualiser.SetActive(false);
     }
 
-    private void TryPickupHead() // Put a delay here so that the player visibly does a pickup anim then the head moves
+    private void TryPickupHead()
     {
         if (currentPlacementVolume == null) return;
 
@@ -231,8 +231,6 @@ public class PlayerStateController : MonoBehaviour
     {
         playerInput.SetInputLocked(true);
         isBlending = true;
-
-        // Make the player face the head
 
         yield return new WaitForSeconds(1.5f); //1.5f = just before anim ends
 
