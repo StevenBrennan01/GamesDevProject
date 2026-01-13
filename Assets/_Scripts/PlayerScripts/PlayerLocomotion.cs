@@ -31,7 +31,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     [Header("Ground Check Values")]
     [SerializeField] private float groundCheckOffset = 0.1f;
-    [SerializeField] private float groundCheckRadius = 0.4f;
+    [SerializeField] private float groundCheckRadius = 0.25f;
     [SerializeField] private float groundCheckDistance = 0.25f;
     [SerializeField] private float maxGroundSlope = 45f;
     [SerializeField] private LayerMask groundLayer;
