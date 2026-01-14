@@ -47,9 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   interactionObject: {fileID: 0}
-  isDoorInteraction: 1
-  isPlatformInteraction: 0
-  interactBlockSeconds: 2.25
+  leverBlockSeconds: 0
   LEDLight: {fileID: 6863997400721003}
   OnMat: {fileID: 2100000, guid: 650646556f5bb7d44ad85a1ee74c39a2, type: 2}
   OffMat: {fileID: -791598910875471247, guid: 280e85922aa6a494ca6dec33926d4084, type: 3}

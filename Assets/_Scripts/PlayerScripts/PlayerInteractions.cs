@@ -6,8 +6,8 @@ public class PlayerInteractions : MonoBehaviour
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
 
-    [Tooltip("How long the player gets locked for when interacting")]
-    [SerializeField, Range(0, 5)] private float playerLockSeconds;
+    [Tooltip("How long the player movement locked for when interacting, Interaction lock is found on the Interaction Volume")]
+    [SerializeField, Range(0, 5)] private float lockMovementSeconds;
 
     [Header("Interaction Settings")]
     [Space(5)]
@@ -60,7 +60,7 @@ public class PlayerInteractions : MonoBehaviour
         }
 
         activeZone.ExecuteInteraction(gameObject);
-        StartCoroutine(LockInputDuringBlend(playerLockSeconds)); // Pause player whilst interaction is happening
+        StartCoroutine(LockInputDuringBlend(lockMovementSeconds)); // Pause player whilst interaction is happening
         StartCoroutine(DebounceThenBlock());
     }
 
@@ -78,7 +78,7 @@ public class PlayerInteractions : MonoBehaviour
     private IEnumerator DebounceThenBlock()
     {
         yield return new WaitForSeconds(0.1f);
-        StartCoroutine(InteractBlocker(activeZone.interactBlockSeconds));
+        StartCoroutine(InteractBlocker(activeZone.leverBlockSeconds));
     }
 
     private IEnumerator InteractBlocker(float blockSeconds)

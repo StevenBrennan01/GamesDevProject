@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DoorInteraction : MonoBehaviour, IInteraction
 {
-    [SerializeField] private Animator metalDoor = null;
+    [SerializeField] private Animator anchorAnimator = null;
 
     [SerializeField] private bool hasDoorBlocker;
 
@@ -40,15 +40,15 @@ public class DoorInteraction : MonoBehaviour, IInteraction
     {
         if (isAnimating) return;
 
-        StartCoroutine(IsAnimating());
+        StartCoroutine(BeginAnimation());
     }
 
-    private IEnumerator IsAnimating()
+    private IEnumerator BeginAnimation()
     {
         if (!isOpen)
         {
             isAnimating = true;
-            metalDoor.Play("DoorOpenAnim");
+            anchorAnimator.Play("DoorOpenAnim");
             isOpen = true;
 
             if (hasDoorBlocker)
@@ -59,7 +59,7 @@ public class DoorInteraction : MonoBehaviour, IInteraction
         else
         {
             isAnimating = true;
-            metalDoor.Play("DoorCloseAnim");
+            anchorAnimator.Play("DoorCloseAnim");
             isOpen = false;
         }
 
@@ -70,7 +70,7 @@ public class DoorInteraction : MonoBehaviour, IInteraction
     private void OnTriggerEnter(Collider other)
     {
         isAnimating = true;
-        metalDoor.Play("DoorCloseAnim");
+        anchorAnimator.Play("DoorCloseAnim");
         isOpen = false;
     }
 

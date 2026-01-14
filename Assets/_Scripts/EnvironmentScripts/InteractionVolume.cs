@@ -13,14 +13,14 @@ public class InteractionVolume : MonoBehaviour
 
     [Header("Interaction Settings")]
     [Space(5)]
-    [SerializeField] private bool isDoorInteraction;
     private bool isLeverPulled = false;
     private bool canPull = true;
     private Animator leverAnim = null;
 
-    [SerializeField] private bool isPlatformInteraction;
-
-    [SerializeField, Range(0, 5)] public float interactBlockSeconds = 2f;
+    [Space(5)]
+    [Header("Lever Block Seconds")]
+    [Header(" MUST set as the same value as the block seconds on the Door/Stairs, etc.")]
+    [SerializeField, Range(0, 5)] public float leverBlockSeconds;
 
     [Space(5)]
     [Header("Lever Settings")]
@@ -62,30 +62,47 @@ public class InteractionVolume : MonoBehaviour
         {
             interaction.PerformInteraction(interactor);
 
-            if (isDoorInteraction)
+            if (!isLeverPulled && canPull)
             {
-                if (!isLeverPulled && canPull)
-                {
-                    leverAnim.Play("LeverPullAnim");
-                    canPull = false;
+                leverAnim.Play("LeverPullAnim");
+                canPull = false;
 
-                    StartCoroutine(LeverPullCountdown());
-                    isLeverPulled = true;
-                }
-                else if (isLeverPulled && canPull)
-                {
-                    leverAnim.Play("LeverPushAnim");
-                    canPull = false;
+                StartCoroutine(LeverPullCountdown());
+                isLeverPulled = true;
+            }
+            else if (isLeverPulled && canPull)
+            {
+                leverAnim.Play("LeverPushAnim");
+                canPull = false;
 
-                    StartCoroutine(LeverPullCountdown());
-                    isLeverPulled = false;
-                }
+                StartCoroutine(LeverPullCountdown());
+                isLeverPulled = false;
             }
 
-            else
-            {
-                // Platform interactions and stuff
-            }
+            //if (isDoorInteraction)
+            //{
+            //    if (!isLeverPulled && canPull)
+            //    {
+            //        leverAnim.Play("LeverPullAnim");
+            //        canPull = false;
+
+            //        StartCoroutine(LeverPullCountdown());
+            //        isLeverPulled = true;
+            //    }
+            //    else if (isLeverPulled && canPull)
+            //    {
+            //        leverAnim.Play("LeverPushAnim");
+            //        canPull = false;
+
+            //        StartCoroutine(LeverPullCountdown());
+            //        isLeverPulled = false;
+            //    }
+            //}
+
+            //else
+            //{
+            //    // Platform interactions and stuff
+            //}
         }
     }
 
@@ -93,7 +110,7 @@ public class InteractionVolume : MonoBehaviour
     {
         if (canPull == false)
         {
-            yield return new WaitForSeconds(interactBlockSeconds);
+            yield return new WaitForSeconds(leverBlockSeconds);
             canPull = true;
         }
     }
