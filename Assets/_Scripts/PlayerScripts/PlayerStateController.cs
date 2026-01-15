@@ -41,7 +41,7 @@ public class PlayerStateController : MonoBehaviour
     [Space(10)]
     [Tooltip("Will player be starting in FP or SP? Check box if starting in SP, then set freeze time below")]
     [SerializeField] private bool playerStartInSecondPerson;
-    [SerializeField] private bool holdingHead = false;
+    public bool isHeadPlaced => placedHeadVolume != null;
     [SerializeField, Range(0, 10)] private float startLockInputSeconds;
 
     [Tooltip("Priority values for Active and Inactive Vcameras")]
@@ -66,6 +66,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("Currently Active Placement Volume")]
     [Space(2)]
     public HeadPlacementVolume currentPlacementVolume = null;
+    public HeadPlacementVolume placedHeadVolume;
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
@@ -94,7 +95,6 @@ public class PlayerStateController : MonoBehaviour
             CurrentMovementMode = MovementMode.FirstPerson;
             InitializeCameraMode(CameraMode.Carried);
             playerBody.SetActive(false);
-            holdingHead = true;
         }
 
         if (firstPersonYawRoot != null)
@@ -175,7 +175,7 @@ public class PlayerStateController : MonoBehaviour
             return;
         }
 
-        if (!holdingHead) return;
+        placedHeadVolume = currentPlacementVolume;
 
         playerBody.SetActive(true);
 
@@ -198,16 +198,18 @@ public class PlayerStateController : MonoBehaviour
         SetCameraMode(CameraMode.Placed);
         CurrentMovementMode = MovementMode.SecondPerson;
 
-        holdingHead = false;
-
         currentPlacementVolume.headVisualiser.SetActive(false);
     }
 
     private void TryPickupHead()
     {
-        if (currentPlacementVolume == null) return;
+        if (placedHeadVolume == null) return;
 
-        if (!holdingHead) return;
+        if (currentPlacementVolume != placedHeadVolume)
+        {
+            Debug.Log("You must return to the head's original placement spot to pick it up.");
+            return;
+        }
 
         //playerHead.transform.position = carriedMount.position;
         //playerHead.transform.rotation = carriedMount.rotation;
@@ -244,8 +246,6 @@ public class PlayerStateController : MonoBehaviour
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
-
-        holdingHead = true;
 
         StartCoroutine(HidePlayerBody());
     }

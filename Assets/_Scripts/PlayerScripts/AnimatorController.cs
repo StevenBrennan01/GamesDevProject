@@ -118,7 +118,7 @@ public class AnimatorController : MonoBehaviour
 
         if (playerInput.isCrouching) return;
         if (!locomotion.isGrounded) return;
-        if (playerState.currentPlacementVolume == null) return;
+        if (playerState.currentPlacementVolume != playerState.placedHeadVolume) return;
 
         StartCoroutine(DebounceAnimation());
     }
