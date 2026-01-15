@@ -17,6 +17,7 @@ public enum CameraMode
 public class PlayerStateController : MonoBehaviour
 {
     private PlayerInputs playerInput;
+    private LevelStartHeadPlacement startHeadPlacement;
 
     [Header("References")]
     [Space(10)]
@@ -95,6 +96,12 @@ public class PlayerStateController : MonoBehaviour
             CurrentMovementMode = MovementMode.FirstPerson;
             InitializeCameraMode(CameraMode.Carried);
             playerBody.SetActive(false);
+        }
+        else
+        {
+            startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
+            placedHeadVolume = startHeadPlacement.startVolume;
+            Debug.Log("Start head volume has been populated");
         }
 
         if (firstPersonYawRoot != null)

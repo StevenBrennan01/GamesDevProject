@@ -3,7 +3,7 @@ using UnityEngine;
 public class LevelStartHeadPlacement : MonoBehaviour
 {
     private PlayerStateController playerState;
-    [SerializeField] private HeadPlacementVolume startVolume;
+    [SerializeField] public HeadPlacementVolume startVolume;
 
     private void Awake()
     {

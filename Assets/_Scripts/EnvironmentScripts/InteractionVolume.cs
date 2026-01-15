@@ -85,13 +85,12 @@ public class InteractionVolume : MonoBehaviour
         if (interactions == null || interactions.Length == 0) return;
 
         lastExecuteTime = Time.time;
-        if (runSequentially && sequentialDelaySeconds > 0f)
+        if (runSequentially && sequentialDelaySeconds > 0f) // Delay Interactions
         {
-            //StartCoroutine(ExecuteSequentially(interactor));
+            StartCoroutine(ExecuteSequentially(interactor));
         }
-        else
+        else // Run all interactions immediately
         {
-            // Run all interactions immediately
             for (int i = 0; i < interactions.Length; i++)
             {
                 try
@@ -123,6 +122,29 @@ public class InteractionVolume : MonoBehaviour
         }
 
         if (executeOnce) hasExecutedOnce = true;
+    }
+
+    private IEnumerator ExecuteSequentially(GameObject interactor)
+    {
+        for (int i = 0; i < interactions.Length; i++)
+        {
+            IInteraction interaction = interactions[i];
+            if(interaction == null) continue;
+
+            try
+            {
+                interaction.PerformInteraction(interactor);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"InteractionVolume '{name}': Error executing interaction {i}: {ex}", this);
+            }
+
+            if (i < interactions.Length - 1 && sequentialDelaySeconds > 0)
+            {
+                yield return new WaitForSeconds(sequentialDelaySeconds);
+            }
+        }
     }
 
     private IEnumerator LeverPullCountdown()
