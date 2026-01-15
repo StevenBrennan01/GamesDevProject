@@ -78,7 +78,7 @@ public class PlayerInteractions : MonoBehaviour
     private IEnumerator DebounceThenBlock()
     {
         yield return new WaitForSeconds(0.1f);
-        StartCoroutine(InteractBlocker(activeZone.leverBlockSeconds));
+        StartCoroutine(InteractBlocker(activeZone.cooldownSeconds));
     }
 
     private IEnumerator InteractBlocker(float blockSeconds)

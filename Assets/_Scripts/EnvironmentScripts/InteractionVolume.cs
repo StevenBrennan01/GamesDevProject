@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent (typeof(Collider))]
@@ -6,8 +7,8 @@ using UnityEngine;
 public class InteractionVolume : MonoBehaviour
 {
     [Tooltip("Object/Script being interacted with that utilises the IInteraction contract")]
-    [SerializeField] private MonoBehaviour interactionObject;
-    private IInteraction interaction;
+    [SerializeField] private MonoBehaviour[] interactionBehaviours;
+    private IInteraction[] interactions;
     private Collider volumeTrigger;
     //private Rigidbody volumeRB;
 
@@ -18,99 +19,117 @@ public class InteractionVolume : MonoBehaviour
     private Animator leverAnim = null;
 
     [Space(5)]
-    [Header("Lever Block Seconds")]
-    [Header(" MUST set as the same value as the block seconds on the Door/Stairs, etc.")]
-    [SerializeField, Range(0, 5)] public float leverBlockSeconds;
-
-    [Space(5)]
     [Header("Lever Settings")]
     [Space(5)]
     [SerializeField] private GameObject LEDLight;
     [SerializeField] private Material OnMat;
     [SerializeField] private Material OffMat; // Make it so that it switches based on lever being up or down
 
+    [Header("Execution")]
+    [Tooltip("If true, run interactions one after another with a delay; otherwise run all immediately.")]
+    [SerializeField] private bool runSequentially = false;
+
+    [Tooltip("Delay between sequential interactions (seconds). Only used if runSequentially is true.")]
+    [SerializeField, Range(0f, 5f)] private float sequentialDelaySeconds = 0f;
+
+    [Tooltip("If true, this volume can only be executed once.")]
+    [SerializeField] private bool executeOnce = false;
+
+    [Space(5)]
+    [Header("Lever and Interaction Block Seconds")]
+    [Header(" MUST set as the same value as the block seconds on the Door/Stairs, etc.")]
+    [SerializeField, Range(0f, 10f)] public float cooldownSeconds = 0f;
+
+    private float lastExecuteTime = -Mathf.Infinity;
+    private bool hasExecutedOnce = false;
+
     private void Awake()
     {
-        interaction = interactionObject as IInteraction;
-
+        volumeTrigger = GetComponent<Collider>();
         leverAnim = GetComponentInChildren<Animator>();
 
-        volumeTrigger = GetComponent<Collider>();
-        if (!volumeTrigger.isTrigger)
+        if (interactionBehaviours != null && interactionBehaviours.Length > 0)
         {
-            volumeTrigger.isTrigger = true;
+            interactions = interactionBehaviours
+                .Where(b => b != null)
+                .Select(b => b as IInteraction)
+                .Where(i => i != null)
+                .ToArray();
+
+            foreach (var b in interactionBehaviours)
+            {
+                if (b != null && !(b is IInteraction))
+                {
+                    Debug.LogWarning($"InteractionVolume '{name}': Assigned behaviour '{b.GetType().Name}' does not implement IInteraction and will be ignored.", this);
+                }
+            }
         }
 
-        if (interactionObject == null || interaction == null)
+        else
+        {
+            interactions = System.Array.Empty<IInteraction>();
+        }
+
+        if (interactionBehaviours == null || interactionBehaviours.Length == 0)
         {
             Debug.LogError($"InteractionZone '{name}': Requires a script/interaction behaviour");
         }
-
-        //volumeRB = GetComponent<Rigidbody>();
-        //if (volumeRB != null)
-        //{
-        //    volumeRB.isKinematic = true;
-        //    volumeRB.useGravity = false;
-        //}
     }
-
-    //public bool HasValidInteraction => interaction != null;
 
     public void ExecuteInteraction(GameObject interactor)
     {
-        if (interaction != null)
+        if (executeOnce && hasExecutedOnce) return;
+
+        if (Time.time < lastExecuteTime + cooldownSeconds) return;
+
+        if (interactions == null || interactions.Length == 0) return;
+
+        lastExecuteTime = Time.time;
+        if (runSequentially && sequentialDelaySeconds > 0f)
         {
-            interaction.PerformInteraction(interactor);
-
-            if (!isLeverPulled && canPull)
-            {
-                leverAnim.Play("LeverPullAnim");
-                canPull = false;
-
-                StartCoroutine(LeverPullCountdown());
-                isLeverPulled = true;
-            }
-            else if (isLeverPulled && canPull)
-            {
-                leverAnim.Play("LeverPushAnim");
-                canPull = false;
-
-                StartCoroutine(LeverPullCountdown());
-                isLeverPulled = false;
-            }
-
-            //if (isDoorInteraction)
-            //{
-            //    if (!isLeverPulled && canPull)
-            //    {
-            //        leverAnim.Play("LeverPullAnim");
-            //        canPull = false;
-
-            //        StartCoroutine(LeverPullCountdown());
-            //        isLeverPulled = true;
-            //    }
-            //    else if (isLeverPulled && canPull)
-            //    {
-            //        leverAnim.Play("LeverPushAnim");
-            //        canPull = false;
-
-            //        StartCoroutine(LeverPullCountdown());
-            //        isLeverPulled = false;
-            //    }
-            //}
-
-            //else
-            //{
-            //    // Platform interactions and stuff
-            //}
+            //StartCoroutine(ExecuteSequentially(interactor));
         }
+        else
+        {
+            // Run all interactions immediately
+            for (int i = 0; i < interactions.Length; i++)
+            {
+                try
+                {
+                    interactions[i].PerformInteraction(interactor);
+
+                    if (!isLeverPulled && canPull)
+                    {
+                        leverAnim.Play("LeverPullAnim");
+                        canPull = false;
+
+                        StartCoroutine(LeverPullCountdown());
+                        isLeverPulled = true;
+                    }
+                    else if (isLeverPulled && canPull)
+                    {
+                        leverAnim.Play("LeverPushAnim");
+                        canPull = false;
+
+                        StartCoroutine(LeverPullCountdown());
+                        isLeverPulled = false;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"InteractionVolume '{name}': Error executing interaction {i}: {ex}", this);
+                }
+            }
+        }
+
+        if (executeOnce) hasExecutedOnce = true;
     }
 
     private IEnumerator LeverPullCountdown()
     {
         if (canPull == false)
         {
-            yield return new WaitForSeconds(leverBlockSeconds);
+            yield return new WaitForSeconds(cooldownSeconds);
             canPull = true;
         }
     }

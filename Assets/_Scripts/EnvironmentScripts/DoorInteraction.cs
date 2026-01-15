@@ -11,6 +11,9 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     private BoxCollider doorCloseCollider;
 
+    [Tooltip("Match this as close to the Animation Length as possible so you can interact straight after")]
+    [SerializeField, Range(0, 5)] public float interactBlockSeconds;
+
     private bool isOpen = false;
     private bool isAnimating = false;
 
@@ -63,7 +66,7 @@ public class DoorInteraction : MonoBehaviour, IInteraction
             isOpen = false;
         }
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(interactBlockSeconds);
         isAnimating = false;
     }
 
@@ -73,42 +76,4 @@ public class DoorInteraction : MonoBehaviour, IInteraction
         anchorAnimator.Play("DoorCloseAnim");
         isOpen = false;
     }
-
-    //[Header("Door Swivel Point")]
-    //[SerializeField] private Transform doorAnchor;
-
-    //[Header("Rotation")]
-    //private Vector3 localRotateAxis = Vector3.up;
-    //[Tooltip("The angle in degrees for the door to be closed")]
-    //[SerializeField] private float doorClosedAngle = 0f;
-    //[Tooltip("The angle in degrees for the door to be open")]
-    //[SerializeField] private float doorOpenAngle = 95f;
-
-    //[Header("Animation")]
-    //[SerializeField] private float animateSeconds = 0.4f;
-    //[SerializeField] private AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
-
-    //private bool isOpen;
-    //private bool isAnimating;
-    //private Quaternion openRot;
-    //private Quaternion closedRot;
-
-    //private void Awake()
-    //{
-    //    if (doorAnchor == null) 
-    //    { 
-    //        Debug.LogWarning($"No anchor set on '{this.gameObject}': door cannot open without one");
-    //        enabled = false;
-    //        return;
-    //    }
-    //}
-
-    //public void PerformInteraction(GameObject interactor)
-    //{
-    //    if (doorAnchor == null) return;
-    //    if (isAnimating) return;
-
-    //    isOpen = !isOpen;
-
-    //}
 }
