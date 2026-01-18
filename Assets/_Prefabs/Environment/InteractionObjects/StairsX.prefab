@@ -26,11 +26,11 @@ Transform:
   m_GameObject: {fileID: 1044635180252264317}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.725, y: 1, z: -0.5}
+  m_LocalPosition: {x: -0.22500008, y: -0.5, z: 1}
   m_LocalScale: {x: 0.05, y: 2.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3258524472228062474}
+  m_Father: {fileID: 3130287176119121689}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4575773357977175346
 BoxCollider:
@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.25, z: 1.5}
-  m_Center: {x: 0, y: 0.13, z: -0.25}
+  m_Size: {x: 1, y: 0.9742204, z: 1.5}
+  m_Center: {x: 9.094947e-13, y: -0.007888589, z: -0.25}
 --- !u!1 &1684091492803495390
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,6 +84,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2762659811808852063}
+  - {fileID: 7899953832166137087}
+  - {fileID: 2841552522518879456}
   m_Father: {fileID: 3258524472228062474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7383830990426143630
@@ -134,11 +136,11 @@ Transform:
   m_GameObject: {fileID: 5170389287990926713}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -0.5}
+  m_LocalPosition: {x: 0.50000006, y: -0.5, z: 1}
   m_LocalScale: {x: 0.05, y: 2.4417539, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3258524472228062474}
+  m_Father: {fileID: 3130287176119121689}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6121133447375464770
 BoxCollider:
@@ -159,8 +161,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.25, z: 1.5}
-  m_Center: {x: 0, y: 0.13, z: -0.25}
+  m_Size: {x: 1, y: 0.97477794, z: 1.5}
+  m_Center: {x: 9.094947e-13, y: -0.0076119537, z: -0.25}
 --- !u!1 &8136850910652900055
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,8 +193,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7899953832166137087}
-  - {fileID: 2841552522518879456}
   - {fileID: 3130287176119121689}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   anchorAnimator: {fileID: 7383830990426143630}
   stairsToGoDown: 0
-  stairsToGoUp: 0
+  stairsToGoUp: 1
   interactBlockSeconds: 2.25
 --- !u!1001 &2825640710947475383
 PrefabInstance:

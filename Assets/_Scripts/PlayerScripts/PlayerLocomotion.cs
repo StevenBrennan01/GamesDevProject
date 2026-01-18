@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour
@@ -24,9 +25,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     [Header("Crouch Capsule")]
     [SerializeField] private float standHeight = 0.85f;
-    [SerializeField] private float crouchHeight = 0.4f;
+    [SerializeField] private float crouchHeight = 0.3f;
     [SerializeField] private float standCenterY = 0.9f;
-    [SerializeField] private float crouchCenterY = 0.6f;
     [SerializeField] private float crouchLerpSeconds = 0.12f;
 
     [Header("Ground Check Values")]
@@ -36,7 +36,16 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] private float maxGroundSlope = 45f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Ceiling Check Values")]
+    [SerializeField] private float ceilingCheckOffset = 0.1f;
+    [SerializeField] private float ceilingCheckRadius = 0.15f;
+    [SerializeField] private float ceilingCheckDistance = 0.25f;
+    [SerializeField] private LayerMask ceilingLayer;
+
     public bool isGrounded;
+    public bool canStand;
+
+    public bool shouldCrouch;
 
     private float crouchLerpT;
 
@@ -66,15 +75,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Update()
     {
-        UpdateCrouchCapsule(playerInput.isCrouching);
-
         GroundCheck();
-
-        //if (playerInput.inputLocked || playerState.isBlending)
-        //{
-        //    ApplyVerticalGravityOnly();
-        //    return;
-        //}
+        IsCeilingBlockingStand();
 
         Vector2 moveInput = playerInput.Move;
         Vector3 dir = playerState.ComputeMovementDirection(moveInput);
@@ -83,11 +85,32 @@ public class PlayerLocomotion : MonoBehaviour
 
         float speed = walkSpeed;
 
-        if (playerInput.isCrouching)
+        if (playerState.CurrentMovementMode == MovementMode.SecondPerson)
         {
-            speed *= crouchSpeedMultiplier;
-        }
+            bool forcedCrouch = !canStand;
+            bool wishToCrouch = playerInput.isCrouching;
 
+            shouldCrouch = forcedCrouch || wishToCrouch;
+
+            UpdateCrouchCapsule(shouldCrouch);
+
+            if (shouldCrouch)
+            {
+                speed *= crouchSpeedMultiplier;
+            }
+
+            if (!wishToCrouch && !forcedCrouch)
+            {
+                controller.height = standHeight;
+                controller.center = new Vector3(controller.center.x, standCenterY, controller.center.z);
+                crouchLerpT = 0f;
+            }
+        }
+        else
+        {
+            UpdateCrouchCapsule(false);
+        }
+        
         Vector3 horizontalVelocity = dir * speed;
 
         UpdateVerticalVelocity();
@@ -133,22 +156,40 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void UpdateCrouchCapsule(bool crouching)
     {
-        //float targetT = crouching ? 1f : 0f;
+        float targetT = crouching ? 1f : 0f;
 
-        //if (Mathf.Approximately(crouchLerpSeconds, 0f))
-        //{
-        //    crouchLerpT = targetT;
-        //}
-        //else
-        //{
-        //    float speed = 1f / Mathf.Max(crouchLerpSeconds, 0.0001f);
-        //    crouchLerpT = Mathf.MoveTowards(crouchLerpT, targetT, speed * Time.deltaTime);
-        //}
+        float lerpSpeed = Mathf.Approximately(crouchLerpSeconds, 0f)
+            ? float.PositiveInfinity
+            : (1f / Mathf.Max(crouchLerpSeconds, 0.0001f));
 
-        //float height = Mathf.Lerp(standHeight, crouchHeight, crouchLerpT);
-        //float centerY = Mathf.Lerp(standCenterY, crouchCenterY, crouchLerpT);
-        //controller.height = height;
-        //controller.center = new Vector3(controller.center.x, centerY, controller.center.z);
+        crouchLerpT = Mathf.MoveTowards(crouchLerpT, targetT, lerpSpeed * Time.deltaTime);
+
+        float targetHeight = Mathf.Lerp(standHeight, crouchHeight, crouchLerpT);
+
+        // Compute centerY so the capsule bottom stays constant as height changes:
+        // newCenterY = standCenterY - (standHeight - targetHeight)/2
+        float targetCenterY = standCenterY - (standHeight - targetHeight) * 0.5f;
+
+        controller.height = targetHeight;
+        controller.center = new Vector3(controller.center.x, targetCenterY, controller.center.z);
+    }
+
+    public void IsCeilingBlockingStand()
+    {
+        Vector3 origin = transform.TransformPoint(controller.center);
+        origin.y += groundCheckOffset;
+
+        float radius = Mathf.Min(controller.radius - 0.02f, groundCheckRadius);
+        float castDistance = groundCheckDistance;
+
+        if (Physics.SphereCast(origin, radius, Vector3.up, out RaycastHit hit, castDistance, ceilingLayer, QueryTriggerInteraction.Ignore))
+        {
+            canStand = false;
+        }
+        else
+        {
+            canStand = true;
+        }
     }
 
     private void GroundCheck()
@@ -181,5 +222,9 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 origin = transform.TransformPoint(controller.center);
         origin.y += -groundCheckOffset;
         Gizmos.DrawWireSphere(origin + Vector3.down * groundCheckDistance, Mathf.Min(controller.radius - 0.02f, groundCheckRadius));
+
+        Gizmos.color = canStand ? Color.green : Color.red;
+        origin.y += ceilingCheckOffset;
+        Gizmos.DrawWireSphere(origin + Vector3.up * ceilingCheckDistance, Mathf.Min(controller.radius - 0.02f, ceilingCheckRadius));
     }
 }

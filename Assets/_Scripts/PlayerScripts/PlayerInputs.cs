@@ -109,12 +109,6 @@ public class PlayerInputs : MonoBehaviour
     {
         if (inputLocked) return;
 
-        if (isCrouching)
-        {
-            isCrouching = false;
-            return;
-        }
-
         if (context.performed)
         {
             isCrouching = true;

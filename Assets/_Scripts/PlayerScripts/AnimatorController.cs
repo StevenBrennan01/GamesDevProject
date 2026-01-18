@@ -4,7 +4,7 @@ using UnityEngine;
 public class AnimatorController : MonoBehaviour
 {
     private PlayerInputs playerInput;
-    private PlayerLocomotion locomotion;
+    private PlayerLocomotion playerLocomotion;
     private PlayerStateController playerState;
     private PlayerInteractions interactions;
 
@@ -14,6 +14,7 @@ public class AnimatorController : MonoBehaviour
     private static readonly int VelocityHash = Animator.StringToHash("Velocity");
     private static readonly int GroundedHash = Animator.StringToHash("isGrounded");
     private static readonly int CrouchingHash = Animator.StringToHash("isCrouching");
+    private static readonly int StandingHash = Animator.StringToHash("canStand");
     private static readonly int JumpHash = Animator.StringToHash("jumpTriggered");
     private static readonly int InteractHash = Animator.StringToHash("interactTriggered");
     private static readonly int HeadHash = Animator.StringToHash("headTriggered");
@@ -27,7 +28,7 @@ public class AnimatorController : MonoBehaviour
     private void Awake()
     {
         playerInput = gameObject.GetComponentInParent<PlayerInputs>();
-        locomotion = gameObject.GetComponentInParent<PlayerLocomotion>();
+        playerLocomotion = gameObject.GetComponentInParent<PlayerLocomotion>();
         playerState = gameObject.GetComponentInParent<PlayerStateController>();
         interactions = gameObject.GetComponentInParent<PlayerInteractions>();
     }
@@ -59,9 +60,14 @@ public class AnimatorController : MonoBehaviour
         if (playerInput == null || playerState == null) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
 
-        animator.SetBool(CrouchingHash, playerInput.isCrouching);
-        bool grounded = locomotion.isGrounded;
-        animator.SetBool(GroundedHash, grounded);
+        bool isCrouching = playerLocomotion.shouldCrouch;
+        animator.SetBool(CrouchingHash, isCrouching);
+
+        bool isGrounded = playerLocomotion.isGrounded;
+        animator.SetBool(GroundedHash, isGrounded);
+
+        bool canStand = playerLocomotion.canStand;
+        animator.SetBool(StandingHash, canStand);
 
         float velocity01 = ComputeVelocity();
         animator.SetFloat(VelocityHash, velocity01, velocityDampTime, Time.deltaTime);
@@ -89,24 +95,24 @@ public class AnimatorController : MonoBehaviour
 
     private void HandleJumpAnim()
     {
-        if (playerState == null || playerInput == null || locomotion == null) return;
+        if (playerState == null || playerInput == null || playerLocomotion == null) return;
 
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerState.isBlending || playerInput.inputLocked) return;
         if (playerInput.isCrouching) return;
-        if (!locomotion.isGrounded) return;
+        if (!playerLocomotion.isGrounded) return;
 
         animator.SetTrigger(JumpHash);
     }
 
     private void HandleInteractAnim()
     {
-        if (playerState == null || playerInput == null || locomotion == null) return;
+        if (playerState == null || playerInput == null || playerLocomotion == null) return;
 
         if (!interactions.canInteract) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerInput.isCrouching) return;
-        if (!locomotion.isGrounded) return;
+        if (!playerLocomotion.isGrounded) return;
         if (interactions.activeZone == null) return;
 
         animator.SetTrigger(InteractHash);
@@ -114,10 +120,10 @@ public class AnimatorController : MonoBehaviour
 
     private void PlaceOrPickupAnim()
     {
-        if (playerState == null || playerInput == null || locomotion == null) return;
+        if (playerState == null || playerInput == null || playerLocomotion == null) return;
 
         if (playerInput.isCrouching) return;
-        if (!locomotion.isGrounded) return;
+        if (!playerLocomotion.isGrounded) return;
         if (playerState.currentPlacementVolume != playerState.placedHeadVolume) return;
 
         StartCoroutine(DebounceAnimation());

@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/TestingGrounds.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/FYPLevel.unity
     guid: 0e75fc2da817d6f4ba5ae15694518b63
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/MainMenu.unity
     guid: d8c7e3e8e17006744a72f7e76d268ae3
   m_configObjects:
