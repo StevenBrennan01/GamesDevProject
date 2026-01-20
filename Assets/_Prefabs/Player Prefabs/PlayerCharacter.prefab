@@ -317,7 +317,7 @@ MonoBehaviour:
   carriedMount: {fileID: 5671790931530551728}
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
-  playerStartInSecondPerson: 0
+  playerStartInSecondPerson: 1
   startLockInputSeconds: 0
   blendLockInputSeconds: 1.75
   placedYawClamp: 45
@@ -346,11 +346,10 @@ MonoBehaviour:
   crouchSpeedMultiplier: 0.5
   jumpVelocity: 3
   gravity: -9.81
-  groundedGravityPushdown: 0
+  groundedGravityPushdown: -5
   standHeight: 0.85
-  crouchHeight: 0.4
+  crouchHeight: 0.5
   standCenterY: 0.5
-  crouchCenterY: 0.6
   crouchLerpSeconds: 0.12
   groundCheckOffset: 0.1
   groundCheckRadius: 0.175
@@ -359,7 +358,15 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  ceilingCheckOffset: 0.1
+  ceilingCheckRadius: 0.2
+  ceilingCheckDistance: 0.5
+  ceilingLayer:
+    serializedVersion: 2
+    m_Bits: 256
   isGrounded: 0
+  canStand: 0
+  shouldCrouch: 0
 --- !u!114 &4796602321067822841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,7 +1362,7 @@ Transform:
   m_GameObject: {fileID: 6550838667280852141}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.603, z: 0.2372}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

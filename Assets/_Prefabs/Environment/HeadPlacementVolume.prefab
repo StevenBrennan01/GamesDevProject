@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
   placementAnchor: {fileID: 2015638222538621725}
   headVisualiser: {fileID: 3399871848992249623}
-  visualiserRotateSpeed: 150
+  visualiserRotateSpeed: 50
   canPlace: 0
 --- !u!114 &-7710212469651755635
 MonoBehaviour:
