@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerLocomotion : MonoBehaviour

@@ -1,0 +1,23 @@
+:root {
+}
+
+.header {
+}
+
+.button {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    min-width: 365px;
+    min-height: 100px;
+    -unity-font-style: bold;
+    font-size: 30px;
+    transition-duration: 0.35s;
+    top: 572px;
+}
+
+.button:hover {
+    scale: 1.1 1.1;
+    rotate: 0 0 0 0;
+}
