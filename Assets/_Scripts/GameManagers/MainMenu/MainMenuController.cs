@@ -8,14 +8,14 @@ public class MainMenuController : MonoBehaviour
     private string gameSceneName = "FYPLevel";
 
     private VisualElement mainScreen;
-    //private VisualElement optionsScreen;
-    //private VisualElement creditsScreen;
+    private VisualElement optionsScreen;
+    private VisualElement creditsScreen;
 
     private Button startButton;
     private Button optionsButton;
     private Button creditsButton;
     private Button quitButton;
-    //private Button backButton;
+    private Button backButton;
 
     private const string HiddenClass = "hidden";
 
@@ -25,21 +25,21 @@ public class MainMenuController : MonoBehaviour
         var root = doc.rootVisualElement;
 
         mainScreen = root.Q<VisualElement>("MainMenuScreen");
-        //optionsScreen = root.Q<VisualElement>("OptionsScreen");
+        optionsScreen = root.Q<VisualElement>("OptionsScreen");
 
         startButton = root.Q<Button>("StartGameButton");
         optionsButton = root.Q<Button>("OptionsButton");
         creditsButton = root.Q<Button>("CreditsButton");
         quitButton = root.Q<Button>("QuitButton");
-        //backButton = root.Q<Button>("BackButton");
+        backButton = root.Q<Button>("BackButton");
 
         startButton.clicked += StartGame;
-        //optionsButton.clicked += DisplayOptions;
-        //creditsButton.clicked += DisplayCredits;
+        optionsButton.clicked += DisplayOptions;
+        creditsButton.clicked += DisplayCredits;
         quitButton.clicked += QuitGame;
-        //backButton.clicked += DisplayMain;
+        backButton.clicked += DisplayMain;
 
-        //DisplayMain();
+        DisplayMain();
     }
 
     private void Update()
@@ -67,32 +67,36 @@ public class MainMenuController : MonoBehaviour
     {
         // after triggering coroutine for fading in or something, run below
         AudioManager.instance.PlayOneShotClick();
+
         SceneManager.LoadScene(gameSceneName);
     }
 
-    //private void DisplayMain()
-    //{
-    //    AudioManager.instance.PlayOneShotClick();
-    //    mainScreen.RemoveFromClassList(HiddenClass);
-    //    creditsScreen.AddToClassList(HiddenClass);
-    //    optionsScreen.AddToClassList(HiddenClass);
-    //}
+    private void DisplayMain()
+    {
+        AudioManager.instance.PlayOneShotClick();
 
-    //private void DisplayOptions()
-    //{
-    //    AudioManager.instance.PlayOneShotClick();
-    //    mainScreen.AddToClassList(HiddenClass);
-    //    creditsScreen.AddToClassList(HiddenClass);
-    //    optionsScreen.RemoveFromClassList(HiddenClass);
-    //}
+        mainScreen.RemoveFromClassList(HiddenClass);
+        creditsScreen.AddToClassList(HiddenClass);
+        optionsScreen.AddToClassList(HiddenClass);
+    }
 
-    //private void DisplayCredits()
-    //{
-    //    AudioManager.instance.PlayOneShotClick();
-    //    mainScreen.AddToClassList(HiddenClass);
-    //    creditsScreen.RemoveFromClassList(HiddenClass);
-    //    optionsScreen.AddToClassList(HiddenClass);
-    //}
+    private void DisplayOptions()
+    {
+        AudioManager.instance.PlayOneShotClick();
+
+        mainScreen.AddToClassList(HiddenClass);
+        creditsScreen.AddToClassList(HiddenClass);
+        optionsScreen.RemoveFromClassList(HiddenClass);
+    }
+
+    private void DisplayCredits()
+    {
+        AudioManager.instance.PlayOneShotClick();
+
+        mainScreen.AddToClassList(HiddenClass);
+        creditsScreen.RemoveFromClassList(HiddenClass);
+        optionsScreen.AddToClassList(HiddenClass);
+    }
 
     private void QuitGame()
     {

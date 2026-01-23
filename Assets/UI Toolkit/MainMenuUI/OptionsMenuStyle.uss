@@ -1,9 +1,21 @@
 :root {
 }
 
-.slider {
-    margin-top: 30px;
-    margin-right: 30px;
-    margin-bottom: 30px;
-    margin-left: 30px;
+.hidden{
+    display: none;
+}
+
+.labels {
+    top: 151px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    left: -567px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Packages/com.unity.dt.app-ui/Editor/Editor%20Default%20Resources/Fonts/RobotoMono-Regular.ttf?fileID=12800000&guid=15aa0fee36d624e02b529759fbbed1af&type=3#RobotoMono-Regular");
+}
+
+.titles {
+    color: rgb(255, 204, 59);
 }

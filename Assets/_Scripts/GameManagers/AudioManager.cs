@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,22 +9,27 @@ public class AudioManager : MonoBehaviour
 
     [Header("Master Volume Mixer")]
     [Space(5)]
-    [SerializeField] private AudioMixer menuMixer;
+    [SerializeField] private AudioMixer audioMixer;
     private string masterVolumeParameter = "MasterVolume";
 
-    [Header("Main Music Attributes")]
+    [Header("Music Attributes")]
     [Space(5)]
-    [SerializeField] private AudioSource menuMusicSource;
+    [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioClip menuMusicClip;
+    [SerializeField] private AudioClip gameMusicClip;
 
-    //[Header("SFX Attributes")]
-    //[Space(5)]
-    //[SerializeField] private AudioSource uiSfxSource;
-    //[SerializeField] private AudioClip clickSFXClip;
+    [Header("UI SFX Attributes")]
+    [Space(5)]
+    [SerializeField] private AudioSource uiSfxSource;
+    [SerializeField] private AudioClip clickSFXClip;
+
+    [Header("Player SFX Attributes")]
+    [Space(5)]
+
 
     [Header("Settings")]
     [Space(5)]
-    [SerializeField] private bool playOnStart;
+    [SerializeField] private bool playMenuMusicOnStart;
     [SerializeField] private bool loopMenuMusic;
 
     [SerializeField, Range(0f, 0.5f)] private float masterVolume = 0.25f;
@@ -34,30 +40,25 @@ public class AudioManager : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
 
         instance = this;
         DontDestroyOnLoad(this);
 
-        if (menuMusicSource == null/* || uiSfxSource == null*/)
-        {
-            Debug.LogError("Menu Music Sources have not been populated");
-        }
+        string sceneName = SceneManager.GetActiveScene().name;
 
-        if (menuMusicSource != null)
+        if (sceneName == "MainMenu")
         {
-            menuMusicSource.loop = loopMenuMusic;
-            menuMusicSource.volume = musicVolume;
+            if (playMenuMusicOnStart)
+            {
+                BeginMusic(musicSource, menuMusicClip);
+            }
         }
-    }
-
-    private void Start()
-    {
-        if (playOnStart)
+        if (sceneName == "FYPLevel")
         {
-            BeginMenuMusic();
+            BeginMusic(musicSource, gameMusicClip);
         }
     }
 
@@ -68,9 +69,15 @@ public class AudioManager : MonoBehaviour
         SetMusicVolume(musicVolume);
     }
 
+    public void SetMusicVolume(float volume01)
+    {
+        musicVolume = Mathf.Clamp01(volume01);
+        if (musicSource != null) musicSource.volume = musicVolume;
+    }
+
     public void SetMasterVolume(float volume01)
     {
-        if (menuMixer == null) return;
+        if (audioMixer == null) return;
 
         volume01 = Mathf.Clamp01(volume01);
 
@@ -84,33 +91,33 @@ public class AudioManager : MonoBehaviour
             db = Mathf.Log10(volume01) * 20f;
         }
 
-        menuMixer.SetFloat(masterVolumeParameter, db);
+        audioMixer.SetFloat(masterVolumeParameter, db);
     }
 
     public float GetMasterVolume01()
     {
-        if (menuMixer == null) return 1f;
-        if (!menuMixer.GetFloat(masterVolumeParameter, out float db)) return 1f;
+        if (audioMixer == null) return 1f;
+        if (!audioMixer.GetFloat(masterVolumeParameter, out float db)) return 1f;
 
         // Convert dB back to linear 0..1
         float v = Mathf.Pow(10f, db / 20f);
         return Mathf.Clamp01(v);
     }
 
-    private void BeginMenuMusic()
+    private void BeginMusic(AudioSource source, AudioClip clip)
     {
-        if (menuMusicSource == null/* || uiSfxSource == null*/) return;
+        if (source == null) return;
 
-        menuMusicSource.clip = menuMusicClip;
-        menuMusicSource.loop = loopMenuMusic;
-        menuMusicSource.volume = musicVolume;
-        menuMusicSource.Play();
+        source.clip = clip;
+        source.loop = loopMenuMusic;
+        source.volume = musicVolume;
+        source.Play();
     }
 
-    private void StopMenuMusic()
+    private void StopMusic(AudioSource source)
     {
-        if (menuMusicSource == null) return;
-        menuMusicSource.Stop();
+        if (source == null) return;
+        source.Stop();
     }
 
     //private void PlayOneShotHover()
@@ -125,9 +132,8 @@ public class AudioManager : MonoBehaviour
         Debug.Log("A button has indeedy been clicked");
     }
 
-    public void SetMusicVolume(float volume01)
+    public void PlayOneShotFootstep()
     {
-        musicVolume = Mathf.Clamp01(volume01);
-        if (menuMusicSource != null) menuMusicSource.volume = musicVolume;
+
     }
 }

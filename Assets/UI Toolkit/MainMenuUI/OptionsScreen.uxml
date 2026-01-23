@@ -6,7 +6,7 @@
                 <ui:Slider label="Master Volume " value="42" high-value="100" class="slider" style="top: 90px; width: 1115px;"/>
                 <ui:Slider label="Music Volume " value="42" high-value="100" class="slider" style="top: 90px; width: 1115px;"/>
                 <ui:Slider label="SFX Volume " value="42" high-value="100" class="slider" style="top: 90px; width: 1115px;"/>
-                <ui:Button text="Back" style="top: 250px; max-width: 300px; bottom: auto; right: auto; left: 440px; -unity-text-align: middle-center; white-space: pre;"/>
+                <ui:Button text="Back" style="top: 250px; max-width: 300px; bottom: auto; right: auto; left: 440px; -unity-text-align: middle-center; white-space: pre; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(96, 95, 95);"/>
             </ui:Label>
         </ui:VisualElement>
     </ui:VisualElement>

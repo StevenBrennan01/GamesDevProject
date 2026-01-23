@@ -905,7 +905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: a17a512accea23d438ef72c477dac732, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 37e3214ce72a9c047949be105f2d91c2, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 16e201242bc6f014fbe7d1f71855d152, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -953,10 +953,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15dd1b395b36b4c4f953934c8ed96799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuAudioController
-  menuMixer: {fileID: 24100000, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
-  menuMusicSource: {fileID: 165366648}
+  audioMixer: {fileID: 24100000, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
+  musicSource: {fileID: 165366648}
   menuMusicClip: {fileID: 8300000, guid: 9dcff88b3c4bea44fb1ce04d98980291, type: 3}
-  playOnStart: 1
+  gameMusicClip: {fileID: 0}
+  uiSfxSource: {fileID: 0}
+  clickSFXClip: {fileID: 0}
+  playMenuMusicOnStart: 1
   loopMenuMusic: 1
   masterVolume: 0.25
   musicVolume: 1
