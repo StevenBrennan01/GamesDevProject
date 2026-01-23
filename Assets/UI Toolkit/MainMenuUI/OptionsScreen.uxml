@@ -3,10 +3,10 @@
     <ui:VisualElement name="OptionsContainer" style="flex-grow: 1;">
         <ui:VisualElement name="SettingsContainer" style="flex-grow: 1; background-color: rgba(123, 98, 71, 0.65); -unity-background-image-tint-color: rgb(255, 255, 255); align-items: center; width: 1697px; align-self: center; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; opacity: 1; max-height: 934px; top: 70px;">
             <ui:Label text="Options" name="OptionsTitle" style="-unity-font-style: bold; font-size: 55px; -unity-text-align: upper-center; color: rgb(255, 255, 255);">
-                <ui:Slider label="Master Volume " value="42" high-value="100" class="slider" style="top: 90px; width: 1115px;"/>
-                <ui:Slider label="Music Volume " value="42" high-value="100" class="slider" style="top: 90px; width: 1115px;"/>
-                <ui:Slider label="SFX Volume " value="42" high-value="100" class="slider" style="top: 90px; width: 1115px;"/>
-                <ui:Button text="Back" style="top: 250px; max-width: 300px; bottom: auto; right: auto; left: 440px; -unity-text-align: middle-center; white-space: pre; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(96, 95, 95);"/>
+                <ui:Slider label="Master Volume " value="42" high-value="100" name="MasterSlider" class="slider" style="top: 90px; width: 1115px;"/>
+                <ui:Slider label="Music Volume " value="42" high-value="100" name="MusicSlider" class="slider" style="top: 90px; width: 1115px;"/>
+                <ui:Slider label="SFX Volume " value="42" high-value="100" name="SFXSlider" class="slider" style="top: 90px; width: 1115px;"/>
+                <ui:Button text="Back" name="BackButton" style="top: 250px; max-width: 300px; bottom: auto; right: auto; left: 440px; -unity-text-align: middle-center; white-space: pre; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(96, 95, 95);"/>
             </ui:Label>
         </ui:VisualElement>
     </ui:VisualElement>

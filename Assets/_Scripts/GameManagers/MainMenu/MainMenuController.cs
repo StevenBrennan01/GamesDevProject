@@ -7,9 +7,10 @@ public class MainMenuController : MonoBehaviour
 {
     private string gameSceneName = "FYPLevel";
 
-    private VisualElement mainScreen;
-    private VisualElement optionsScreen;
-    private VisualElement creditsScreen;
+    [SerializeField] private VisualTreeAsset mainMenuScreen;
+    [SerializeField] private VisualTreeAsset optionsScreen;
+    [SerializeField] private VisualTreeAsset creditsScreen;
+    [SerializeField] private VisualTreeAsset fadeScreen;
 
     private Button startButton;
     private Button optionsButton;
@@ -17,90 +18,98 @@ public class MainMenuController : MonoBehaviour
     private Button quitButton;
     private Button backButton;
 
-    private const string HiddenClass = "hidden";
+    private UIDocument doc;
+    private VisualElement root;
 
     private void Awake()
     {
-        var doc = GetComponent<UIDocument>();
-        var root = doc.rootVisualElement;
+        doc = GetComponent<UIDocument>();
+        root = doc.rootVisualElement;
 
-        mainScreen = root.Q<VisualElement>("MainMenuScreen");
-        optionsScreen = root.Q<VisualElement>("OptionsScreen");
+        if (fadeScreen == null)
+        {
+            Debug.Log("Fade not implemented yet");
+        }
 
-        startButton = root.Q<Button>("StartGameButton");
-        optionsButton = root.Q<Button>("OptionsButton");
-        creditsButton = root.Q<Button>("CreditsButton");
-        quitButton = root.Q<Button>("QuitButton");
-        backButton = root.Q<Button>("BackButton");
-
-        startButton.clicked += StartGame;
-        optionsButton.clicked += DisplayOptions;
-        creditsButton.clicked += DisplayCredits;
-        quitButton.clicked += QuitGame;
-        backButton.clicked += DisplayMain;
-
-        DisplayMain();
+        DisplayMainMenu();
     }
 
-    private void Update()
+    private void DisplayMainMenu()
     {
-        //if (ButtonBeingHovered())
-        //{
-        //    Debug.Log("Button being hovered");
-        //    OnHover?.Invoke();
-        //}
-    }
+        LoadScreen(mainMenuScreen);
 
-    //private bool ButtonBeingHovered()
-    //{
-    //    if (startButton.hasHoverPseudoState || optionsButton.hasHoverPseudoState
-    //        || creditsButton.hasHoverPseudoState || quitButton.hasHoverPseudoState)
-    //    {
-    //        return true;
-    //    }
+        var startButton = root.Q<Button>("StartGameButton");
+        startButton.clicked += () =>
+        {
+            StartGame();
+            AudioManager.instance.PlayOneShotClick();
+        };
 
-    //    return false;
-    //}
+        var optionsButton = root.Q<Button>("OptionsButton");
+        optionsButton.clicked += () =>
+        {
+            DisplayOptions();
+            AudioManager.instance.PlayOneShotClick();
+        };
 
+        var creditsButton = root.Q<Button>("CreditsButton");
+        creditsButton.clicked += () => 
+        { 
+            DisplayCredits(); 
+            AudioManager.instance.PlayOneShotClick(); 
+        };
 
-    private void StartGame()
-    {
-        // after triggering coroutine for fading in or something, run below
-        AudioManager.instance.PlayOneShotClick();
-
-        SceneManager.LoadScene(gameSceneName);
-    }
-
-    private void DisplayMain()
-    {
-        AudioManager.instance.PlayOneShotClick();
-
-        mainScreen.RemoveFromClassList(HiddenClass);
-        creditsScreen.AddToClassList(HiddenClass);
-        optionsScreen.AddToClassList(HiddenClass);
+        var quitButton = root.Q<Button>("QuitButton");
+        quitButton.clicked += () => 
+        { 
+            QuitGame(); 
+            AudioManager.instance.PlayOneShotClick();
+        };
     }
 
     private void DisplayOptions()
     {
-        AudioManager.instance.PlayOneShotClick();
+        LoadScreen(optionsScreen);
 
-        mainScreen.AddToClassList(HiddenClass);
-        creditsScreen.AddToClassList(HiddenClass);
-        optionsScreen.RemoveFromClassList(HiddenClass);
+        var backButton = root.Q<Button>("BackButton");
+        backButton.clicked += () =>
+        {
+            DisplayMainMenu();
+            AudioManager.instance.PlayOneShotClick();
+        };
     }
 
     private void DisplayCredits()
     {
-        AudioManager.instance.PlayOneShotClick();
+        LoadScreen(creditsScreen);
 
-        mainScreen.AddToClassList(HiddenClass);
-        creditsScreen.RemoveFromClassList(HiddenClass);
-        optionsScreen.AddToClassList(HiddenClass);
+        var backButton = root.Q<Button>("BackButton");
+        backButton.clicked += () =>
+        {
+            DisplayMainMenu();
+            AudioManager.instance.PlayOneShotClick();
+        };
+    }
+
+    private void StartGame()
+    {
+        // after triggering coroutine for fading in or something, run below
+
+        SceneManager.LoadScene(gameSceneName);
+    }
+
+    private void LoadScreen(VisualTreeAsset uxmlAsset)
+    {
+        root.Clear();
+
+        if (uxmlAsset != null)
+        {
+            uxmlAsset.CloneTree(root);
+        }
     }
 
     private void QuitGame()
     {
-        //    AudioManager.instance.PlayOneShotClick();
         Application.Quit();
     }
 }
