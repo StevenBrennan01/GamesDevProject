@@ -1,22 +1,25 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 [RequireComponent (typeof(UIDocument))]
 public class MainMenuController : MonoBehaviour
 {
     private string gameSceneName = "FYPLevel";
 
+    [Header("UXML Screens")]
     [SerializeField] private VisualTreeAsset mainMenuScreen;
     [SerializeField] private VisualTreeAsset optionsScreen;
     [SerializeField] private VisualTreeAsset creditsScreen;
-    [SerializeField] private VisualTreeAsset fadeScreen;
 
     private Button startButton;
     private Button optionsButton;
     private Button creditsButton;
     private Button quitButton;
     private Button backButton;
+
+    [Header("Scene Transition Settings")]
+    [SerializeField] private float fadeSeconds = 0.75f;
 
     private UIDocument doc;
     private VisualElement root;
@@ -25,11 +28,6 @@ public class MainMenuController : MonoBehaviour
     {
         doc = GetComponent<UIDocument>();
         root = doc.rootVisualElement;
-
-        if (fadeScreen == null)
-        {
-            Debug.Log("Fade not implemented yet");
-        }
 
         DisplayMainMenu();
     }
@@ -125,8 +123,6 @@ public class MainMenuController : MonoBehaviour
         }
         else Debug.LogError("SFXSlider not found in Options UXML.");
 
-
-
         var backButton = root.Q<Button>("BackButton");
         backButton.clicked += () =>
         {
@@ -149,9 +145,20 @@ public class MainMenuController : MonoBehaviour
 
     private void StartGame()
     {
-        // after triggering coroutine for fading in or something, run below
+        StartCoroutine(StartGameTransition());
+    }
 
-        SceneManager.LoadScene(gameSceneName);
+    private IEnumerator StartGameTransition()
+    {
+        AudioManager.instance?.SaveVolumes();
+        AudioManager.instance.FadeMusic(0f, fadeSeconds);
+
+        if (ScreenFadeManager.instance != null)
+        {
+            yield return ScreenFadeManager.instance.TransitionToScene(gameSceneName, fadeOutSeconds: fadeSeconds, holdBlackSeconds: 1.5f, fadeInSeconds: fadeSeconds);
+        }
+
+        AudioManager.instance?.RestoreMusicInstant();
     }
 
     private void LoadScreen(VisualTreeAsset uxmlAsset)

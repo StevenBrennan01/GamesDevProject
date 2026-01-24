@@ -55,6 +55,11 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        // Use below to reset player saved prefs
+        PlayerPrefs.DeleteKey(MasterKey);
+        PlayerPrefs.DeleteKey(MusicKey);
+        PlayerPrefs.DeleteKey(SfxKey);
+
         instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -92,7 +97,6 @@ public class AudioManager : MonoBehaviour
 
     private void ApplySceneMusic(string sceneName)
     {
-        // If you want to avoid restarting the same clip, do a small guard:
         if (musicSource == null) return;
 
         if (sceneName == "MainMenu")
@@ -124,7 +128,6 @@ public class AudioManager : MonoBehaviour
 
     public void LoadVolumes()
     {
-        // Use inspector values as defaults when no prefs exist yet
         masterVolume = PlayerPrefs.GetFloat(MasterKey, masterVolume);
         musicVolume = PlayerPrefs.GetFloat(MusicKey, musicVolume);
         sfxVolume = PlayerPrefs.GetFloat(SfxKey, sfxVolume);
@@ -237,13 +240,36 @@ public class AudioManager : MonoBehaviour
         uiSfxSource.PlayOneShot(clickSFXClip, sfxVolume);
     }
 
-    public void PlayOneShotFootstep()
+    public void FadeMusic(float targetVolume01, float fadeSeconds)
     {
-        if (playerSfxSource == null) return;
+        targetVolume01 = Mathf.Clamp01(targetVolume01);
 
-        AudioClip clip = Random.value < 0.5f ? footStep1 : footStep2;
-        if (clip == null) return;
+        if (audioMixer == null || string.IsNullOrWhiteSpace(musicVolumeParameter)) return;
+        if (musicSource == null) return;
 
-        playerSfxSource.PlayOneShot(clip, 1f);
+        float startVol = musicVolume;
+
+        LeanTween.value(gameObject, startVol, targetVolume01, fadeSeconds)
+            .setEase(LeanTweenType.easeInOutQuad)
+            .setOnUpdate(v =>
+            {
+                musicVolume = v;
+                SetMixerVolume(musicVolumeParameter, musicVolume);
+            });
     }
+
+    public void RestoreMusicInstant()
+    {
+        ApplyVolumes();
+    }
+
+    //public void PlayOneShotFootstep()
+    //{
+    //    if (playerSfxSource == null) return;
+
+    //    AudioClip clip = Random.value < 0.5f ? footStep1 : footStep2;
+    //    if (clip == null) return;
+
+    //    playerSfxSource.PlayOneShot(clip, 1f);
+    //}
 }

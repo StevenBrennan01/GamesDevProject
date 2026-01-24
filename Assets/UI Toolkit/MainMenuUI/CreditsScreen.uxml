@@ -1,20 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuUI/CreditsStyle.uss?fileID=7433441132597879392&amp;guid=68fe8b7975a965c42aa01ce4c1057877&amp;type=3#CreditsStyle"/>
     <ui:VisualElement name="CreditsContainer" style="flex-grow: 1;">
-        <ui:VisualElement name="BoxContainer" style="flex-grow: 1; background-color: rgba(91, 86, 81, 0.98); -unity-background-image-tint-color: rgb(255, 255, 255); align-items: center; width: 1697px; align-self: center; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; opacity: 1; max-height: 934px; top: 70px;">
-            <ui:Label text="Credits" name="CreditsTitle" style="-unity-font-style: bold; font-size: 55px; -unity-text-align: upper-center; color: rgb(255, 255, 255); width: 219px; top: 80px; height: 82px;">
-                <ui:VisualElement name="CreditsNames" style="flex-grow: 1; left: 105px;">
-                    <ui:Label text="Design &amp; Programming:" name="Title1" class="labels titles" style="width: 778px; left: -680px;"/>
-                    <ui:Label text="Steven Brennan" name="MyName" class="labels" style="width: 525px; left: 128px; top: 144px;"/>
-                    <ui:Label text="UI &amp; Illustrations:" name="Title2" class="labels titles" style="width: 712px; left: -680px; top: 240px;"/>
-                    <ui:Label text="Isabella Salgado" name="BelName" class="labels" style="width: 590px; left: 64px; top: 237px;"/>
-                    <ui:Label text="Robot Character: " name="Title3" class="labels titles" style="width: 594px; left: -680px; top: 427px; height: 78px;"/>
-                    <ui:Label text="Marcello Barrio (Asset Store)" name="MarName" class="labels" style="width: 791px; left: -44px; top: 364px; height: 78px; font-size: 40px;"/>
-                    <ui:Label text="Environment Assets:" name="Title3" class="labels titles" style="width: 708px; left: -741px; top: 375px; height: 78px;"/>
-                    <ui:Label text="Cooking Polygons (Asset Store)" name="CPName" class="labels" style="width: 895px; left: -41px; top: 311px; height: 78px; font-size: 40px;"/>
-                </ui:VisualElement>
-                <ui:Button text="Back" name="BackButton" class="button" style="top: 666px; max-width: 300px; bottom: auto; right: auto; left: -24px; -unity-text-align: middle-center; white-space: pre; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(96, 95, 95); min-width: 250px; transition-duration: 0.35s;"/>
-            </ui:Label>
+        <ui:VisualElement name="CreditsElements" style="flex-grow: 1;">
+            <ui:Image name="CreditsImage" style="background-image: url(&quot;project://database/Assets/Imports/Images/MainMenu/Credits.PNG?fileID=2800000&amp;guid=da00d12c27f13b848a3ebca12bf1548e&amp;type=3#Credits&quot;); width: 1634px; height: 950px; left: 150px;">
+                <ui:Button text="Back " name="BackButton" class="button" style="height: 71px; width: 268px; left: 615px; top: 900px; background-color: rgb(101, 101, 101); color: rgb(255, 255, 255); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; font-size: 60px; transition-duration: 0.35s; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;"/>
+            </ui:Image>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
