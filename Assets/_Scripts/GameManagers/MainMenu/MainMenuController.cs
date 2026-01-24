@@ -71,6 +71,62 @@ public class MainMenuController : MonoBehaviour
     {
         LoadScreen(optionsScreen);
 
+        var masterSlider = root.Q<Slider>("MasterSlider");
+        var musicSlider = root.Q<Slider>("MusicSlider");
+        var sfxSlider = root.Q<Slider>("SFXSlider");
+
+        if (AudioManager.instance != null)
+        {
+            masterSlider?.SetValueWithoutNotify(AudioManager.instance.MasterVolume01);
+            musicSlider?.SetValueWithoutNotify(AudioManager.instance.MusicVolume01);
+            sfxSlider?.SetValueWithoutNotify(AudioManager.instance.SfxVolume01);
+        }
+
+        // Master slider
+        if (masterSlider != null)
+        {
+            masterSlider.RegisterValueChangedCallback(evt =>
+            {
+                AudioManager.instance.SetMasterVolume(evt.newValue);
+                AudioManager.instance.SaveVolumes();
+            });
+        }
+        else Debug.LogError("MasterSlider not found in Options UXML.");
+
+        // Music slider
+        if (musicSlider != null)
+        {
+            musicSlider.RegisterValueChangedCallback(evt =>
+            {
+                AudioManager.instance.SetMusicVolume(evt.newValue);
+                AudioManager.instance.SaveVolumes();
+            });
+        }
+        else Debug.LogError("MusicSlider not found in Options UXML.");
+
+        // SFX slider + throttled preview
+        float nextPreviewTime = 0f;
+        const float previewCooldown = 0.10f; // tweak: 0.08–0.15 feels good
+
+        if (sfxSlider != null)
+        {
+            sfxSlider.RegisterValueChangedCallback(evt =>
+            {
+                AudioManager.instance.SetSfxVolume(evt.newValue);
+                AudioManager.instance.SaveVolumes();
+
+                // Preview while dragging, throttled so it doesn't spam
+                if (Time.unscaledTime >= nextPreviewTime)
+                {
+                    nextPreviewTime = Time.unscaledTime + previewCooldown;
+                    AudioManager.instance.PlaySfxPreview();
+                }
+            });
+        }
+        else Debug.LogError("SFXSlider not found in Options UXML.");
+
+
+
         var backButton = root.Q<Button>("BackButton");
         backButton.clicked += () =>
         {

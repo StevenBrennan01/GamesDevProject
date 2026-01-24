@@ -13,7 +13,7 @@
                     <ui:Label text="Environment Assets:" name="Title3" class="labels titles" style="width: 708px; left: -741px; top: 375px; height: 78px;"/>
                     <ui:Label text="Cooking Polygons (Asset Store)" name="CPName" class="labels" style="width: 895px; left: -41px; top: 311px; height: 78px; font-size: 40px;"/>
                 </ui:VisualElement>
-                <ui:Button text="Back" name="BackButton" style="top: 718px; max-width: 300px; bottom: auto; right: auto; left: 12px; -unity-text-align: middle-center; white-space: pre; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(96, 95, 95);"/>
+                <ui:Button text="Back" name="BackButton" class="button" style="top: 666px; max-width: 300px; bottom: auto; right: auto; left: -24px; -unity-text-align: middle-center; white-space: pre; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(96, 95, 95); min-width: 250px; transition-duration: 0.35s;"/>
             </ui:Label>
         </ui:VisualElement>
     </ui:VisualElement>

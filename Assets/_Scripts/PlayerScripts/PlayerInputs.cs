@@ -23,7 +23,10 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] private InputActionReference interactAction;
 
     [Tooltip("Button - Head placed / Perspective changed")]
-    [SerializeField] private InputActionReference placeOrPickupAction; // Should be the same key as interact (is this needed?)
+    [SerializeField] private InputActionReference placeOrPickupAction;
+
+    [Tooltip("Button - Pausing game and triggering UI event")]
+    [SerializeField] private InputActionReference pauseAction;
 
     [Header("Settings")]
     [Tooltip("Scales the look input (mouse/stick) before consumers read it.")]
@@ -39,7 +42,7 @@ public class PlayerInputs : MonoBehaviour
     public event Action OnJump;
     public event Action OnInteract;
     public event Action OnTogglePlaceOrPickup; // Deals with just movement mode change, anims, audio, etc,
-    //public event Action OnCrouch; Not currently in use as polling bool for check
+    public event Action OnPaused;
 
     private void OnEnable()
     {
@@ -49,11 +52,13 @@ public class PlayerInputs : MonoBehaviour
         EnableAction(crouchAction);
         EnableAction(interactAction);
         EnableAction(placeOrPickupAction);
+        EnableAction(pauseAction);
 
         SubscribePerformed(jumpAction, HandleJump);
         SubscribePerformed(interactAction, HandleInteract);
         SubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         SubscribeToggled(crouchAction, HandleCrouchChanged);
+        SubscribePerformed(pauseAction, TogglePaused);
     }
 
     private void OnDisable()
@@ -64,10 +69,12 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(crouchAction);
         DisableAction(interactAction);
         DisableAction(placeOrPickupAction);
+        DisableAction(pauseAction);
 
         UnsubscribePerformed(jumpAction, HandleJump);
         UnsubscribePerformed(interactAction, HandleInteract);
         UnsubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
+        UnsubscribePerformed(pauseAction, TogglePaused);
         UnsubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
@@ -87,6 +94,11 @@ public class PlayerInputs : MonoBehaviour
     public void SetInputLocked(bool lockStatus)
     {
         inputLocked = lockStatus;
+    }
+
+    private void TogglePaused(InputAction.CallbackContext context)
+    {
+        OnPaused?.Invoke();
     }
 
     private void HandleJump(InputAction.CallbackContext context)

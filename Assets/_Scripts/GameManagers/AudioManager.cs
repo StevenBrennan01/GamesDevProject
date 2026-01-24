@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class AudioManager : MonoBehaviour
     [Header("Master Volume Mixer")]
     [Space(5)]
     [SerializeField] private AudioMixer audioMixer;
-    private string masterVolumeParameter = "MasterVolume";
+
+    [SerializeField] private string masterVolumeParameter = "MasterVolume";
+    [SerializeField] private string musicVolumeParameter = "MusicVolume";
+    [SerializeField] private string sfxVolumeParameter = "SFXVolume";
 
     [Header("Music Attributes")]
     [Space(5)]
@@ -25,16 +29,23 @@ public class AudioManager : MonoBehaviour
 
     [Header("Player SFX Attributes")]
     [Space(5)]
-
+    [SerializeField] private AudioSource playerSfxSource;
+    [SerializeField] private AudioClip footStep1;
+    [SerializeField] private AudioClip footStep2;
 
     [Header("Settings")]
     [Space(5)]
     [SerializeField] private bool playMenuMusicOnStart;
     [SerializeField] private bool loopMenuMusic;
 
-    [SerializeField, Range(0f, 0.5f)] private float masterVolume = 0.25f;
+    [SerializeField, Range(0f, 1f)] private float masterVolume = 0.25f;
     [SerializeField, Range(0f, 1f)] private float musicVolume = 1f;
-    [SerializeField, Range(0f, 1f)] private float uiSFXVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+
+    // PlayerPrefs keys
+    private const string MasterKey = "audio.master";
+    private const string MusicKey = "audio.music";
+    private const string SfxKey = "audio.uisfx";
 
     private void Awake()
     {
@@ -45,72 +56,161 @@ public class AudioManager : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
 
         string sceneName = SceneManager.GetActiveScene().name;
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+
+        LoadVolumes();
+
+        ApplySceneMusic(sceneName);
+    }
+    private void Start()
+    {
+        ApplyVolumes();
+        StartCoroutine(ApplyVolumesNextFrame());
+    }
+
+    private System.Collections.IEnumerator ApplyVolumesNextFrame()
+    {
+        yield return null;
+        ApplyVolumes();
+    }
+
+    private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
+    {
+        ApplySceneMusic(newScene.name);
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+        }
+    }
+
+    private void ApplySceneMusic(string sceneName)
+    {
+        // If you want to avoid restarting the same clip, do a small guard:
+        if (musicSource == null) return;
 
         if (sceneName == "MainMenu")
         {
-            if (playMenuMusicOnStart)
+            if (playMenuMusicOnStart && menuMusicClip != null)
             {
                 BeginMusic(musicSource, menuMusicClip);
             }
         }
-        if (sceneName == "FYPLevel")
+        else if (sceneName == "FYPLevel")
         {
-            BeginMusic(musicSource, gameMusicClip);
+            if (gameMusicClip != null)
+            {
+                BeginMusic(musicSource, gameMusicClip);
+            }
         }
+        // else: do nothing for other scenes for now
     }
 
-    private void Update()
+    // -------- Saving / Loading --------
+
+    public void SaveVolumes()
     {
-        // IN UPDATE FOR TESTING REMOVE WHEN DONE
+        PlayerPrefs.SetFloat(MasterKey, masterVolume);
+        PlayerPrefs.SetFloat(MusicKey, musicVolume);
+        PlayerPrefs.SetFloat(SfxKey, sfxVolume);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadVolumes()
+    {
+        // Use inspector values as defaults when no prefs exist yet
+        masterVolume = PlayerPrefs.GetFloat(MasterKey, masterVolume);
+        musicVolume = PlayerPrefs.GetFloat(MusicKey, musicVolume);
+        sfxVolume = PlayerPrefs.GetFloat(SfxKey, sfxVolume);
+    }
+
+    public void ApplyVolumes()
+    {
+        if (musicSource != null)
+            musicSource.volume = musicVolume;
+
+        // Master via mixer parameter
         SetMasterVolume(masterVolume);
-        SetMusicVolume(musicVolume);
-    }
 
-    public void SetMusicVolume(float volume01)
-    {
-        musicVolume = Mathf.Clamp01(volume01);
-        if (musicSource != null) musicSource.volume = musicVolume;
-    }
-
-    public void SetMasterVolume(float volume01)
-    {
-        if (audioMixer == null) return;
-
-        volume01 = Mathf.Clamp01(volume01);
-
-        float db;
-        if (volume01 < 0.0001f)
+        // Music: prefer mixer if you exposed MusicVolume; else fall back to source.volume
+        if (audioMixer != null && !string.IsNullOrWhiteSpace(musicVolumeParameter))
         {
-            db = -80f;
+            SetMixerVolume(musicVolumeParameter, musicVolume);
         }
         else
         {
-            db = Mathf.Log10(volume01) * 20f;
+            SetMusicVolume(musicVolume);
         }
 
-        audioMixer.SetFloat(masterVolumeParameter, db);
+        // UI SFX: simplest is source volume (or expose UiSfxVolume in mixer later)
+        if (audioMixer != null && !string.IsNullOrWhiteSpace(sfxVolumeParameter))
+        {
+            SetMixerVolume(sfxVolumeParameter, sfxVolume);
+        }
     }
 
-    public float GetMasterVolume01()
-    {
-        if (audioMixer == null) return 1f;
-        if (!audioMixer.GetFloat(masterVolumeParameter, out float db)) return 1f;
+    // -------- Volume setters (called by sliders) --------
 
-        // Convert dB back to linear 0..1
-        float v = Mathf.Pow(10f, db / 20f);
-        return Mathf.Clamp01(v);
+
+    public void SetMusicVolume(float music01)
+    {
+        musicVolume = Mathf.Clamp01(music01);
+
+        if (audioMixer != null && !string.IsNullOrWhiteSpace(musicVolumeParameter))
+        {
+            SetMixerVolume(musicVolumeParameter, musicVolume);
+        }
+    }
+
+    public void SetMasterVolume(float master01)
+    {
+        masterVolume = Mathf.Clamp01(master01);
+        SetMixerVolume(masterVolumeParameter, masterVolume);
+    }
+
+    public void SetSfxVolume(float sfx01)
+    {
+        sfxVolume = Mathf.Clamp01(sfx01);
+        SetMixerVolume (sfxVolumeParameter, sfxVolume);
+    }
+
+    // Read-only getters (useful for setting slider initial values)
+    public float MasterVolume01 => masterVolume;
+    public float MusicVolume01 => musicVolume;
+    public float SfxVolume01 => sfxVolume;
+
+    private void SetMixerVolume(string parameter, float volume01)
+    {
+        if (audioMixer == null) return;
+        if (string.IsNullOrWhiteSpace(parameter)) return;
+
+        volume01 = Mathf.Clamp01(volume01);
+
+        float db = (volume01 < 0.0001f) ? -80f : Mathf.Log10(volume01) * 20f;
+
+        bool ok = audioMixer.SetFloat(parameter, db);
+        if (!ok)
+        {
+            Debug.LogWarning($"AudioMixer parameter '{parameter}' not found/exposed.", this);
+        }
     }
 
     private void BeginMusic(AudioSource source, AudioClip clip)
     {
-        if (source == null) return;
+        if (source == null || clip == null) return;
+
+        if (source.isPlaying && source.clip == clip) return;
 
         source.clip = clip;
         source.loop = loopMenuMusic;
-        source.volume = musicVolume;
+
+        //ApplyVolumes();
         source.Play();
     }
 
@@ -126,14 +226,24 @@ public class AudioManager : MonoBehaviour
     //    // play one shot hover sound here
     //}
 
+    public void PlaySfxPreview()
+    {
+        PlayOneShotClick();
+    }
+
     public void PlayOneShotClick()
     {
-        //uiSfxSource.PlayOneShot(clickSFXClip, uiSFXVolume);
-        Debug.Log("A button has indeedy been clicked");
+        if (uiSfxSource == null || clickSFXClip == null) return;
+        uiSfxSource.PlayOneShot(clickSFXClip, sfxVolume);
     }
 
     public void PlayOneShotFootstep()
     {
+        if (playerSfxSource == null) return;
 
+        AudioClip clip = Random.value < 0.5f ? footStep1 : footStep2;
+        if (clip == null) return;
+
+        playerSfxSource.PlayOneShot(clip, 1f);
     }
 }

@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: 49800792}
   - component: {fileID: 49800791}
   - component: {fileID: 49800790}
+  - component: {fileID: 49800793}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -436,7 +437,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 3652853836097738504, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -534,16 +535,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioMixer: {fileID: 24100000, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
+  masterVolumeParameter: MasterVolume
+  musicVolumeParameter: MusicVolume
+  sfxVolumeParameter: SFXVolume
   musicSource: {fileID: 49800790}
   menuMusicClip: {fileID: 8300000, guid: 9dcff88b3c4bea44fb1ce04d98980291, type: 3}
   gameMusicClip: {fileID: 0}
-  uiSfxSource: {fileID: 0}
-  clickSFXClip: {fileID: 0}
+  uiSfxSource: {fileID: 49800793}
+  clickSFXClip: {fileID: 8300000, guid: 4a555fee27b3001419c70972f7a9dfb9, type: 3}
+  playerSfxSource: {fileID: 0}
+  footStep1: {fileID: 0}
+  footStep2: {fileID: 0}
   playMenuMusicOnStart: 1
   loopMenuMusic: 1
   masterVolume: 0.25
   musicVolume: 1
-  uiSFXVolume: 1
+  sfxVolume: 1
 --- !u!4 &49800792
 Transform:
   m_ObjectHideFlags: 0
@@ -552,13 +559,110 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 49800789}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &49800793
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49800789}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 5090237669932314517, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &56030970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1055,7 +1159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: a17a512accea23d438ef72c477dac732, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 37e3214ce72a9c047949be105f2d91c2, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 36d09d12542180846855907161268f21, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -1072,7 +1176,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 165366642}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8825,10 +8929,10 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 49800792}
+  - {fileID: 165366644}
   - {fileID: 1213895700}
   - {fileID: 97061008}
-  - {fileID: 165366644}
-  - {fileID: 49800792}
   - {fileID: 1986337340}
   - {fileID: 1263692280}
   - {fileID: 1358465781}
