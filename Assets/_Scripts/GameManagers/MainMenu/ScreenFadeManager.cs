@@ -64,10 +64,13 @@ public class ScreenFadeManager : MonoBehaviour
 
         // load scene while black
         SceneManager.LoadScene(sceneName);
+        
 
         // optional hold
         if (holdBlackSeconds > 0f)
             yield return new WaitForSecondsRealtime(holdBlackSeconds);
+
+        AudioManager.instance?.RestoreMusicInstant();
 
         yield return FadingActive(0f, fadeInSeconds);
         Hide();
@@ -103,12 +106,12 @@ public class ScreenFadeManager : MonoBehaviour
     private void Show()
     {
         root.style.display = DisplayStyle.Flex;
-        root.pickingMode = PickingMode.Position; // block clicks during fade
+        root.pickingMode = PickingMode.Position; // block clicks
     }
 
     private void Hide()
     {
         root.style.display = DisplayStyle.None;
-        root.pickingMode = PickingMode.Ignore; // allows for clicks before fade
+        root.pickingMode = PickingMode.Ignore; // allows for clicks
     }
 }

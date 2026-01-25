@@ -151,14 +151,13 @@ public class MainMenuController : MonoBehaviour
     private IEnumerator StartGameTransition()
     {
         AudioManager.instance?.SaveVolumes();
+
         AudioManager.instance.FadeMusic(0f, fadeSeconds);
 
         if (ScreenFadeManager.instance != null)
         {
             yield return ScreenFadeManager.instance.TransitionToScene(gameSceneName, fadeOutSeconds: fadeSeconds, holdBlackSeconds: 1.5f, fadeInSeconds: fadeSeconds);
         }
-
-        AudioManager.instance?.RestoreMusicInstant();
     }
 
     private void LoadScreen(VisualTreeAsset uxmlAsset)

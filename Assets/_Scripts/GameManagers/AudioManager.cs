@@ -35,12 +35,14 @@ public class AudioManager : MonoBehaviour
 
     [Header("Settings")]
     [Space(5)]
+    [SerializeField] private bool resetPlayerPrefs;
     [SerializeField] private bool playMenuMusicOnStart;
     [SerializeField] private bool loopMenuMusic;
 
-    [SerializeField, Range(0f, 1f)] private float masterVolume = 0.25f;
-    [SerializeField, Range(0f, 1f)] private float musicVolume = 1f;
-    [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float masterVolume = 0.3f;
+    [SerializeField, Range(0f, 1f)] private float musicVolume = 0.75f;
+    [SerializeField, Range(0f, 1f)] private float sfxVolume = 0.75f;
+    [SerializeField, Range(0f, 1f)] private float musicFadeStorer = 1f;
 
     // PlayerPrefs keys
     private const string MasterKey = "audio.master";
@@ -56,9 +58,12 @@ public class AudioManager : MonoBehaviour
         }
 
         // Use below to reset player saved prefs
-        PlayerPrefs.DeleteKey(MasterKey);
-        PlayerPrefs.DeleteKey(MusicKey);
-        PlayerPrefs.DeleteKey(SfxKey);
+        if (resetPlayerPrefs)
+        {
+            PlayerPrefs.DeleteKey(MasterKey);
+            PlayerPrefs.DeleteKey(MusicKey);
+            PlayerPrefs.DeleteKey(SfxKey);
+        }
 
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -144,7 +149,7 @@ public class AudioManager : MonoBehaviour
         // Music: prefer mixer if you exposed MusicVolume; else fall back to source.volume
         if (audioMixer != null && !string.IsNullOrWhiteSpace(musicVolumeParameter))
         {
-            SetMixerVolume(musicVolumeParameter, musicVolume);
+            SetMixerVolume(musicVolumeParameter, musicVolume * musicFadeStorer);
         }
         else
         {
@@ -167,7 +172,7 @@ public class AudioManager : MonoBehaviour
 
         if (audioMixer != null && !string.IsNullOrWhiteSpace(musicVolumeParameter))
         {
-            SetMixerVolume(musicVolumeParameter, musicVolume);
+            SetMixerVolume(musicVolumeParameter, musicVolume * musicFadeStorer);
         }
     }
 
@@ -240,26 +245,26 @@ public class AudioManager : MonoBehaviour
         uiSfxSource.PlayOneShot(clickSFXClip, sfxVolume);
     }
 
-    public void FadeMusic(float targetVolume01, float fadeSeconds)
+    public void FadeMusic(float targetFade01, float fadeSeconds)
     {
-        targetVolume01 = Mathf.Clamp01(targetVolume01);
+        targetFade01 = Mathf.Clamp01(targetFade01);
 
         if (audioMixer == null || string.IsNullOrWhiteSpace(musicVolumeParameter)) return;
-        if (musicSource == null) return;
 
-        float startVol = musicVolume;
+        float startFade = musicFadeStorer;
 
-        LeanTween.value(gameObject, startVol, targetVolume01, fadeSeconds)
+        LeanTween.value(gameObject, startFade, targetFade01, fadeSeconds)
             .setEase(LeanTweenType.easeInOutQuad)
-            .setOnUpdate(v =>
+            .setOnUpdate(f =>
             {
-                musicVolume = v;
-                SetMixerVolume(musicVolumeParameter, musicVolume);
+                musicFadeStorer = f;
+                SetMixerVolume(musicVolumeParameter, musicVolume * musicFadeStorer);
             });
     }
 
     public void RestoreMusicInstant()
     {
+        musicFadeStorer = 1f;
         ApplyVolumes();
     }
 

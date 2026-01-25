@@ -35,6 +35,9 @@ public class InteractionVolume : MonoBehaviour
     [Tooltip("If true, this volume can only be executed once.")]
     [SerializeField] private bool executeOnce = false;
 
+    [SerializeField] private bool resetInteraction;
+    [SerializeField, Range(0, 10)] private float resetAfter;
+
     [Space(5)]
     [Header("Lever and Interaction Block Seconds")]
     [Header(" MUST set as the same value as the block seconds on the Door/Stairs, etc.")]
@@ -122,6 +125,23 @@ public class InteractionVolume : MonoBehaviour
         }
 
         if (executeOnce) hasExecutedOnce = true;
+        if (resetInteraction)
+        {
+            StartCoroutine(ResetInteractionAfter(resetAfter, interactor));
+        }
+    }
+
+    private IEnumerator ResetInteractionAfter(float seconds, GameObject interactor)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        foreach (var behaviour in interactionBehaviours)
+        {
+            if (behaviour is IInteraction interactable)
+            {
+                interactable.PerformInteraction(interactor);
+            }
+        }
     }
 
     private IEnumerator ExecuteSequentially(GameObject interactor)

@@ -10,8 +10,7 @@ public class LevelStartHeadPlacement : MonoBehaviour
         if (playerState == null) playerState = FindFirstObjectByType<PlayerStateController>();
         if (startVolume == null)
         {
-            Debug.LogError("volume not found");
-            return;
+            Debug.LogWarning("Second Person start volume not found");
         }
     }
 

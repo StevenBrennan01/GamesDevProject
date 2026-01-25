@@ -101,7 +101,6 @@ public class PlayerStateController : MonoBehaviour
         {
             startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
             placedHeadVolume = startHeadPlacement.startVolume;
-            Debug.Log("Start head volume has been populated");
         }
 
         if (firstPersonYawRoot != null)
@@ -214,7 +213,6 @@ public class PlayerStateController : MonoBehaviour
 
         if (currentPlacementVolume != placedHeadVolume)
         {
-            Debug.Log("You must return to the head's original placement spot to pick it up.");
             return;
         }
 

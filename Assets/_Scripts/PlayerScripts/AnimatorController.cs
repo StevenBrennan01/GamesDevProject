@@ -133,7 +133,7 @@ public class AnimatorController : MonoBehaviour
     // then plays animation, so to not animate nothing
     private IEnumerator DebounceAnimation()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
         animator.SetTrigger(HeadHash);
     }

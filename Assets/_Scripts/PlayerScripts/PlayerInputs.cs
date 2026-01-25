@@ -174,5 +174,4 @@ public class PlayerInputs : MonoBehaviour
         reference.action.performed -= actionHandler;
         reference.action.canceled -= actionHandler;
     }
-
 }

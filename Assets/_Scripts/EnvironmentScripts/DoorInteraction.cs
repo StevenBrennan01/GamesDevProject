@@ -6,6 +6,7 @@ public class DoorInteraction : MonoBehaviour, IInteraction
     [SerializeField] private Animator anchorAnimator = null;
 
     [SerializeField] private bool hasDoorBlocker;
+    [SerializeField] private bool closeDoorAfterEntry;
 
     private PlayerStateController playerState;
 
@@ -20,8 +21,8 @@ public class DoorInteraction : MonoBehaviour, IInteraction
     private void Awake()
     {
         playerState = FindFirstObjectByType<PlayerStateController>();
-        doorCloseCollider = GetComponent<BoxCollider>();
 
+        doorCloseCollider = GetComponent<BoxCollider>();
         doorCloseCollider.enabled = false;
     }
 
@@ -72,8 +73,13 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     private void OnTriggerEnter(Collider other)
     {
-        isAnimating = true;
-        anchorAnimator.Play("DoorCloseAnim");
-        isOpen = false;
+        if (closeDoorAfterEntry)
+        {
+            isAnimating = true;
+            StartCoroutine(BeginAnimation());
+
+            doorCloseCollider.enabled = false;
+        }
+        else return;
     }
 }

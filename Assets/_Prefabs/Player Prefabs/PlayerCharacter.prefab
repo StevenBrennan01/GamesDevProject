@@ -296,6 +296,7 @@ MonoBehaviour:
   crouchAction: {fileID: -7802924432107250857, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   interactAction: {fileID: -6219605337524994383, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   placeOrPickupAction: {fileID: 0}
+  pauseAction: {fileID: 0}
   isCrouching: 0
 --- !u!114 &1778732153065050997
 MonoBehaviour:
@@ -318,14 +319,14 @@ MonoBehaviour:
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
   playerStartInSecondPerson: 1
-  startLockInputSeconds: 0
+  startLockInputSeconds: 3
   blendLockInputSeconds: 1.75
   placedYawClamp: 45
   placedPitchClamp: 30
   secondPersonLookSensitivity: {x: 0.1, y: 0.1}
   secondPersonFieldOfView: 60
   firstPersonPitchClamp: 85
-  firstPersonLookSensitivity: {x: 0.15, y: 0.15}
+  firstPersonLookSensitivity: {x: 0.1, y: 0.1}
   firstPersonFieldOfView: 60
   currentPlacementVolume: {fileID: 0}
   placedHeadVolume: {fileID: 0}
@@ -346,13 +347,13 @@ MonoBehaviour:
   crouchSpeedMultiplier: 0.5
   jumpVelocity: 3
   gravity: -9.81
-  groundedGravityPushdown: -5
+  groundedGravityPushdown: -1
   standHeight: 0.85
   crouchHeight: 0.5
   standCenterY: 0.5
   crouchLerpSeconds: 0.12
   groundCheckOffset: 0.1
-  groundCheckRadius: 0.175
+  groundCheckRadius: 0.5
   groundCheckDistance: 0.25
   maxGroundSlope: 45
   groundLayer:
