@@ -7,16 +7,13 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     [SerializeField] private bool hasDoorBlocker;
     [SerializeField] private bool closeDoorAfterEntry;
+    [SerializeField] private float closerDoorAfter = 4f;
 
     private PlayerStateController playerState;
 
     private BoxCollider doorCloseCollider;
 
-    [Tooltip("Match this as close to the Animation Length as possible so you can interact straight after")]
-    [SerializeField, Range(0, 5)] public float interactBlockSeconds;
-
     private bool isOpen = false;
-    private bool isAnimating = false;
 
     private void Awake()
     {
@@ -42,16 +39,13 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     public void PerformInteraction(GameObject interactor)
     {
-        if (isAnimating) return;
-
-        StartCoroutine(BeginAnimation());
+        BeginAnimation();
     }
 
-    private IEnumerator BeginAnimation()
+    private void BeginAnimation()
     {
         if (!isOpen)
         {
-            isAnimating = true;
             anchorAnimator.Play("DoorOpenAnim");
             isOpen = true;
 
@@ -62,24 +56,24 @@ public class DoorInteraction : MonoBehaviour, IInteraction
         }
         else
         {
-            isAnimating = true;
             anchorAnimator.Play("DoorCloseAnim");
             isOpen = false;
         }
-
-        yield return new WaitForSeconds(interactBlockSeconds);
-        isAnimating = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (closeDoorAfterEntry)
         {
-            isAnimating = true;
-            StartCoroutine(BeginAnimation());
-
-            doorCloseCollider.enabled = false;
+            StartCoroutine(DoorCloseAfterSeconds(closerDoorAfter));
         }
         else return;
+    }
+
+    private IEnumerator DoorCloseAfterSeconds(float seconds)
+    {
+        doorCloseCollider.enabled = false;
+        yield return new WaitForSeconds(seconds);
+        BeginAnimation();
     }
 }
