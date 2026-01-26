@@ -55,7 +55,7 @@ public class PlayerInteractions : MonoBehaviour
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
         {
             Debug.Log("You need to be in second-person to interact!");
-            // Show some UI for this or something
+            UIManager.instance.CantPlaceUI();
             return;
         }
 

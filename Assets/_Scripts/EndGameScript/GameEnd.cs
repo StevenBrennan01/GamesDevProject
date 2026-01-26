@@ -18,11 +18,7 @@ public class GameEnd : MonoBehaviour
     {
         if (other.tag == playerTag)
         {
-            Debug.Log("Fade should start");
-
             AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
-
-            //StartCoroutine(ReturnMouseControls());
 
             if (ScreenFadeManager.instance != null)
             {
@@ -33,12 +29,4 @@ public class GameEnd : MonoBehaviour
             }
         }
     }
-
-    //private IEnumerator ReturnMouseControls()
-    //{
-    //    yield return new WaitForSeconds(fadeOutSeconds);
-
-    //    Cursor.visible = true;
-    //    Cursor.lockState = CursorLockMode.None;
-    //}
 }

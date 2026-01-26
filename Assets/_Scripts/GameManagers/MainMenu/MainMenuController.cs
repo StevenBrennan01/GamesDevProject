@@ -12,12 +12,6 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private VisualTreeAsset optionsScreen;
     [SerializeField] private VisualTreeAsset creditsScreen;
 
-    private Button startButton;
-    private Button optionsButton;
-    private Button creditsButton;
-    private Button quitButton;
-    private Button backButton;
-
     [Header("Scene Transition Settings")]
     [SerializeField] private float fadeSeconds = 0.75f;
 

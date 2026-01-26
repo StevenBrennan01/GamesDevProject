@@ -57,8 +57,8 @@ public class PlayerInputs : MonoBehaviour
         SubscribePerformed(jumpAction, HandleJump);
         SubscribePerformed(interactAction, HandleInteract);
         SubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
-        SubscribeToggled(crouchAction, HandleCrouchChanged);
         SubscribePerformed(pauseAction, TogglePaused);
+        SubscribeToggled(crouchAction, HandleCrouchChanged);
     }
 
     private void OnDisable()

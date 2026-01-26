@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="TextContainer" style="flex-grow: 1;">
+        <ui:Label text="Cannot Interact whilst holding Head!" name="Text" style="color: rgb(94, 65, 7); -unity-font-style: bold; font-size: 70px; -unity-text-align: upper-center; top: 988px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); -unity-text-outline-color: rgb(255, 255, 255); -unity-text-outline-width: 2px;"/>
+    </ui:VisualElement>
+</ui:UXML>
