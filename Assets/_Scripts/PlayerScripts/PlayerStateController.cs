@@ -43,7 +43,7 @@ public class PlayerStateController : MonoBehaviour
     [Tooltip("Will player be starting in FP or SP? Check box if starting in SP, then set freeze time below")]
     [SerializeField] private bool playerStartInSecondPerson;
     public bool isHeadPlaced => placedHeadVolume != null;
-    //[SerializeField, Range(0, 10)] private float startLockInputSeconds;
+    [SerializeField, Range(0, 10)] private float startLockInputSeconds;
 
     [Tooltip("Priority values for Active and Inactive Vcameras")]
     private int activePriority = 5;
@@ -294,8 +294,6 @@ public class PlayerStateController : MonoBehaviour
 
             StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
         }
-
-        //StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
     }
     private IEnumerator LockInputDuringBlend(float lockSeconds)
     {
@@ -425,7 +423,7 @@ public class PlayerStateController : MonoBehaviour
 
         startVolume.headVisualiser.SetActive(false);
 
-        //StartCoroutine(LockInput(startLockInputSeconds));
+        StartCoroutine(LockInput(startLockInputSeconds));
 
         SetCurrentPlacementVolume(startVolume);
 
@@ -449,12 +447,12 @@ public class PlayerStateController : MonoBehaviour
         currentPlacementVolume = null;
     }
 
-    //private IEnumerator LockInput(float lockSeconds)
-    //{
-    //    playerInput.SetInputLocked(true);
+    private IEnumerator LockInput(float lockSeconds)
+    {
+        playerInput.SetInputLocked(true);
 
-    //    yield return new WaitForSeconds(lockSeconds);
+        yield return new WaitForSeconds(lockSeconds);
 
-    //    playerInput.SetInputLocked(false);
-    //}
+        playerInput.SetInputLocked(false);
+    }
 }
