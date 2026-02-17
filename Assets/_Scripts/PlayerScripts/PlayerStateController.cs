@@ -236,10 +236,7 @@ public class PlayerStateController : MonoBehaviour
         // This is because the head now does not actually return to the player, but remains at the current anchor -
         // until the player interacts with a new anchor. Then, the head gets put on new anchor -
         // and the camera shifts to new anchor.
-        // This is ok right now as the head is invisible
-        // as of RIGHT NOW, this is a fix, not perfect but it works as I can gate place points 
-        // so the player cannot access 2 at once, 
-        // This could be made better with some kind of headRetrieved? bool to mitigate this.
+        // This is ok as the head is invisible
 
         StartCoroutine(PauseThenPickup());
     }
@@ -336,12 +333,6 @@ public class PlayerStateController : MonoBehaviour
         Quaternion pitchRot = Quaternion.AngleAxis(placedPitchOffset, Vector3.right);
 
         playerHead.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
-        //currentPlacementVolume.placementAnchor.transform.rotation = neutralHeadRotation * yawRot * pitchRot;
-        // Above currently works for the correct blend and detach/reattachment of the head, however currently it breaks when the player leaves
-        // the currentPlacementVolume, obviously because it doesn't exist anymore.
-        // Maybe the solution is setting the Vcams target to be anchor within the newest volume it enters?
-        // But it also still needs a way of looking around when the player leaves the zone as when the player leaves, the above function to
-        // Look around within second person breaks and fails
     }
 
     private void ApplyFirstPersonLook(Vector2 lookDelta)
