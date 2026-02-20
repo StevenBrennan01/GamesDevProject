@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    private PlayerInputs inputs; // not populated
+    private PlayerInputs inputs;
     private string menuSceneName = "MainMenu";
 
     [Header("UXML Screens")]
@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     private UIDocument doc;
     private VisualElement root;
 
-    private bool isPaused = false;
+    //private bool isPaused = false;
 
     private void Awake()
     {
@@ -65,16 +65,16 @@ public class UIManager : MonoBehaviour
 
     private void DisplayPauseMenu()
     {
-        if (isPaused)
-        {
-            ResumeGame();
-            return;
-        }
+        //if (isPaused)
+        //{
+        //    ResumeGame();
+        //    return;
+        //}
 
         inputs.SetInputLocked(true);
 
         LoadScreen(pauseScreenUXML);
-        isPaused = true;
+        //isPaused = true;
 
         ShowCursorAndAllowClicks();
 
@@ -223,7 +223,7 @@ public class UIManager : MonoBehaviour
 
         inputs.SetInputLocked(false);
 
-        isPaused = false;
+        //isPaused = false;
 
         root.Clear(); //RESUMES GAME ETC
     }

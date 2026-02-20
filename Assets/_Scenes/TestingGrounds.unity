@@ -1732,7 +1732,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.01
     FarClipPlane: 1000
@@ -2044,7 +2044,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2276,7 +2276,7 @@ PrefabInstance:
       objectReference: {fileID: 1936542222}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: playerStartInSecondPerson
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2450482220910652310, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

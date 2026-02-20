@@ -1198,7 +1198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   mainMenuScreen: {fileID: 9197481963319205126, guid: 37e3214ce72a9c047949be105f2d91c2, type: 3}
-  optionsScreen: {fileID: 9197481963319205126, guid: 36d09d12542180846855907161268f21, type: 3}
+  optionsScreen: {fileID: 9197481963319205126, guid: 9bf9ff917fbd58344bf249c7fe8cd211, type: 3}
   creditsScreen: {fileID: 9197481963319205126, guid: 16e201242bc6f014fbe7d1f71855d152, type: 3}
   fadeSeconds: 0.75
 --- !u!4 &165870873 stripped

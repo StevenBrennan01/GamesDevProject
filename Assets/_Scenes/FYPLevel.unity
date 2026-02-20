@@ -10615,6 +10615,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 455719718196330602, guid: 94e474c5bfdc82740979dc5dd4289701, type: 3}
   m_PrefabInstance: {fileID: 819927121}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &820346700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 820346703}
+  - component: {fileID: 820346702}
+  - component: {fileID: 820346701}
+  m_Layer: 5
+  m_Name: ScreenFadeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &820346701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820346700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d494542f0a458489192ebac651dc6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  fadeOverlay: {fileID: 9197481963319205126, guid: 94ea05d9b00907741a32ea9b3f45a3e6, type: 3}
+--- !u!114 &820346702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820346700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: a17a512accea23d438ef72c477dac732, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 94ea05d9b00907741a32ea9b3f45a3e6, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!4 &820346703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820346700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &821400129
 GameObject:
   m_ObjectHideFlags: 0
@@ -15847,7 +15916,7 @@ GameObject:
   - component: {fileID: 1197611589}
   - component: {fileID: 1197611591}
   m_Layer: 5
-  m_Name: UIDocument
+  m_Name: UIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15903,8 +15972,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a73fb7ca4d74c4f94133237e36ca32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  pauseScreenUXML: {fileID: 9197481963319205126, guid: a267ad6ec3bcead4fa1db2495b707eaa, type: 3}
-  optionsScreenUXML: {fileID: 9197481963319205126, guid: f963e4ce07beceb4888dd0cd8b287ebd, type: 3}
+  pauseScreenUXML: {fileID: 9197481963319205126, guid: 33acc0b4ac0e9f8418b142495f450a2a, type: 3}
+  optionsScreenUXML: {fileID: 9197481963319205126, guid: 26e9aaf378a5cdc4eaa4ba4cdffb663b, type: 3}
   interactionWarningUXML: {fileID: 9197481963319205126, guid: fb31d75840aeb6a418ac0571ffdc5c69, type: 3}
   fadeInSeconds: 0.5
   fadeOutSeconds: 1
@@ -18784,7 +18853,7 @@ PrefabInstance:
       objectReference: {fileID: 1936542222}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: startLockInputSeconds
-      value: 6.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: playerStartInSecondPerson
@@ -28199,6 +28268,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1523866948}
   - {fileID: 1197611590}
+  - {fileID: 820346703}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 3492125514986833317}

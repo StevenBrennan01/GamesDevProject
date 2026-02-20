@@ -114,8 +114,6 @@ public class PlayerStateController : MonoBehaviour
             fpPitch = Mathf.Clamp(fpPitch, -firstPersonPitchClamp, firstPersonPitchClamp);
         }
 
-        playerInput.SetInputLocked(true);
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
