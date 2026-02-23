@@ -108,12 +108,11 @@ public class AnimatorController : MonoBehaviour
     private void HandleInteractAnim()
     {
         if (playerState == null || playerInput == null || playerLocomotion == null) return;
-
-        if (!interactions.canInteract) return;
+        if (interactions.activeZone == null) return;
+        if (interactions.activeZone.canPull == false) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerInput.isCrouching) return;
         if (!playerLocomotion.isGrounded) return;
-        if (interactions.activeZone == null) return;
 
         animator.SetTrigger(InteractHash);
     }

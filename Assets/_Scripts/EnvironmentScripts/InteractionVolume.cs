@@ -3,19 +3,18 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent (typeof(Collider))]
-//[RequireComponent (typeof(Rigidbody))]
 public class InteractionVolume : MonoBehaviour
 {
     [Tooltip("Object/Script being interacted with that utilises the IInteraction contract")]
     [SerializeField] private MonoBehaviour[] interactionBehaviours;
     private IInteraction[] interactions;
     private Collider volumeTrigger;
-    //private Rigidbody volumeRB;
 
     [Header("Interaction Settings")]
     [Space(5)]
     private bool isLeverPulled = false;
-    private bool canPull = true;
+
+    public bool canPull /* { get; private set; } */ = true; 
     private Animator leverAnim = null;
 
     [Space(5)]
@@ -40,7 +39,6 @@ public class InteractionVolume : MonoBehaviour
 
     [Space(5)]
     [Header("Lever and Interaction Block Seconds")]
-    [Header(" MUST set as the same value as the block seconds on the Door/Stairs, etc.")]
     [SerializeField, Range(0f, 15f)] public float cooldownSeconds = 0f;
 
     private float lastExecuteTime = -Mathf.Infinity;
@@ -103,7 +101,6 @@ public class InteractionVolume : MonoBehaviour
                     if (!isLeverPulled && canPull)
                     {
                         leverAnim.Play("LeverPullAnim");
-                        canPull = false;
 
                         StartCoroutine(LeverPullCountdown());
                         isLeverPulled = true;
@@ -111,7 +108,6 @@ public class InteractionVolume : MonoBehaviour
                     else if (isLeverPulled && canPull)
                     {
                         leverAnim.Play("LeverPushAnim");
-                        canPull = false;
 
                         StartCoroutine(LeverPullCountdown());
                         isLeverPulled = false;
@@ -167,13 +163,13 @@ public class InteractionVolume : MonoBehaviour
         }
     }
 
-    private IEnumerator LeverPullCountdown()
+    public IEnumerator LeverPullCountdown()
     {
-        if (canPull == false)
-        {
-            yield return new WaitForSeconds(cooldownSeconds);
-            canPull = true;
-        }
+        yield return new WaitForSeconds(0.05f); // Short debounce to allow interact animation to trigger before blocking interaction
+        canPull = false;
+
+        yield return new WaitForSeconds(cooldownSeconds);
+        canPull = true;
     }
 
     private void OnTriggerStay(Collider other)

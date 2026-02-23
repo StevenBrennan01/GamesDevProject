@@ -11,9 +11,7 @@ public class PlayerInteractions : MonoBehaviour
 
     [Header("Interaction Settings")]
     [Space(5)]
-    [HideInInspector] public InteractionVolume activeZone = null;
-
-    public bool canInteract = true;
+    public InteractionVolume activeZone = null;
 
     private void Awake()
     {
@@ -50,7 +48,8 @@ public class PlayerInteractions : MonoBehaviour
     private void TryInteract()
     {
         if (activeZone == null) return;
-        if (!canInteract) return;
+        //if (!canInteract) return;
+        if (!activeZone.canPull) return;
         if (playerState.isBlending || playerInput.inputLocked) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
         {
@@ -60,33 +59,15 @@ public class PlayerInteractions : MonoBehaviour
         }
 
         activeZone.ExecuteInteraction(gameObject);
-        StartCoroutine(LockInputDuringBlend(lockMovementSeconds)); // Pause player whilst interaction is happening
-        StartCoroutine(DebounceThenBlock());
+        StartCoroutine(LockInputDuringInteraction(lockMovementSeconds)); // Pause player whilst interaction is happening
     }
 
-    private IEnumerator LockInputDuringBlend(float lockSeconds)
+    private IEnumerator LockInputDuringInteraction(float lockSeconds)
     {
         playerInput.SetInputLocked(true);
 
         yield return new WaitForSeconds(lockSeconds);
 
         playerInput.SetInputLocked(false);
-    }
-
-    // Below coroutine is used to give the animator a split second to trigger the animation
-    // then set canInteract to false. This is essential as the animation is guarded by if (!canInteract)
-    private IEnumerator DebounceThenBlock()
-    {
-        yield return new WaitForSeconds(0.1f);
-        StartCoroutine(InteractBlocker(activeZone.cooldownSeconds));
-    }
-
-    private IEnumerator InteractBlocker(float blockSeconds)
-    {
-        canInteract = false;
-
-        yield return new WaitForSeconds(blockSeconds);
-
-        canInteract = true;
     }
 }
