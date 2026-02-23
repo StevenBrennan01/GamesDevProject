@@ -1680,6 +1680,7 @@ GameObject:
   - component: {fileID: 1936542220}
   - component: {fileID: 1936542224}
   - component: {fileID: 1936542225}
+  - component: {fileID: 1936542226}
   m_Layer: 0
   m_Name: VCAM_CarriedFP
   m_TagString: Untagged
@@ -1797,11 +1798,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
-  NoiseProfile: {fileID: 0}
+  NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   PivotOffset: {x: 0, y: 0.1, z: 0}
   AmplitudeGain: 0.1
   FrequencyGain: 0.8
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: 426.4371, y: -969.7333, z: 962.0939}
+--- !u!114 &1936542226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936542219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2637d7117648b45aee5f038153ab4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  FirstPersonVirtualCamera: {fileID: 1936542222}
+  maxAmplitudeGain: 1
+  maxFrequencyGain: 1.5
+  gainSmoothTime: 0.12
+  moveDeadzone: 0.05
 --- !u!1001 &1997680955
 PrefabInstance:
   m_ObjectHideFlags: 0
