@@ -52,9 +52,9 @@ public class InteractionVolume : MonoBehaviour
         if (interactionBehaviours != null && interactionBehaviours.Length > 0)
         {
             interactions = interactionBehaviours
-                .Where(b => b != null)
-                .Select(b => b as IInteraction)
-                .Where(i => i != null)
+                .Where(b => b != null) // Filter out null entries to avoid errors
+                .Select(b => b as IInteraction) // Cast to IInteraction, will be null if it doesn't implement the interface
+                .Where(i => i != null) // Finally, filter out any that don't implement IInteraction
                 .ToArray();
 
             foreach (var b in interactionBehaviours)
