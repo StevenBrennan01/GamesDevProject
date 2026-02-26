@@ -19,6 +19,9 @@ public class PlayerInputs : MonoBehaviour
     [Tooltip("Button - Crouch")]
     [SerializeField] private InputActionReference crouchAction;
 
+    [Tooltip("Button - Sprint")]
+    [SerializeField] private InputActionReference sprintAction;
+
     [Tooltip("Button - Interact")]
     [SerializeField] private InputActionReference interactAction;
 
@@ -37,6 +40,7 @@ public class PlayerInputs : MonoBehaviour
     //public bool canInteract { get; private set; }
 
     [SerializeField] public bool isCrouching;
+        [SerializeField] public bool isSprinting;
     public bool inputLocked { get; private set; }
 
     public event Action OnJump;
@@ -50,6 +54,7 @@ public class PlayerInputs : MonoBehaviour
         EnableAction(lookAction);
         EnableAction(jumpAction);
         EnableAction(crouchAction);
+            EnableAction(sprintAction);
         EnableAction(interactAction);
         EnableAction(placeOrPickupAction);
         EnableAction(pauseAction);
@@ -59,6 +64,7 @@ public class PlayerInputs : MonoBehaviour
         SubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         SubscribePerformed(pauseAction, TogglePaused);
         SubscribeToggled(crouchAction, HandleCrouchChanged);
+            SubscribeToggled(sprintAction, HandleSprintChanged);
     }
 
     private void OnDisable()
@@ -67,6 +73,7 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(lookAction);
         DisableAction(jumpAction);
         DisableAction(crouchAction);
+            DisableAction(sprintAction);
         DisableAction(interactAction);
         DisableAction(placeOrPickupAction);
         DisableAction(pauseAction);
@@ -76,6 +83,7 @@ public class PlayerInputs : MonoBehaviour
         UnsubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         UnsubscribePerformed(pauseAction, TogglePaused);
         UnsubscribeToggled(crouchAction, HandleCrouchChanged);
+            UnsubscribeToggled(sprintAction, HandleSprintChanged);
     }
 
     private void Update()
@@ -128,6 +136,20 @@ public class PlayerInputs : MonoBehaviour
         else if (context.canceled)
         {
             isCrouching = false;
+        }
+    }
+
+    private void HandleSprintChanged(InputAction.CallbackContext context)
+    {
+        if (inputLocked) return;
+
+        if (context.performed)
+        {
+            isSprinting = true;
+        }
+        else if (context.canceled)
+        {
+            isSprinting = false;
         }
     }
 

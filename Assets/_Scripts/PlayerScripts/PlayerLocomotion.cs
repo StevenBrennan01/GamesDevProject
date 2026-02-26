@@ -11,8 +11,9 @@ public class PlayerLocomotion : MonoBehaviour
 
     [Header("Movement Speeds")]
     [Space(10)]
-    [SerializeField, Range(0, 5)] private float walkSpeed = 2f;
+    [SerializeField, Range(0, 5)] private float walkSpeed = 1.75f;
     [SerializeField, Range(0, 5)] private float crouchSpeedMultiplier = 0.6f;
+    [SerializeField, Range(0, 5)] private float sprintSpeedMultiplier = 1.25f;
 
     [Header("Jumping")]
     [SerializeField] private float jumpVelocity = 3f;
@@ -43,9 +44,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public bool isGrounded;
     public bool canStand;
-
     public bool shouldCrouch;
-
     private float crouchLerpT;
 
     private void Awake()
@@ -86,6 +85,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (playerState.CurrentMovementMode == MovementMode.SecondPerson)
         {
+            // ---- Crouching Logic ---- //
             bool forcedCrouch = !canStand;
             bool wishToCrouch = playerInput.isCrouching;
 
@@ -103,6 +103,19 @@ public class PlayerLocomotion : MonoBehaviour
                 controller.height = standHeight;
                 controller.center = new Vector3(controller.center.x, standCenterY, controller.center.z);
                 crouchLerpT = 0f;
+            }
+
+
+            // ---- Sprinting Logic ---- //
+            bool wishToSprint = playerInput.isSprinting;
+
+            if(!shouldCrouch && !playerInput.isCrouching)
+            {
+                if(wishToSprint)
+                {
+                    speed *= sprintSpeedMultiplier;
+                    Debug.Log("Sprinting");
+                }
             }
         }
         else
