@@ -39,8 +39,8 @@ public class PlayerInputs : MonoBehaviour
     public Vector2 Look { get; private set; }
     //public bool canInteract { get; private set; }
 
-    [SerializeField] public bool isCrouching;
-        [SerializeField] public bool isSprinting;
+    [HideInInspector] public bool isCrouching;
+    [HideInInspector] public bool isSprinting;
     public bool inputLocked { get; private set; }
 
     public event Action OnJump;
@@ -54,7 +54,7 @@ public class PlayerInputs : MonoBehaviour
         EnableAction(lookAction);
         EnableAction(jumpAction);
         EnableAction(crouchAction);
-            EnableAction(sprintAction);
+        EnableAction(sprintAction);
         EnableAction(interactAction);
         EnableAction(placeOrPickupAction);
         EnableAction(pauseAction);
@@ -64,7 +64,7 @@ public class PlayerInputs : MonoBehaviour
         SubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         SubscribePerformed(pauseAction, TogglePaused);
         SubscribeToggled(crouchAction, HandleCrouchChanged);
-            SubscribeToggled(sprintAction, HandleSprintChanged);
+        SubscribeToggled(sprintAction, HandleSprintChanged);
     }
 
     private void OnDisable()
@@ -73,7 +73,7 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(lookAction);
         DisableAction(jumpAction);
         DisableAction(crouchAction);
-            DisableAction(sprintAction);
+        DisableAction(sprintAction);
         DisableAction(interactAction);
         DisableAction(placeOrPickupAction);
         DisableAction(pauseAction);
@@ -83,7 +83,7 @@ public class PlayerInputs : MonoBehaviour
         UnsubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
         UnsubscribePerformed(pauseAction, TogglePaused);
         UnsubscribeToggled(crouchAction, HandleCrouchChanged);
-            UnsubscribeToggled(sprintAction, HandleSprintChanged);
+        UnsubscribeToggled(sprintAction, HandleSprintChanged);
     }
 
     private void Update()

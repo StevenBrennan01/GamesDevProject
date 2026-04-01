@@ -27,12 +27,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource uiSfxSource;
     [SerializeField] private AudioClip clickSFXClip;
 
-    [Header("Player SFX Attributes")]
-    [Space(5)]
-    [SerializeField] private AudioSource playerSfxSource;
-    [SerializeField] private AudioClip footStep1;
-    [SerializeField] private AudioClip footStep2;
-
     [Header("Settings")]
     [Space(5)]
     [SerializeField] private bool resetPlayerPrefs;
