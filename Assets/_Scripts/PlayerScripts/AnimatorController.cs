@@ -13,6 +13,7 @@ public class AnimatorController : MonoBehaviour
 
     private static readonly int VelocityHash = Animator.StringToHash("Velocity");
     private static readonly int GroundedHash = Animator.StringToHash("isGrounded");
+    private static readonly int SprintingHash = Animator.StringToHash("isSprinting");
     private static readonly int CrouchingHash = Animator.StringToHash("isCrouching");
     private static readonly int StandingHash = Animator.StringToHash("canStand");
     private static readonly int JumpHash = Animator.StringToHash("jumpTriggered");
@@ -65,6 +66,9 @@ public class AnimatorController : MonoBehaviour
 
         bool isGrounded = playerLocomotion.isGrounded;
         animator.SetBool(GroundedHash, isGrounded);
+
+        bool isSprinting = playerInput.isSprinting;
+        animator.SetBool(SprintingHash, isSprinting);
 
         bool canStand = playerLocomotion.canStand;
         animator.SetBool(StandingHash, canStand);

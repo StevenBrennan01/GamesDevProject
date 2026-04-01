@@ -5,7 +5,6 @@ public class PlayerLocomotion : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
-
     private CharacterController controller;
     private Vector3 verticalVelocity;
 
@@ -73,6 +72,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log($"Current Speed: {(isGrounded ? (shouldCrouch ? walkSpeed * crouchSpeedMultiplier : (playerInput.isSprinting ? walkSpeed * sprintSpeedMultiplier : walkSpeed)) : "Airborne")}");
+
         GroundCheck();
         IsCeilingBlockingStand();
 
@@ -104,23 +105,21 @@ public class PlayerLocomotion : MonoBehaviour
                 controller.center = new Vector3(controller.center.x, standCenterY, controller.center.z);
                 crouchLerpT = 0f;
             }
-
-
-            // ---- Sprinting Logic ---- //
-            bool wishToSprint = playerInput.isSprinting;
-
-            if(!shouldCrouch && !playerInput.isCrouching)
-            {
-                if(wishToSprint)
-                {
-                    speed *= sprintSpeedMultiplier;
-                    Debug.Log("Sprinting");
-                }
-            }
         }
         else
         {
             UpdateCrouchCapsule(false);
+        }
+
+        // ---- Sprinting Logic ---- //
+        bool wishToSprint = playerInput.isSprinting;
+
+         if(!shouldCrouch && !playerInput.isCrouching)
+         {
+             if(wishToSprint)
+            {
+                    speed *= sprintSpeedMultiplier;
+            }
         }
         
         Vector3 horizontalVelocity = dir * speed;

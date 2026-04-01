@@ -1,14 +1,22 @@
+using System.Collections;
 using UnityEngine;
 
 public class StairInteraction : MonoBehaviour, IInteraction
 {
+    [Header("References and Settings")]
     [SerializeField] private Animator anchorAnimator;
     [SerializeField] private bool stairsToGoDown;
     [SerializeField] private bool stairsToGoUp;
 
-    [Tooltip("Match this as close to the Animation Length as possible so you can interact straight after")]
+    [Header("Blocker References")]
+    [SerializeField] private GameObject bannisterBlocker1;
+    [SerializeField] private GameObject bannisterBlocker2;
+    [SerializeField] private GameObject stairBlocker;
+    private bool stairsAreUp;
+    private bool stairsAreDown;
+    public bool animationFinished;
 
-    private bool stairsAreUp = false;
+    private Coroutine animationFinishedCoroutine;
 
     private void Awake()
     {
@@ -17,9 +25,19 @@ public class StairInteraction : MonoBehaviour, IInteraction
             anchorAnimator = GetComponentInChildren<Animator>();
         }
 
-        if (stairsToGoDown)
+        if(stairsToGoUp)
+        {
+            stairsAreDown = true;
+            bannisterBlocker1.SetActive(false);
+            bannisterBlocker2.SetActive(false);
+            stairBlocker.SetActive(false);
+        }
+        else if (stairsToGoDown)
         {
             stairsAreUp = true;
+            bannisterBlocker1.SetActive(true);
+            bannisterBlocker2.SetActive(true);
+            stairBlocker.SetActive(true);
         }
     }
 
@@ -28,18 +46,44 @@ public class StairInteraction : MonoBehaviour, IInteraction
         BeginAnimation();
     }
 
+    private IEnumerator animationFinishedDelay()
+    {
+        yield return new WaitUntil(() => animationFinished);
+
+        if(stairsAreUp)
+        {
+            bannisterBlocker1.SetActive(true);
+            bannisterBlocker2.SetActive(true);
+            stairBlocker.SetActive(true);
+        }
+        else if(stairsAreDown)
+        {
+            bannisterBlocker1.SetActive(false);
+            bannisterBlocker2.SetActive(false);
+            stairBlocker.SetActive(false);
+        }
+
+        animationFinished = false;
+    }
+
     private void BeginAnimation()
     {
         if (stairsAreUp)
         {
             anchorAnimator.Play("StairsDescending");
             stairsAreUp = false;
+
+            if (animationFinishedCoroutine != null) StopCoroutine(animationFinishedCoroutine);
+            animationFinishedCoroutine = StartCoroutine(animationFinishedDelay());
         }
 
         else
         {
             anchorAnimator.Play("StairsAscending");
             stairsAreUp = true;
+
+            if (animationFinishedCoroutine != null) StopCoroutine(animationFinishedCoroutine);
+            animationFinishedCoroutine = StartCoroutine(animationFinishedDelay());
         }
     }
 }

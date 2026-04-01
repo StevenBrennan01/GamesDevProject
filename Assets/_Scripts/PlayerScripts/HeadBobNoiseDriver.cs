@@ -53,6 +53,7 @@ public class HeadBobNoiseDriver : MonoBehaviour
         bool shouldBob = 
             playerStateController.CurrentCameraMode == CameraMode.Carried
             && playerStateController.CurrentMovementMode == MovementMode.FirstPerson
+            && playerInputs.isSprinting
             && !playerStateController.isBlending
             && !playerInputs.inputLocked;
 

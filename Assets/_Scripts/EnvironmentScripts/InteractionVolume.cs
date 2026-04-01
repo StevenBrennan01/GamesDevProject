@@ -39,6 +39,7 @@ public class InteractionVolume : MonoBehaviour
 
     [Space(5)]
     [Header("Lever and Interaction Block Seconds")]
+    [Tooltip("2 Seconds for Stairs, etc.")]
     [SerializeField, Range(0f, 15f)] public float cooldownSeconds = 0f;
 
     private float lastExecuteTime = -Mathf.Infinity;
