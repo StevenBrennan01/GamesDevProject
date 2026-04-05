@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
@@ -116,7 +115,6 @@ public class AudioManager : MonoBehaviour
     }
 
     // -------- Saving / Loading --------
-
     public void SaveVolumes()
     {
         PlayerPrefs.SetFloat(MasterKey, masterVolume);
@@ -158,8 +156,6 @@ public class AudioManager : MonoBehaviour
     }
 
     // -------- Volume setters (called by sliders) --------
-
-
     public void SetMusicVolume(float music01)
     {
         musicVolume = Mathf.Clamp01(music01);
@@ -261,14 +257,4 @@ public class AudioManager : MonoBehaviour
         musicFadeStorer = 1f;
         ApplyVolumes();
     }
-
-    //public void PlayOneShotFootstep()
-    //{
-    //    if (playerSfxSource == null) return;
-
-    //    AudioClip clip = Random.value < 0.5f ? footStep1 : footStep2;
-    //    if (clip == null) return;
-
-    //    playerSfxSource.PlayOneShot(clip, 1f);
-    //}
 }

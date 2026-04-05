@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -45,6 +46,9 @@ public class PlayerLocomotion : MonoBehaviour
     public bool canStand;
     public bool shouldCrouch;
     private float crouchLerpT;
+
+    // ---- Unity Event Functions ---- //
+    //public event Action JumpSuccessful;
 
     private void Awake()
     {
@@ -141,6 +145,8 @@ public class PlayerLocomotion : MonoBehaviour
         {
             verticalVelocity.y = jumpVelocity;
         }
+
+        //JumpSuccessful?.Invoke();
     }
 
     private void UpdateVerticalVelocity()

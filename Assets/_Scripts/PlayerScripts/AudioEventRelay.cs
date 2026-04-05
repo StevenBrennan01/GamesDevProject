@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class AudioEventRelay : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private PlayerAudioController playerAudioController;
+
+    private void Awake()
     {
-        
+        if(playerAudioController == null)
+        {
+            playerAudioController = GetComponentInParent<PlayerAudioController>();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    public void FootstepAudioRelay()
     {
-        
+        playerAudioController.PlayFootStep();
     }
 }
