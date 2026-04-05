@@ -51,7 +51,8 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("VCam Transitions")]
     [Tooltip("Seconds that input will be locked whilst blend is taking place")]
-    [SerializeField, Range(0, 2)] private float blendLockInputSeconds;
+    [SerializeField, Range(0, 2)] private float lockSecondsAfterPlacing;
+    [SerializeField, Range(0, 2)] private float waitSecondsBeforePickup;
 
     [Header("Second-Person View Attributes")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
@@ -244,7 +245,7 @@ public class PlayerStateController : MonoBehaviour
         playerInput.SetInputLocked(true);
         isBlending = true;
 
-        yield return new WaitForSeconds(1.5f); //1.5f = just before anim ends
+        yield return new WaitForSeconds(waitSecondsBeforePickup);
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
@@ -287,7 +288,7 @@ public class PlayerStateController : MonoBehaviour
             carriedVirtualCamera.Priority = inactivePriority;
             placedVirtualCamera.Priority = activePriority;
 
-            StartCoroutine(LockInputDuringBlend(blendLockInputSeconds));
+            StartCoroutine(LockInputDuringBlend(lockSecondsAfterPlacing));
         }
     }
     private IEnumerator LockInputDuringBlend(float lockSeconds)
