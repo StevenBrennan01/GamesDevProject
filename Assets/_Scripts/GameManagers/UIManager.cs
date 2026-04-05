@@ -18,8 +18,7 @@ public class UIManager : MonoBehaviour
     [Header("Scene Transition Settings")]
     [SerializeField] private float fadeInSeconds = 0.5f;
     [SerializeField] private float fadeOutSeconds = 1f;
-
-    [SerializeField] private TextMeshProUGUI starterUI;
+    [SerializeField] private float holdBlackSeconds = 0.5f;
 
     private UIDocument doc;
     private VisualElement root;
@@ -40,17 +39,6 @@ public class UIManager : MonoBehaviour
         inputs = FindAnyObjectByType<PlayerInputs>();
 
         root.Clear();
-    }
-
-    private void Start()
-    {
-        StartCoroutine(hideStartUI());
-    }
-
-    private IEnumerator hideStartUI()
-    {
-        yield return new WaitForSeconds(10f);
-        starterUI.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -119,7 +107,7 @@ public class UIManager : MonoBehaviour
                 UnityEngine.Cursor.visible = true;
                 UnityEngine.Cursor.lockState = CursorLockMode.None;
 
-                ScreenFadeManager.instance.TransitionToScene(menuSceneName, fadeOutSeconds: fadeOutSeconds, holdBlackSeconds: 0.25f, fadeInSeconds: fadeInSeconds);
+                ScreenFadeManager.instance.TransitionToScene(menuSceneName, fadeOutSeconds, holdBlackSeconds, fadeInSeconds);
             }
         };
     }
@@ -169,7 +157,7 @@ public class UIManager : MonoBehaviour
 
         // SFX slider + throttled preview
         float nextPreviewTime = 0f;
-        const float previewCooldown = 0.10f; // tweak: 0.08–0.15 feels good
+        const float previewCooldown = 0.10f; // tweak: 0.08ï¿½0.15 feels good
 
         if (sfxSlider != null)
         {

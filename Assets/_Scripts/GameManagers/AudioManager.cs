@@ -59,7 +59,7 @@ public class AudioManager : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         string sceneName = SceneManager.GetActiveScene().name;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;

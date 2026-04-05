@@ -543,9 +543,6 @@ MonoBehaviour:
   gameMusicClip: {fileID: 8300000, guid: 8aa16b513f1cdcc438af283d29f4f065, type: 3}
   uiSfxSource: {fileID: 49800793}
   clickSFXClip: {fileID: 8300000, guid: 4a555fee27b3001419c70972f7a9dfb9, type: 3}
-  playerSfxSource: {fileID: 0}
-  footStep1: {fileID: 0}
-  footStep2: {fileID: 0}
   resetPlayerPrefs: 0
   playMenuMusicOnStart: 1
   loopMenuMusic: 1
@@ -1201,6 +1198,7 @@ MonoBehaviour:
   optionsScreen: {fileID: 9197481963319205126, guid: 9bf9ff917fbd58344bf249c7fe8cd211, type: 3}
   creditsScreen: {fileID: 9197481963319205126, guid: 16e201242bc6f014fbe7d1f71855d152, type: 3}
   fadeSeconds: 0.75
+  holdBlackSeconds: 5
 --- !u!4 &165870873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4962972477363428688, guid: 3683ec31764bb824ba393a5c00d80e4a, type: 3}
@@ -4416,6 +4414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   fadeOverlay: {fileID: 9197481963319205126, guid: 94ea05d9b00907741a32ea9b3f45a3e6, type: 3}
+  holdBlackSeconds: 0
 --- !u!114 &1201441259
 MonoBehaviour:
   m_ObjectHideFlags: 0

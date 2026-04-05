@@ -1012,6 +1012,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 508377410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &989898688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: PlayerMovement/Crouch
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 83e73d91-4322-436c-88a0-b803d4e98447
 --- !u!1 &1031915827
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,6 +1955,10 @@ PrefabInstance:
       propertyPath: pauseAction
       value: 
       objectReference: {fileID: 603544179}
+    - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: crouchAction
+      value: 
+      objectReference: {fileID: 989898688}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: sprintAction
       value: 

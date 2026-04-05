@@ -14,6 +14,7 @@ public class MainMenuController : MonoBehaviour
 
     [Header("Scene Transition Settings")]
     [SerializeField] private float fadeSeconds = 0.75f;
+    [SerializeField] private float holdBlackSeconds;
 
     private UIDocument doc;
     private VisualElement root;
@@ -98,7 +99,7 @@ public class MainMenuController : MonoBehaviour
 
         // SFX slider + throttled preview
         float nextPreviewTime = 0f;
-        const float previewCooldown = 0.10f; // tweak: 0.08–0.15 feels good
+        const float previewCooldown = 0.10f; // tweak: 0.08ï¿½0.15 feels good
 
         if (sfxSlider != null)
         {
@@ -150,7 +151,7 @@ public class MainMenuController : MonoBehaviour
 
         if (ScreenFadeManager.instance != null)
         {
-            yield return ScreenFadeManager.instance.TransitionToScene(gameSceneName, fadeOutSeconds: fadeSeconds, holdBlackSeconds: 1.5f, fadeInSeconds: fadeSeconds);
+            yield return ScreenFadeManager.instance.TransitionToScene(gameSceneName, fadeSeconds, holdBlackSeconds, fadeSeconds);
         }
     }
 

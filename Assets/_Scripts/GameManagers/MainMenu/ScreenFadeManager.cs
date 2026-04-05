@@ -10,15 +10,14 @@ public class ScreenFadeManager : MonoBehaviour
 
     [Header("Fade UXML")]
     [SerializeField] private VisualTreeAsset fadeOverlay;
-
     private string fadeRootName = "FadeRoot";
-
     private float fadeAlpha = 0f;
+    [SerializeField] private float holdBlackSeconds = 0.5f;
 
     private UIDocument doc;
     private VisualElement root;
     private VisualElement fadeRoot;
-
+    
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -35,7 +34,7 @@ public class ScreenFadeManager : MonoBehaviour
 
         BuildFadeUI();
         SetAlpha(0f);
-        Hide();
+        HideFadeUI();
     }
 
     private void BuildFadeUI()
@@ -52,14 +51,14 @@ public class ScreenFadeManager : MonoBehaviour
         fadeRoot = root.Q<VisualElement>(fadeRootName);
     }
 
-    public Coroutine TransitionToScene(string sceneName, float fadeOutSeconds, float holdBlackSeconds, float fadeInSeconds = -1f)
+    public Coroutine TransitionToScene(string sceneName, float fadeOutSeconds, float holdBlackSeconds, float fadeInSeconds)
     {
         return StartCoroutine(TransitionRoutine(sceneName, fadeOutSeconds, holdBlackSeconds, fadeInSeconds));
     }
 
     private IEnumerator TransitionRoutine(string sceneName, float fadeOutSeconds, float holdBlackSeconds, float fadeInSeconds)
     {
-        Show();
+        ShowFadeUI();
         yield return FadingActive(1f, fadeOutSeconds);
 
         // load scene while black
@@ -68,12 +67,14 @@ public class ScreenFadeManager : MonoBehaviour
 
         // optional hold
         if (holdBlackSeconds > 0f)
+        {
             yield return new WaitForSecondsRealtime(holdBlackSeconds);
+        }
 
         AudioManager.instance?.RestoreMusicInstant();
 
         yield return FadingActive(0f, fadeInSeconds);
-        Hide();
+        HideFadeUI();
     }
 
     public IEnumerator FadingActive(float targetAlpha, float seconds)
@@ -103,13 +104,13 @@ public class ScreenFadeManager : MonoBehaviour
         fadeRoot.style.opacity = fadeAlpha;
     }
 
-    private void Show()
+    private void ShowFadeUI()
     {
         root.style.display = DisplayStyle.Flex;
         root.pickingMode = PickingMode.Position; // block clicks
     }
 
-    private void Hide()
+    private void HideFadeUI()
     {
         root.style.display = DisplayStyle.None;
         root.pickingMode = PickingMode.Ignore; // allows for clicks
