@@ -1,0 +1,3 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Image source="project://database/Assets/Imports/Images/UserInterface/robot-assistant.png?fileID=2800000&amp;guid=5236e4b4f23de944790da427083a606f&amp;type=3#robot-assistant" name="LoadingIcon" style="width: 240px; transform-origin: center 55%; height: 240px; left: 1640px; top: 819px; rotate: 0;"/>
+</ui:UXML>

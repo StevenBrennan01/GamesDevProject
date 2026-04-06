@@ -1198,7 +1198,7 @@ MonoBehaviour:
   optionsScreen: {fileID: 9197481963319205126, guid: 9bf9ff917fbd58344bf249c7fe8cd211, type: 3}
   creditsScreen: {fileID: 9197481963319205126, guid: 16e201242bc6f014fbe7d1f71855d152, type: 3}
   fadeSeconds: 0.75
-  holdBlackSeconds: 5
+  holdBlackSeconds: 4
 --- !u!4 &165870873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4962972477363428688, guid: 3683ec31764bb824ba393a5c00d80e4a, type: 3}
@@ -2621,6 +2621,77 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3805258892988909626, guid: f1d25e2ecbeea5c4aaebe06c13cbefa2, type: 3}
   m_PrefabInstance: {fileID: 835147915}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &724582575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724582577}
+  - component: {fileID: 724582578}
+  - component: {fileID: 724582576}
+  m_Layer: 0
+  m_Name: LoadingScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &724582576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724582575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8207fe4f2b5f34b89a75d44066fc4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  loadingScreenUXML: {fileID: 9197481963319205126, guid: bcc7d0da9fa25b34f96e41ed8dcca064, type: 3}
+  rotationSpeed: 250
+  activeSeconds: 2.5
+--- !u!4 &724582577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724582575}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &724582578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724582575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: a17a512accea23d438ef72c477dac732, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: bcc7d0da9fa25b34f96e41ed8dcca064, type: 3}
+  m_SortingOrder: 1
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
 --- !u!4 &734350046 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5185509448129192921, guid: bb3dec59d19ab1449aa130b8af5e7277, type: 3}
@@ -4414,7 +4485,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   fadeOverlay: {fileID: 9197481963319205126, guid: 94ea05d9b00907741a32ea9b3f45a3e6, type: 3}
-  holdBlackSeconds: 0
+  fadeInOutSeconds: 1
+  holdBlackSeconds: 3
 --- !u!114 &1201441259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9035,6 +9107,7 @@ SceneRoots:
   - {fileID: 319082809}
   - {fileID: 49800792}
   - {fileID: 1201441260}
+  - {fileID: 724582577}
   - {fileID: 165366644}
   - {fileID: 1986337340}
   - {fileID: 1263692280}

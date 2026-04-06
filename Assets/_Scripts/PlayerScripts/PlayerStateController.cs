@@ -42,6 +42,7 @@ public class PlayerStateController : MonoBehaviour
     [Space(10)]
     [Tooltip("Will player be starting in FP or SP? Check box if starting in SP, then set freeze time below")]
     [SerializeField] private bool playerStartInSecondPerson;
+    [SerializeField] private bool playerStartWithInputLocked;
     public bool isHeadPlaced => placedHeadVolume != null;
     [SerializeField, Range(0, 10)] private float startLockInputSeconds;
 
@@ -113,6 +114,11 @@ public class PlayerStateController : MonoBehaviour
             float pitch = firstPersonPitchPivot.localEulerAngles.x;
             fpPitch = (pitch > 180f) ? pitch - 360f : pitch;
             fpPitch = Mathf.Clamp(fpPitch, -firstPersonPitchClamp, firstPersonPitchClamp);
+        }
+
+        if (playerStartWithInputLocked)
+        {
+            StartCoroutine(LockInput(startLockInputSeconds));
         }
 
         Cursor.visible = false;

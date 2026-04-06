@@ -8,15 +8,18 @@ public class ScreenFadeManager : MonoBehaviour
 {
     public static ScreenFadeManager instance;
 
+    private LoadingScreen loadingScreen;
+
     [Header("Fade UXML")]
     [SerializeField] private VisualTreeAsset fadeOverlay;
     private string fadeRootName = "FadeRoot";
     private float fadeAlpha = 0f;
-    [SerializeField] private float holdBlackSeconds = 0.5f;
-
     private UIDocument doc;
     private VisualElement root;
     private VisualElement fadeRoot;
+
+    [SerializeField] private float fadeInOutSeconds = 1f;
+    [SerializeField] private float holdBlackSeconds = 3f;
     
     private void Awake()
     {
@@ -25,6 +28,8 @@ public class ScreenFadeManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        loadingScreen = FindAnyObjectByType<LoadingScreen>();
 
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -53,18 +58,17 @@ public class ScreenFadeManager : MonoBehaviour
 
     public Coroutine TransitionToScene(string sceneName, float fadeOutSeconds, float holdBlackSeconds, float fadeInSeconds)
     {
-        return StartCoroutine(TransitionRoutine(sceneName, fadeOutSeconds, holdBlackSeconds, fadeInSeconds));
+        return StartCoroutine(LoadPersistentScene(sceneName, fadeOutSeconds, holdBlackSeconds, fadeInSeconds));
     }
 
-    private IEnumerator TransitionRoutine(string sceneName, float fadeOutSeconds, float holdBlackSeconds, float fadeInSeconds)
+    private IEnumerator LoadPersistentScene(string sceneName, float fadeOutSeconds, float holdBlackSeconds, float fadeInSeconds)
     {
         ShowFadeUI();
         yield return FadingActive(1f, fadeOutSeconds);
 
-        // load scene while black
-        SceneManager.LoadScene(sceneName);
+        loadingScreen?.DisplayLoadingIcon();
+        SceneManager.LoadScene(sceneName); // load scene while black
         
-
         // optional hold
         if (holdBlackSeconds > 0f)
         {
@@ -74,6 +78,34 @@ public class ScreenFadeManager : MonoBehaviour
         AudioManager.instance?.RestoreMusicInstant();
 
         yield return FadingActive(0f, fadeInSeconds);
+        HideFadeUI();
+    }
+
+    public void TransitionToNextScene()
+    {
+        StartCoroutine(FadeToBlack(fadeInOutSeconds));
+    }
+
+    private IEnumerator FadeToBlack(float seconds)
+    {
+        ShowFadeUI();
+        yield return FadingActive(1f, seconds);
+
+        StartCoroutine(HoldBlack(holdBlackSeconds));
+    }
+
+    private IEnumerator HoldBlack(float seconds)
+    {
+        ShowFadeUI();
+        loadingScreen?.DisplayLoadingIcon();
+        yield return new WaitForSecondsRealtime(seconds);
+
+        StartCoroutine(FadeToClear(fadeInOutSeconds));
+    }
+
+    private IEnumerator FadeToClear(float seconds)
+    {
+        yield return FadingActive(0f, seconds);
         HideFadeUI();
     }
 

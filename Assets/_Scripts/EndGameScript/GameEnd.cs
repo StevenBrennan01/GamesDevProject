@@ -14,19 +14,19 @@ public class GameEnd : MonoBehaviour
         endCollider = GetComponent<BoxCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == playerTag)
-        {
-            AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.tag == playerTag)
+    //     {
+    //         AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
 
-            if (ScreenFadeManager.instance != null)
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+    //         if (ScreenFadeManager != null)
+    //         {
+    //             Cursor.visible = true;
+    //             Cursor.lockState = CursorLockMode.None;
 
-                ScreenFadeManager.instance.TransitionToScene(gameSceneName, fadeOutSeconds: fadeOutSeconds, holdBlackSeconds: 0.25f, fadeInSeconds: fadeInSeconds);
-            }
-        }
-    }
+    //             ScreenFadeManager.TransitionToScene(gameSceneName, fadeOutSeconds: fadeOutSeconds, holdBlackSeconds: 0.25f, fadeInSeconds: fadeInSeconds);
+    //         }
+    //     }
+    // }
 }

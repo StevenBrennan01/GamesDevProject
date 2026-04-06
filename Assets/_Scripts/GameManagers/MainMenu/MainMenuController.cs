@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent (typeof(UIDocument))]
 public class MainMenuController : MonoBehaviour
 {
-    private string gameSceneName = "FYPLevel";
+    private string gameSceneName = "_PersistingScene";
 
     [Header("UXML Screens")]
     [SerializeField] private VisualTreeAsset mainMenuScreen;

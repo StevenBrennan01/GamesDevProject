@@ -1,12 +1,9 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
-
     private PlayerInputs inputs;
     private string menuSceneName = "MainMenu";
 
@@ -27,13 +24,6 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
-
         doc = GetComponent<UIDocument>();
         root = doc.rootVisualElement;
         inputs = FindAnyObjectByType<PlayerInputs>();
