@@ -60,9 +60,11 @@ public class LoadingScreen : MonoBehaviour
     private IEnumerator RotateIcon(VisualElement icon)
     {
         float timer = 0f;
+        float currentRotation = 0f;
         while (timer < activeSeconds)
         {
-            icon.transform.rotation *= Quaternion.Euler(0f, 0f, rotationSpeed * Time.deltaTime);
+            currentRotation += rotationSpeed * Time.deltaTime;
+            icon.style.rotate = new Rotate(new Angle(currentRotation, AngleUnit.Degree));
             timer += Time.deltaTime;
             yield return null;
         }

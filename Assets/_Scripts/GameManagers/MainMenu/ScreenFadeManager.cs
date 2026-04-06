@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 public class ScreenFadeManager : MonoBehaviour
 {
     public static ScreenFadeManager instance;
-
     private LoadingScreen loadingScreen;
 
     [Header("Fade UXML")]
@@ -66,7 +65,11 @@ public class ScreenFadeManager : MonoBehaviour
         ShowFadeUI();
         yield return FadingActive(1f, fadeOutSeconds);
 
-        loadingScreen?.DisplayLoadingIcon();
+        if(sceneName != "MainMenu") // Returning to menu is fast, no camera setup behind the scenes so no need for loading screen
+        {
+            loadingScreen?.DisplayLoadingIcon();
+        }
+        
         SceneManager.LoadScene(sceneName); // load scene while black
         
         // optional hold
@@ -83,6 +86,7 @@ public class ScreenFadeManager : MonoBehaviour
 
     public void TransitionToNextScene()
     {
+
         StartCoroutine(FadeToBlack(fadeInOutSeconds));
     }
 
