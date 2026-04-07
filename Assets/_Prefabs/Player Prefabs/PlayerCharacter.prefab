@@ -327,6 +327,9 @@ MonoBehaviour:
   pauseAction: {fileID: 0}
   isCrouching: 0
   isSprinting: 0
+  movementLocked: 0
+  cameraLocked: 0
+  movementAndCameraLocked: 0
 --- !u!114 &1778732153065050997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,7 +351,8 @@ MonoBehaviour:
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
   playerStartInSecondPerson: 0
-  startLockInputSeconds: 0
+  playerStartWithInputLocked: 1
+  startLockInputSeconds: 4
   lockSecondsAfterPlacing: 1.25
   waitSecondsBeforePickup: 0.5
   placedYawClamp: 45

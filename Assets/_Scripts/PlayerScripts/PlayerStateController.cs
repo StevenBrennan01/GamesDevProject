@@ -248,7 +248,7 @@ public class PlayerStateController : MonoBehaviour
 
     private IEnumerator PauseThenPickup()
     {
-        playerInput.SetInputLocked(true);
+        playerInput.SetMovementLocked(true);
         isBlending = true;
 
         yield return new WaitForSeconds(waitSecondsBeforePickup);
@@ -266,7 +266,7 @@ public class PlayerStateController : MonoBehaviour
 
         // Disabling body in first person so to avoid clipping
         playerBody.SetActive(false);
-        playerInput.SetInputLocked(false);
+        playerInput.SetMovementLocked(false);
 
         currentPlacementVolume.headVisualiser.SetActive(true);
 
@@ -303,9 +303,9 @@ public class PlayerStateController : MonoBehaviour
         {
             isBlending = true;
         }
-        if (!playerInput.inputLocked)
+        if (!playerInput.movementLocked)
         {
-            playerInput.SetInputLocked(true);
+            playerInput.SetMovementLocked(true);
         }
 
         // Could use CinemachineBrain.ActiveBlend == null
@@ -316,9 +316,9 @@ public class PlayerStateController : MonoBehaviour
         {
             isBlending = false;
         }
-        if (playerInput.inputLocked)
+        if (playerInput.movementLocked)
         {
-            playerInput.SetInputLocked(false);
+            playerInput.SetMovementLocked(false);
         }
     }
 
@@ -445,10 +445,10 @@ public class PlayerStateController : MonoBehaviour
 
     private IEnumerator LockInput(float lockSeconds)
     {
-        playerInput.SetInputLocked(true);
+        playerInput.SetMovementLocked(true);
 
         yield return new WaitForSeconds(lockSeconds);
 
-        playerInput.SetInputLocked(false);
+        playerInput.SetMovementLocked(false);
     }
 }

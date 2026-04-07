@@ -138,7 +138,7 @@ public class PlayerLocomotion : MonoBehaviour
     private void OnJump()
     {
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
-        if (playerInput.inputLocked) return;
+        if (playerInput.movementLocked) return;
         if (playerInput.isCrouching) return;
 
         if (isGrounded)

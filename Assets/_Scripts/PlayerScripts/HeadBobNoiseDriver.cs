@@ -55,7 +55,7 @@ public class HeadBobNoiseDriver : MonoBehaviour
             && playerStateController.CurrentMovementMode == MovementMode.FirstPerson
             && playerInputs.isSprinting
             && !playerStateController.isBlending
-            && !playerInputs.inputLocked;
+            && !playerInputs.movementLocked;
 
         float move01 = Mathf.Clamp01(playerInputs.Move.magnitude);
         if(move01 < moveDeadzone) move01 = 0f;

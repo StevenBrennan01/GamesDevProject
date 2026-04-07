@@ -102,7 +102,7 @@ public class AnimatorController : MonoBehaviour
         if (playerState == null || playerInput == null || playerLocomotion == null) return;
 
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
-        if (playerState.isBlending || playerInput.inputLocked) return;
+        if (playerState.isBlending || playerInput.movementLocked) return;
         if (playerInput.isCrouching) return;
         if (!playerLocomotion.isGrounded) return;
 

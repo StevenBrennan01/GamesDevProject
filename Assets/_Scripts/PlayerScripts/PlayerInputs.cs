@@ -41,7 +41,12 @@ public class PlayerInputs : MonoBehaviour
 
     [HideInInspector] public bool isCrouching;
     [HideInInspector] public bool isSprinting;
-    public bool inputLocked { get; private set; }
+
+    [Header("Lock Settings")]
+    [Space(5)]
+    public bool movementLocked;
+    public bool cameraLocked;
+    public bool movementAndCameraLocked;
 
     public event Action OnJump;
     public event Action OnInteract;
@@ -91,7 +96,7 @@ public class PlayerInputs : MonoBehaviour
         Move = ReadVector2(moveAction);
         Look = ReadVector2(lookAction);
 
-        if (inputLocked)
+        if (movementLocked)
         {
             Move = Vector2.zero;
             Look = Vector2.zero;
@@ -99,9 +104,9 @@ public class PlayerInputs : MonoBehaviour
     }
 
     // Public method to allow external classes access to lock/unlock input.
-    public void SetInputLocked(bool lockStatus)
+    public void SetMovementLocked(bool lockStatus)
     {
-        inputLocked = lockStatus;
+        movementLocked = lockStatus;
     }
 
     private void TogglePaused(InputAction.CallbackContext context)
@@ -111,7 +116,7 @@ public class PlayerInputs : MonoBehaviour
 
     private void HandleJump(InputAction.CallbackContext context)
     {
-        if (inputLocked) return;
+        if (movementLocked) return;
         OnJump?.Invoke();
     }
 
@@ -127,7 +132,7 @@ public class PlayerInputs : MonoBehaviour
 
     private void HandleCrouchChanged(InputAction.CallbackContext context)
     {
-        if (inputLocked) return;
+        if (movementLocked) return;
 
         if (context.performed)
         {
@@ -141,7 +146,7 @@ public class PlayerInputs : MonoBehaviour
 
     private void HandleSprintChanged(InputAction.CallbackContext context)
     {
-        if (inputLocked) return;
+        if (movementLocked) return;
 
         if (context.performed)
         {

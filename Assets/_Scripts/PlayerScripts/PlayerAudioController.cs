@@ -63,7 +63,7 @@ public class PlayerAudioController : MonoBehaviour
     {
         if(playerInputs == null || playerLocomotion == null || playerState == null) return false;
         if(playerState.CurrentMovementMode != MovementMode.FirstPerson) return false;
-        if(playerInputs.inputLocked) return false;
+        if(playerInputs.movementLocked) return false;
         if(!playerLocomotion.isGrounded) return false;
 
         return playerInputs.Move.sqrMagnitude > movementThreshold;

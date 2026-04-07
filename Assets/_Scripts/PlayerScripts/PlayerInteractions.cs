@@ -50,7 +50,7 @@ public class PlayerInteractions : MonoBehaviour
         if (activeZone == null) return;
         //if (!canInteract) return;
         if (!activeZone.canPull) return;
-        if (playerState.isBlending || playerInput.inputLocked) return;
+        if (playerState.isBlending || playerInput.movementLocked) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
         {
             Debug.Log("You need to be in second-person to interact!");
@@ -63,10 +63,10 @@ public class PlayerInteractions : MonoBehaviour
 
     private IEnumerator LockInputDuringInteraction(float lockSeconds)
     {
-        playerInput.SetInputLocked(true);
+        playerInput.SetMovementLocked(true);
 
         yield return new WaitForSeconds(lockSeconds);
 
-        playerInput.SetInputLocked(false);
+        playerInput.SetMovementLocked(false);
     }
 }
