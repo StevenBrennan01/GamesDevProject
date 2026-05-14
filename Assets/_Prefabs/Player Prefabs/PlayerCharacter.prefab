@@ -321,12 +321,10 @@ MonoBehaviour:
   lookAction: {fileID: 3604857728571581167, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   jumpAction: {fileID: 3018930012689361117, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   crouchAction: {fileID: 0}
-  sprintAction: {fileID: 0}
   interactAction: {fileID: -6219605337524994383, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   placeOrPickupAction: {fileID: 0}
   pauseAction: {fileID: 0}
   isCrouching: 0
-  isSprinting: 0
   movementLocked: 0
   cameraLocked: 0
   movementAndCameraLocked: 0
@@ -377,9 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e46c0e680f5cae43b44fed68eda73af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  walkSpeed: 1
+  walkSpeed: 1.75
   crouchSpeedMultiplier: 0.5
-  sprintSpeedMultiplier: 1.5
   jumpVelocity: 3
   gravity: -9.81
   groundedGravityPushdown: -1
@@ -546,7 +543,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314973009122170744}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5090237669932314517, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
   m_audioClip: {fileID: 0}
@@ -643,7 +640,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314973009122170744}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5090237669932314517, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
   m_audioClip: {fileID: 0}

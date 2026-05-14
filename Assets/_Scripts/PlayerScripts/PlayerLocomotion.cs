@@ -13,7 +13,7 @@ public class PlayerLocomotion : MonoBehaviour
     [Space(10)]
     [SerializeField, Range(0, 5)] private float walkSpeed = 1f;
     [SerializeField, Range(0, 5)] private float crouchSpeedMultiplier = 0.6f;
-    [SerializeField, Range(0, 5)] private float sprintSpeedMultiplier = 1.5f;
+    //[SerializeField, Range(0, 5)] private float sprintSpeedMultiplier = 1.5f;
 
     [Header("Jumping")]
     [SerializeField] private float jumpVelocity = 3f;
@@ -113,17 +113,6 @@ public class PlayerLocomotion : MonoBehaviour
         else
         {
             UpdateCrouchCapsule(false);
-        }
-
-        // ---- Sprinting Logic ---- //
-        bool wishToSprint = playerInput.isSprinting;
-
-         if(!shouldCrouch && !playerInput.isCrouching)
-         {
-             if(wishToSprint)
-            {
-                    speed *= sprintSpeedMultiplier;
-            }
         }
         
         Vector3 horizontalVelocity = dir * speed;

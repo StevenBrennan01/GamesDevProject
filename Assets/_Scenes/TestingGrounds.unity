@@ -804,8 +804,31 @@ Transform:
   - {fileID: 356811617}
   - {fileID: 235476655}
   - {fileID: 1921042916}
+  - {fileID: 1443863123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &603269757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+  m_PrefabInstance: {fileID: 7677660511253246422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &603269769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603269757}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a0d1c9829169b499abc2ed28b53b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  headTransform: {fileID: 0}
+  phase1Distance: 7.5
+  phase2Distance: 14
+  phase3Distance: 20
+  maxDistFromHead: 21
 --- !u!114 &603544179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,6 +1250,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4846442962652430628, guid: d23710cbd583a2a438833f7493d385c0, type: 3}
   m_PrefabInstance: {fileID: 641303150}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1443863123 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4846442962652430628, guid: d23710cbd583a2a438833f7493d385c0, type: 3}
+  m_PrefabInstance: {fileID: 1997680955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1480156293
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,20 +1536,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 508377410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1880628897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: PlayerMovement/Sprint
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: b3ac5b83-34dc-4ef6-802b-ece0f8f8a4b4
 --- !u!1 &1921042912
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,7 +1719,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 508377410}
     m_Modifications:
     - target: {fileID: 4846442962652430628, guid: d23710cbd583a2a438833f7493d385c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2035,6 +2049,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1268583002574113053, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3042257376820864792, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2043,9 +2061,29 @@ PrefabInstance:
       propertyPath: m_PlaneDistance
       value: 0.015
       objectReference: {fileID: 0}
+    - target: {fileID: 3467157248430609221, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875741816408489191, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875268991064384037, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373705575069184986, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634364667692783261, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2181,10 +2219,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2006020504}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: inputLocked
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
       value: 
       objectReference: {fileID: 603544179}
@@ -2193,21 +2227,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 989898688}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: sprintAction
-      value: 
-      objectReference: {fileID: 1880628897}
-    - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: placeOrPickupAction
       value: 
       objectReference: {fileID: 411990188}
-    - target: {fileID: 7963761225874429830, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: walkSpeed
-      value: 1.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      insertIndex: 7
+      addedObject: {fileID: 603269769}
   m_SourcePrefab: {fileID: 100100000, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
 --- !u!4 &7677660511253246423 stripped
 Transform:
@@ -2235,8 +2264,7 @@ SceneRoots:
   - {fileID: 102768499}
   - {fileID: 758022395}
   - {fileID: 2375703581032637776}
-  - {fileID: 1997680955}
   - {fileID: 1890411468433407493}
   - {fileID: 1480156294}
-  - {fileID: 364020684}
   - {fileID: 5064291633043461203}
+  - {fileID: 364020684}
