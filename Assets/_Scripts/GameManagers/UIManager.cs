@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     {
         doc = GetComponent<UIDocument>();
         root = doc.rootVisualElement;
+        
         inputs = FindAnyObjectByType<PlayerInputs>();
 
         root.Clear();
