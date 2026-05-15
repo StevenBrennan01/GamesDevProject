@@ -441,7 +441,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -546,7 +546,7 @@ MonoBehaviour:
   gameMusicClip: {fileID: 8300000, guid: 8aa16b513f1cdcc438af283d29f4f065, type: 3}
   uiSfxSource: {fileID: 49800793}
   clickSFXClip: {fileID: 8300000, guid: 4a555fee27b3001419c70972f7a9dfb9, type: 3}
-  resetPlayerPrefs: 0
+  resetPlayerPrefs: 1
   playMenuMusicOnStart: 1
   loopMenuMusic: 1
   masterVolume: 0.3

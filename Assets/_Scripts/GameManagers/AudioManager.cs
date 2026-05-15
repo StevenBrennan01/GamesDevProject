@@ -133,7 +133,7 @@ public class AudioManager : MonoBehaviour
     public void ApplyVolumes()
     {
         if (musicSource != null)
-            musicSource.volume = musicVolume;
+            musicSource.volume = 0.2f;
 
         // Master via mixer parameter
         SetMasterVolume(masterVolume);

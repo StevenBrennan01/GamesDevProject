@@ -48,7 +48,7 @@ public class HUDStartup : MonoBehaviour
         {
             audioSource.PlayOneShot(HUDStartupSFX[1]);
             BatteryIcons[i].SetActive(true);
-            yield return new WaitForSeconds(1.6f);
+            yield return new WaitForSeconds(1.62f);
             
         }
     }
