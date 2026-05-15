@@ -2053,6 +2053,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2247882766131964296, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3042257376820864792, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2062,6 +2066,10 @@ PrefabInstance:
       value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 3467157248430609221, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719640120594315301, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -2081,9 +2089,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7530985113611723705, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8634364667692783261, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764655801327688344, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: turnOffOnStartup
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2218,6 +2238,10 @@ PrefabInstance:
       propertyPath: carriedVirtualCamera
       value: 
       objectReference: {fileID: 2006020504}
+    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: playerStartWithInputLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
       value: 

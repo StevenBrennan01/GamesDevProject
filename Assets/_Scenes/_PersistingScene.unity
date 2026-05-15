@@ -209,22 +209,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: fadeOutSeconds
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: levelSceneNames.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: 'levelSceneNames.Array.data[0]'
-      value: TestingGrounds_Additive
-      objectReference: {fileID: 0}
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: 'levelSceneNames.Array.data[1]'
-      value: AdditiveLoadTesting
-      objectReference: {fileID: 0}
     - target: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -268,10 +252,6 @@ PrefabInstance:
     - target: {fileID: 4215349513449318817, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920764775547802945, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: holdBlackSeconds
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -483,10 +463,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1678245344841897345, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -535,10 +511,6 @@ PrefabInstance:
       propertyPath: carriedVirtualCamera
       value: 
       objectReference: {fileID: 335648171}
-    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: startLockInputSeconds
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
       value: 
@@ -871,21 +843,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6318453764673869980, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
-      propertyPath: audioFadeOutDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6318453764673869980, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
-      propertyPath: delayedStartupAmount
-      value: 2.25
-      objectReference: {fileID: 0}
     - target: {fileID: 7966392584113269161, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
       propertyPath: m_Name
       value: StartupCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7966392584113269161, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

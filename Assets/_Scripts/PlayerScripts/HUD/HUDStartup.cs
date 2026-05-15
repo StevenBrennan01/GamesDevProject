@@ -17,10 +17,15 @@ public class HUDStartup : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] HUDStartupSFX;
 
+    [SerializeField] private bool turnOffOnStartup;
+
     void Awake()
     {
-        BatteryParent.SetActive(false);
-        SignalParent.SetActive(false);
+        if (turnOffOnStartup)
+        {
+            BatteryParent.SetActive(false);
+            SignalParent.SetActive(false);
+        }
     }
 
     public IEnumerator BatteryStartup()

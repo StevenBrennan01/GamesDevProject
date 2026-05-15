@@ -248,7 +248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1678245344841897345
 Transform:
   m_ObjectHideFlags: 0
@@ -285,6 +285,11 @@ MonoBehaviour:
   footstepClips:
   - {fileID: 8300000, guid: 4a555fee27b3001419c70972f7a9dfb9, type: 3}
   - {fileID: 8300000, guid: 7a1bb2e43ffa50c49943675b79c70fc4, type: 3}
+  - {fileID: 8300000, guid: 6d3d69bcd18d5dd449c969e6b40a46ed, type: 3}
+  - {fileID: 8300000, guid: 632bfe62a44f4ac4ba238dce92ed68ab, type: 3}
+  - {fileID: 8300000, guid: ede0c0387bba18f449c3b19ebf61cb80, type: 3}
+  - {fileID: 8300000, guid: 1a3262700e247144d97ba757005e3fd9, type: 3}
+  - {fileID: 8300000, guid: 48d525244a2a6d94e9abd0613be5636e, type: 3}
   interactClip: {fileID: 0}
   jumpUpClip: {fileID: 0}
   jumpLandingClip: {fileID: 0}
@@ -350,7 +355,7 @@ MonoBehaviour:
   firstPersonPitchPivot: {fileID: 6116089243526192271}
   playerStartInSecondPerson: 0
   playerStartWithInputLocked: 1
-  startLockInputSeconds: 4
+  startLockInputSeconds: 10
   lockSecondsAfterPlacing: 1.25
   waitSecondsBeforePickup: 0.5
   placedYawClamp: 45

@@ -737,6 +737,7 @@ MonoBehaviour:
   HUDStartupSFX:
   - {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
   - {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
+  turnOffOnStartup: 1
 --- !u!82 &7030651964310131624
 AudioSource:
   m_ObjectHideFlags: 0

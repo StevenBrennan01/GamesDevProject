@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelLoadManager
   levelSceneNames:
-  - AdditiveLoadTesting
+  - TestingGrounds_Additive
+  sceneSwapDelay: 2
 --- !u!1 &2859127725858021683
 GameObject:
   m_ObjectHideFlags: 0

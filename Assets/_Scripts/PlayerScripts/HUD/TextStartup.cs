@@ -36,7 +36,6 @@ public class TextStartupSequence : MonoBehaviour
     private void Start()
     {
         hudStartup = FindAnyObjectByType<HUDStartup>();
-        
         StartCoroutine(PlayStartupSequence());
     }
 

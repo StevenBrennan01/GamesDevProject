@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -93,27 +94,45 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void ApplySceneMusic(string sceneName)
+    public void ApplySceneMusic(string sceneName)
     {
         if (musicSource == null) return;
 
-        if (sceneName == "MainMenu")
+        switch (sceneName)
         {
-            if (playMenuMusicOnStart && menuMusicClip != null)
-            {
-                BeginMusic(musicSource, menuMusicClip);
-            }
+            case "MainMenu":
+                if (playMenuMusicOnStart && menuMusicClip != null)
+                {
+                    BeginMusic(musicSource, menuMusicClip);
+                }
+                break;
+
+            case "FYPLevel":
+                if (gameMusicClip != null)
+                {
+                    BeginMusic(musicSource, gameMusicClip);
+                }
+                break;
+
+            case "TestingGrounds_Additive":
+                if (gameMusicClip != null)
+                {
+                    // on first level, debounce to a coroutine that waits for startup to finish, then play music
+                    // other levels/scenes can just play music straight away
+                    StartCoroutine(DebounceFirstLevelMusic());
+                }
+                break;
+
+            default:
+                StopMusic(musicSource);
+                break;
         }
-        else if (sceneName == "FYPLevel")
-        {
-            if (gameMusicClip != null)
-            {
-                // on first level, debounce to a coroutine that waits for startup to finish, then play music
-                // other levels/scenes can just play music straight away
-                BeginMusic(musicSource, gameMusicClip);
-            }
-        }
-        // else: do nothing for other scenes for now
+    }
+
+    private IEnumerator DebounceFirstLevelMusic()
+    {
+        yield return new WaitForSeconds(40.5f);
+        BeginMusic(musicSource, gameMusicClip);
     }
 
     // -------- Saving / Loading --------

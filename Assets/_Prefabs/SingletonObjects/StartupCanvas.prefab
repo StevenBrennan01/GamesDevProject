@@ -511,7 +511,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '> INITIALIZING UNIT...
+  m_text: '> INITIALIZING UNIT... 17
 
     > LOADING MOTOR FUNCTIONS...
 
@@ -726,10 +726,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   audioSource: {fileID: 827816616177100251}
   BootStartupSFX: {fileID: 8300000, guid: be41b627bf067384b8894c1bb4d11036, type: 3}
-  DelayedStartup: 3
+  audioFadeOutDuration: 2
+  delayedStartupAmount: 2.25
   phases:
   - textComponent: {fileID: 2748898076159861264}
-    message: '> INITIALIZING UNIT...
+    message: '> INITIALIZING UNIT... 17
 
       > LOADING MOTOR FUNCTIONS...
 
@@ -753,7 +754,7 @@ MonoBehaviour:
 
       > REMOTE PERSPECTIVE SUPPORT ENABLED'
     charactersPerSecond: 50
-    delayAfter: 2
+    delayAfter: 1.5
   - textComponent: {fileID: 7919587326850841214}
     message: '> POWERING HUD: BATTERY
 
@@ -772,7 +773,7 @@ MonoBehaviour:
       >
       POWER CALIBRATION.........COMPLETE'
     charactersPerSecond: 22
-    delayAfter: 2
+    delayAfter: 1.5
   - textComponent: {fileID: 5929606427428522597}
     message: '> POWERING HUD: SIGNAL
 
@@ -788,7 +789,7 @@ MonoBehaviour:
 
       > HEAD SIGNAL...............DETACHED'
     charactersPerSecond: 22
-    delayAfter: 2
+    delayAfter: 1.5
   - textComponent: {fileID: 5023638242402404127}
     message: '> VISUAL FEED...............CLEAR
 
@@ -801,7 +802,7 @@ MonoBehaviour:
 
       > BEGIN'
     charactersPerSecond: 60
-    delayAfter: 4
+    delayAfter: 3
 --- !u!82 &827816616177100251
 AudioSource:
   m_ObjectHideFlags: 0
