@@ -48,8 +48,7 @@ public class HUDStartup : MonoBehaviour
         {
             audioSource.PlayOneShot(HUDStartupSFX[1]);
             BatteryIcons[i].SetActive(true);
-            yield return new WaitForSeconds(1.62f);
-            
+            yield return new WaitForSeconds(1.42f);
         }
     }
 
@@ -78,7 +77,7 @@ public class HUDStartup : MonoBehaviour
         {
             audioSource.PlayOneShot(HUDStartupSFX[1]);
             SignalIcons[i].SetActive(true);
-            yield return new WaitForSeconds(1.62f);
+            yield return new WaitForSeconds(1.575f);
         }
     }
 }

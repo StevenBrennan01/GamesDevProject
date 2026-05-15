@@ -108,6 +108,8 @@ public class AudioManager : MonoBehaviour
         {
             if (gameMusicClip != null)
             {
+                // on first level, debounce to a coroutine that waits for startup to finish, then play music
+                // other levels/scenes can just play music straight away
                 BeginMusic(musicSource, gameMusicClip);
             }
         }

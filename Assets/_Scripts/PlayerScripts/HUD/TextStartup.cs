@@ -28,6 +28,11 @@ public class TextStartupSequence : MonoBehaviour
 
     [SerializeField] private StartupPhase[] phases;
 
+    private void Awake()
+    {
+        this.gameObject.SetActive(true);
+    }
+
     private void Start()
     {
         hudStartup = FindAnyObjectByType<HUDStartup>();
@@ -109,5 +114,7 @@ public class TextStartupSequence : MonoBehaviour
 
         source.Stop();
         source.volume = startVolume;
+
+        this.gameObject.SetActive(false);
     }
 }
