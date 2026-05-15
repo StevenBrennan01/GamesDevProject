@@ -10,9 +10,11 @@ public class HeadPlacementVolume : MonoBehaviour
     public GameObject headVisualiser;
     [SerializeField, Range(0.0f, 150f)] private int visualiserRotateSpeed;
 
+    [Header("Placement Zone Settings")]
+    public bool isHeadCharger;
+
     [Tooltip("Trigger collider to detect for player presence")]
     private BoxCollider volumeCollider;
-
     private string playerTag = "Player"; //The Player Tag
 
     [HideInInspector] public bool canPlace;

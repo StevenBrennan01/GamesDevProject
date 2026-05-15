@@ -25,6 +25,9 @@ public class PlayerInputs : MonoBehaviour
     [Tooltip("Button - Head placed / Perspective changed")]
     [SerializeField] private InputActionReference placeOrPickupAction;
 
+    [Tooltip("Button - Signal Boost")]
+    [SerializeField] private InputActionReference signalBoostAction;
+
     [Tooltip("Button - Pausing game and triggering UI event")]
     [SerializeField] private InputActionReference pauseAction;
 
@@ -47,6 +50,7 @@ public class PlayerInputs : MonoBehaviour
     public event Action OnJump;
     public event Action OnInteract;
     public event Action OnTogglePlaceOrPickup; // Deals with just movement mode change, anims, audio, etc,
+    public event Action OnSignalBoost;
     public event Action OnPaused;
 
     private void OnEnable()
@@ -57,11 +61,13 @@ public class PlayerInputs : MonoBehaviour
         EnableAction(crouchAction);
         EnableAction(interactAction);
         EnableAction(placeOrPickupAction);
+        EnableAction(signalBoostAction);
         EnableAction(pauseAction);
 
         SubscribePerformed(jumpAction, HandleJump);
         SubscribePerformed(interactAction, HandleInteract);
         SubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
+        SubscribePerformed(signalBoostAction, HandleSignalBoost);
         SubscribePerformed(pauseAction, TogglePaused);
         SubscribeToggled(crouchAction, HandleCrouchChanged);
     }
@@ -74,11 +80,13 @@ public class PlayerInputs : MonoBehaviour
         DisableAction(crouchAction);
         DisableAction(interactAction);
         DisableAction(placeOrPickupAction);
+        DisableAction(signalBoostAction);
         DisableAction(pauseAction);
 
         UnsubscribePerformed(jumpAction, HandleJump);
         UnsubscribePerformed(interactAction, HandleInteract);
         UnsubscribePerformed(placeOrPickupAction, HandlePlaceOrPickup);
+        UnsubscribePerformed(signalBoostAction, HandleSignalBoost);
         UnsubscribePerformed(pauseAction, TogglePaused);
         UnsubscribeToggled(crouchAction, HandleCrouchChanged);
     }
@@ -120,6 +128,11 @@ public class PlayerInputs : MonoBehaviour
     private void HandlePlaceOrPickup(InputAction.CallbackContext context)
     {
         OnTogglePlaceOrPickup?.Invoke();
+    }
+
+    private void HandleSignalBoost(InputAction.CallbackContext context)
+    {
+        OnSignalBoost?.Invoke();
     }
 
     private void HandleCrouchChanged(InputAction.CallbackContext context)

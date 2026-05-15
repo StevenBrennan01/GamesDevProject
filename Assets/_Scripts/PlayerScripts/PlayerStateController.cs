@@ -68,8 +68,11 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Currently Active Placement Volume")]
     [Space(2)]
-    public HeadPlacementVolume currentPlacementVolume = null;
+    public HeadPlacementVolume potentialPlacementVolume = null;
     public HeadPlacementVolume placedHeadVolume;
+
+    // This will be used by the Signal Manager to compare the distance between the head and the player and adjust signal accordingly
+    public Transform placedHeadLocation => placedHeadVolume?.placementAnchor;
 
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
@@ -88,9 +91,9 @@ public class PlayerStateController : MonoBehaviour
         if (playerInput == null) playerInput = GetComponent<PlayerInputs>();
         if (playerInput == null) { Debug.LogError("Player Input reference is missing"); }
 
-        if (currentPlacementVolume != null)
+        if (potentialPlacementVolume != null)
         {
-            currentPlacementVolume = null;
+            potentialPlacementVolume = null;
         }
 
         if (!playerStartInSecondPerson)
@@ -169,26 +172,26 @@ public class PlayerStateController : MonoBehaviour
 
     private void TryPlaceHead()
     {
-        if (currentPlacementVolume == null)
+        if (potentialPlacementVolume == null)
         {
             Debug.LogWarning("Player is not within a valid head bounds");
             return;
         }
 
-        if (playerCharacter != null && !currentPlacementVolume.canPlace)
+        if (playerCharacter != null && !potentialPlacementVolume.canPlace)
         {
             Debug.LogWarning("Player cannot currently place");
             return;
         }
 
-        Transform anchor = currentPlacementVolume.placementAnchor;
-        if (currentPlacementVolume != null && anchor == null)
+        Transform anchor = potentialPlacementVolume.placementAnchor;
+        if (potentialPlacementVolume != null && anchor == null)
         {
             Debug.LogError("No Anchor for head placement exists within this volume");
             return;
         }
 
-        placedHeadVolume = currentPlacementVolume;
+        placedHeadVolume = potentialPlacementVolume;
 
         playerBody.SetActive(true);
 
@@ -211,14 +214,20 @@ public class PlayerStateController : MonoBehaviour
         SetCameraMode(CameraMode.Placed);
         CurrentMovementMode = MovementMode.SecondPerson;
 
-        currentPlacementVolume.headVisualiser.SetActive(false);
+        potentialPlacementVolume.headVisualiser.SetActive(false);
+
+        if(placedHeadVolume.isHeadCharger)
+        {
+            // Begin charging battery
+            // Or, do some lever pull interaction to trigger charging instead of just placement within a charging zone
+        }
     }
 
     private void TryPickupHead()
     {
         if (placedHeadVolume == null) return;
 
-        if (currentPlacementVolume != placedHeadVolume)
+        if (potentialPlacementVolume != placedHeadVolume)
         {
             return;
         }
@@ -268,7 +277,7 @@ public class PlayerStateController : MonoBehaviour
         playerBody.SetActive(false);
         playerInput.SetMovementLocked(false);
 
-        currentPlacementVolume.headVisualiser.SetActive(true);
+        potentialPlacementVolume.headVisualiser.SetActive(true);
 
         isBlending = false;
     }
@@ -380,7 +389,7 @@ public class PlayerStateController : MonoBehaviour
 
     public void SetCurrentPlacementVolume(HeadPlacementVolume volume)
     {
-        currentPlacementVolume = volume;
+        potentialPlacementVolume = volume;
     }
     private void InitializeCameraMode(CameraMode targetMode)
     {
@@ -440,7 +449,7 @@ public class PlayerStateController : MonoBehaviour
         CurrentMovementMode = MovementMode.SecondPerson;
         InitializeCameraMode(CameraMode.Placed);
 
-        currentPlacementVolume = null;
+        potentialPlacementVolume = null;
     }
 
     private IEnumerator LockInput(float lockSeconds)
