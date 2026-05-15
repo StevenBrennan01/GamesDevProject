@@ -190,6 +190,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
+--- !u!82 &301528349 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7030651964310131624, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &335648171 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4415863639457852982, guid: 4e975539f6cb46e409ab4036bed11944, type: 3}
@@ -201,6 +206,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &438603946 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8634364667692783261, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &450281859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -431,19 +441,90 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
+    - target: {fileID: 4147672668198249684, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030651964310131624, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_Resource
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8764655801327688344, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 301528349}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: SignalIcons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: BatteryIcons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: HUDStartupSFX.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'SignalIcons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1261389653}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'SignalIcons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1355613573}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'SignalIcons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 438603946}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'BatteryIcons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1862779166}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'BatteryIcons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2137976412}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'BatteryIcons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 709581055}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'BatteryIcons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 599161318}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'HUDStartupSFX.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: 'HUDStartupSFX.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
+    m_RemovedComponents:
+    - {fileID: 4147672668198249684, guid: d3930d424641a694eab44930fda1ce40, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+--- !u!1 &599161318 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8764655801327688344, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &709581055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3719640120594315301, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &721043243
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,9 +594,7 @@ MonoBehaviour:
     > NODE 03...................OK
 
     >
-    NODE 04...................OK
-
-    > HEAD SIGNAL...............LOCKED'
+    HEAD SIGNAL...............LOCKED'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1030,6 +1109,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212080443}
   m_CullTransparentMesh: 1
+--- !u!1 &1261389653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5373705575069184986, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1355613573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1268583002574113053, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1358268256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,10 +1364,7 @@ MonoBehaviour:
     >
     SEGMENT 04................OK
 
-    > SEGMENT 05................OK
-
-    > POWER
-    CALIBRATION.........COMPLETE'
+    > POWER CALIBRATION.........COMPLETE'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1501,8 +1587,8 @@ MonoBehaviour:
       HANDSHAKE COMPLETE
 
       > REMOTE PERSPECTIVE SUPPORT ENABLED'
-    charactersPerSecond: 50
-    delayAfter: 2.5
+    charactersPerSecond: 35
+    delayAfter: 2
   - textComponent: {fileID: 1595198846}
     message: '> POWERING HUD: BATTERY
 
@@ -1519,11 +1605,9 @@ MonoBehaviour:
       > SEGMENT 04................OK
 
       >
-      SEGMENT 05................OK
-
-      > POWER CALIBRATION.........COMPLETE'
+      POWER CALIBRATION.........COMPLETE'
     charactersPerSecond: 22
-    delayAfter: 3
+    delayAfter: 2
   - textComponent: {fileID: 721043245}
     message: '> POWERING HUD: SIGNAL
 
@@ -1537,12 +1621,9 @@ MonoBehaviour:
       >
       NODE 03...................OK
 
-      > NODE 04...................OK
-
-      >
-      HEAD SIGNAL...............LOCKED'
+      > HEAD SIGNAL...............LOCKED'
     charactersPerSecond: 22
-    delayAfter: 3
+    delayAfter: 2
   - textComponent: {fileID: 1358268258}
     message: '> VISUAL FEED...............CLEAR
 
@@ -1556,6 +1637,11 @@ MonoBehaviour:
       > BEGIN'
     charactersPerSecond: 22
     delayAfter: 3
+--- !u!1 &1862779166 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7530985113611723705, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1928526953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1587,6 +1673,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2137976412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2247882766131964296, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

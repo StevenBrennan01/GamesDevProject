@@ -13,9 +13,9 @@ public class TextStartupSequence : MonoBehaviour
 
         [TextArea(3, 8)] public string message;
 
-        [Min(15f), Range(15, 30)] public float charactersPerSecond = 18f;
+        [Min(15f)] public float charactersPerSecond = 18f;
 
-        [Min(0f), Range(0, 5)] public float delayAfter = 0.5f;
+        [Min(0f)] public float delayAfter = 0.5f;
     }
 
     [SerializeField] private StartupPhase[] phases;
