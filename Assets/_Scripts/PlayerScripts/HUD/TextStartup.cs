@@ -6,6 +6,10 @@ public class TextStartupSequence : MonoBehaviour
 {
     private HUDStartup hudStartup;
 
+    [Header("-= SFX & Audio Sources =-")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip BootStartupSFX;
+
     [System.Serializable]
     public class StartupPhase
     {
@@ -24,6 +28,7 @@ public class TextStartupSequence : MonoBehaviour
     {
         hudStartup = FindAnyObjectByType<HUDStartup>();
 
+        audioSource.PlayOneShot(BootStartupSFX);
         StartCoroutine(PlayStartupSequence());
     }
 

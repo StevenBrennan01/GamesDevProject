@@ -618,7 +618,6 @@ GameObject:
   - component: {fileID: 4201533715556618864}
   - component: {fileID: 4279469719571319706}
   - component: {fileID: 9192917552546908164}
-  - component: {fileID: 4147672668198249684}
   - component: {fileID: 7030651964310131624}
   m_Layer: 5
   m_Name: HUD Canvas
@@ -726,113 +725,18 @@ MonoBehaviour:
   BatteryParent: {fileID: 4875268991064384037}
   SignalParent: {fileID: 3875741816408489191}
   BatteryIcons:
-  - {fileID: 1201231511532603954}
   - {fileID: 7530985113611723705}
   - {fileID: 2247882766131964296}
   - {fileID: 3719640120594315301}
   - {fileID: 8764655801327688344}
   SignalIcons:
-  - {fileID: 3467157248430609221}
   - {fileID: 5373705575069184986}
   - {fileID: 1268583002574113053}
   - {fileID: 8634364667692783261}
---- !u!82 &4147672668198249684
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6441674839070373968}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5090237669932314517, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  audioSource: {fileID: 7030651964310131624}
+  HUDStartupSFX:
+  - {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
+  - {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
 --- !u!82 &7030651964310131624
 AudioSource:
   m_ObjectHideFlags: 0
