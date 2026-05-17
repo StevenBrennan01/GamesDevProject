@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8699441573431310588}
   - component: {fileID: 2449913336708095028}
   - component: {fileID: 4174102584185491318}
-  - component: {fileID: 732857000200730417}
   m_Layer: 0
   m_Name: HeadVisualiser
   m_TagString: Untagged
@@ -91,28 +90,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &732857000200730417
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3399871848992249623}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 961b841f00aaf7842aae8264211d2613, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5743714552456242581
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +174,7 @@ MonoBehaviour:
   placementAnchor: {fileID: 2015638222538621725}
   headVisualiser: {fileID: 3399871848992249623}
   visualiserRotateSpeed: 100
+  isHeadCharger: 0
   canPlace: 0
 --- !u!114 &-7710212469651755635
 MonoBehaviour:

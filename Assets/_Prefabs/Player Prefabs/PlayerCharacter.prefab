@@ -367,7 +367,7 @@ MonoBehaviour:
   firstPersonPitchClamp: 85
   firstPersonLookSensitivity: {x: 0.1, y: 0.1}
   firstPersonFieldOfView: 60
-  currentPlacementVolume: {fileID: 0}
+  potentialPlacementVolume: {fileID: 0}
   placedHeadVolume: {fileID: 0}
   isBlending: 0
 --- !u!114 &7963761225874429830

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class DoorInteraction : MonoBehaviour, IInteraction
@@ -7,7 +6,7 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     [SerializeField] private bool hasDoorBlocker;
     [SerializeField] private bool closeDoorAfterEntry;
-    [SerializeField] private float closerDoorAfter = 4f;
+    //[SerializeField] private float closerDoorAfter = 4f;
 
     private PlayerStateController playerState;
 
@@ -63,17 +62,17 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     private void OnTriggerEnter(Collider other)
     {
-        if (closeDoorAfterEntry)
-        {
-            StartCoroutine(DoorCloseAfterSeconds(closerDoorAfter));
-        }
-        else return;
+        // if (closeDoorAfterEntry)
+        // {
+        //     StartCoroutine(DoorCloseAfterSeconds(closerDoorAfter));
+        // }
+        // else return;
     }
 
-    private IEnumerator DoorCloseAfterSeconds(float seconds)
-    {
-        doorCloseCollider.enabled = false;
-        yield return new WaitForSeconds(seconds);
-        BeginAnimation();
-    }
+    // private IEnumerator DoorCloseAfterSeconds(float seconds)
+    // {
+    //     doorCloseCollider.enabled = false;
+    //     yield return new WaitForSeconds(seconds);
+    //     BeginAnimation();
+    // }
 }

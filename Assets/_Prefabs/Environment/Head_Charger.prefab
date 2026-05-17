@@ -132,7 +132,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2201584203435352837
 Transform:
@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2280913171519997706, guid: c6308a38a988031499179d366a49630f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.531
+      value: 0.616
       objectReference: {fileID: 0}
     - target: {fileID: 2280913171519997706, guid: c6308a38a988031499179d366a49630f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -314,7 +314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8636993601244617369, guid: 217be909b4c591e44805b4168418a5ef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.227
+      value: 0.107
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2740934185777805168, guid: 217be909b4c591e44805b4168418a5ef, type: 3}
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
   placementAnchor: {fileID: 1964427629388849718}
   headVisualiser: {fileID: 724727462467448109}
-  visualiserRotateSpeed: 0
+  visualiserRotateSpeed: 97
   isHeadCharger: 1
   canPlace: 0
 --- !u!114 &7108696947176995324
@@ -447,11 +447,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2280913171519997706, guid: c6308a38a988031499179d366a49630f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.689
+      value: -0.7226
       objectReference: {fileID: 0}
     - target: {fileID: 2280913171519997706, guid: c6308a38a988031499179d366a49630f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.531
+      value: 0.616
       objectReference: {fileID: 0}
     - target: {fileID: 2280913171519997706, guid: c6308a38a988031499179d366a49630f, type: 3}
       propertyPath: m_LocalPosition.z
