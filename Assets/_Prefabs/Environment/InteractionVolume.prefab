@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e194477bf62dc6340b66133227b3606c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  interactionBehaviours: []
+  interactionBehaviours:
+  - {fileID: 0}
+  canPull: 1
   LEDLight: {fileID: 0}
   OnMat: {fileID: 2100000, guid: 650646556f5bb7d44ad85a1ee74c39a2, type: 2}
   OffMat: {fileID: -791598910875471247, guid: 280e85922aa6a494ca6dec33926d4084, type: 3}
@@ -55,7 +57,7 @@ MonoBehaviour:
   executeOnce: 0
   resetInteraction: 0
   resetAfter: 0
-  cooldownSeconds: 0
+  cooldownSeconds: 4.25
 --- !u!135 &3435188344164470714
 SphereCollider:
   m_ObjectHideFlags: 0

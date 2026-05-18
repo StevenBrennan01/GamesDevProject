@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2281509190011741034}
   - component: {fileID: 2596158956114238874}
   - component: {fileID: 1494399371878561409}
+  - component: {fileID: 3974006862148002361}
   m_Layer: 0
   m_Name: Head_Charger
   m_TagString: Untagged
@@ -117,6 +118,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3731508, y: 1.6662914, z: 1.0209689}
   m_Center: {x: -0.008297622, y: 0.8331457, z: 0}
+--- !u!114 &3974006862148002361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281056359442037910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3d8c6aa5fc1dc4d8ef6bed36b0b48d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeadChargerInteraction
+  batteryManager: {fileID: 0}
 --- !u!1 &4484964646413868613
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,8 +182,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.521098, y: 1.6649442, z: 0.3286052}
-  m_Center: {x: -0.08165461, y: 0.3324721, z: -0.14577125}
+  m_Size: {x: 0.521098, y: 1.6649442, z: 0.51185733}
+  m_Center: {x: -0.08165461, y: 0.3324721, z: -0.23739728}
 --- !u!1001 &1693032822039295459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -406,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeadPlacementVolume
   placementAnchor: {fileID: 1964427629388849718}
   headVisualiser: {fileID: 724727462467448109}
-  visualiserRotateSpeed: 97
+  visualiserRotateSpeed: 0
   isHeadCharger: 1
   canPlace: 0
 --- !u!114 &7108696947176995324

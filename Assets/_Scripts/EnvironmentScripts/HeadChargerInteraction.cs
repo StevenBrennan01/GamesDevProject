@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class HeadChargerInteraction : MonoBehaviour, IInteraction
 {
-    public bool startCharging;
+    public BatteryManager batteryManager;
+
+    private void Awake()
+    {
+        batteryManager = FindAnyObjectByType<BatteryManager>();
+    }
 
     public void PerformInteraction(GameObject interactor)
     {
-        startCharging = true;
+        batteryManager.StartChargingBattery();
     }
 }

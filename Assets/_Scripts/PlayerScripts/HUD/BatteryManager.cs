@@ -16,36 +16,29 @@ public class BatteryManager : MonoBehaviour
     private int maxBatteryCells = 5;
     [SerializeField] private int currentBatteryCells;
     private Coroutine ChargeBatteryCoroutine;
-    private PlayerInputs inputs;
+    private PlayerInputs playerInput;
+
+    private void Awake()
+    {
+        playerInput = FindAnyObjectByType<PlayerInputs>();
+    }
 
     private void Start()
     {
         //currentBatteryCells = maxBatteryCells;
         UpdateBatteryHUD();
-        Debug.Log(currentBatteryCells);
     }
 
-        void Awake()
-        {
-            inputs = FindAnyObjectByType<PlayerInputs>();
+    void OnEnable()
+    {
+        playerInput.OnSignalBoost += () => DepleteBattery(2);
+    }
 
-            if(inputs == null)
-            {
-                Debug.LogError("BatteryManager could not find PlayerInputs in the scene.");
-            }
-        }
-
-        void OnEnable()
-        {
-            //inputs.OnSignalBoost += () => DepleteBattery(1);
-
-            inputs.OnSignalBoost += StartChargingBattery;
-
-            if(inputs == null)
-            {
-                Debug.LogError("BatteryManager could not subscribe to PlayerInputs events because PlayerInputs reference is missing.");
-            }
-        }
+    void OnDisable()
+    {
+        playerInput.OnSignalBoost -= () => DepleteBattery(2);
+        //headCharger.HeadCharging -= StartChargingBattery;
+    }
 
     public void StartChargingBattery()
     {
@@ -62,16 +55,17 @@ public class BatteryManager : MonoBehaviour
             currentBatteryCells++;
             audioSource.PlayOneShot(cellChangeSFX);
             UpdateBatteryHUD();
-            //Debug.Log(currentBatteryCells);
+            Debug.Log(currentBatteryCells);
             yield return new WaitForSeconds(.85f);
         }
+
+        ChargeBatteryCoroutine = null;
     }
 
     private void UpdateBatteryHUD()
     {
         for (int i = 0; i < BatteryIcons.Length; i++)
         {
-            //Debug.Log(currentBatteryCells);
             BatteryIcons[i].SetActive(i < currentBatteryCells);
             // loops through all cells and sets that one active if its index is less than the current battery cells that should be active.
         }
