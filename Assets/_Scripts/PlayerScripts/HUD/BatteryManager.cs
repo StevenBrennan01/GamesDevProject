@@ -14,30 +14,13 @@ public class BatteryManager : MonoBehaviour
 
     [Header("-= Battery Values =-")]
     private int maxBatteryCells = 5;
-    [SerializeField] private int currentBatteryCells;
+    [SerializeField] public int currentBatteryCells;
     private Coroutine ChargeBatteryCoroutine;
-    private PlayerInputs playerInput;
-
-    private void Awake()
-    {
-        playerInput = FindAnyObjectByType<PlayerInputs>();
-    }
 
     private void Start()
     {
-        //currentBatteryCells = maxBatteryCells;
+        currentBatteryCells = maxBatteryCells;
         UpdateBatteryHUD();
-    }
-
-    void OnEnable()
-    {
-        playerInput.OnSignalBoost += () => DepleteBattery(2);
-    }
-
-    void OnDisable()
-    {
-        playerInput.OnSignalBoost -= () => DepleteBattery(2);
-        //headCharger.HeadCharging -= StartChargingBattery;
     }
 
     public void StartChargingBattery()
@@ -55,7 +38,7 @@ public class BatteryManager : MonoBehaviour
             currentBatteryCells++;
             audioSource.PlayOneShot(cellChangeSFX);
             UpdateBatteryHUD();
-            Debug.Log(currentBatteryCells);
+
             yield return new WaitForSeconds(.85f);
         }
 
@@ -71,11 +54,20 @@ public class BatteryManager : MonoBehaviour
         }
     }
 
-    private void DepleteBattery(int depleteAmount)
+    public bool DepleteBattery(int depleteAmount)
     {
+        if(depleteAmount > currentBatteryCells)
+        {
+            Debug.Log("Not enough battery cells to perform action!");
+            return false;
+        }
+
         currentBatteryCells = Mathf.Max(currentBatteryCells - depleteAmount, 0);
-        Debug.Log(currentBatteryCells);
-        audioSource.PlayOneShot(cellChangeSFX);
+        //Debug.Log(currentBatteryCells);
+
+        audioSource.PlayOneShot(cellChangeSFX);// can maybe call audio elswhere as might want different sfx for depleting vs signalboost
         UpdateBatteryHUD();
+
+        return true;
     }
 }

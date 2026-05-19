@@ -1285,24 +1285,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 508377410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1231335753 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7494163721366355619, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
-  m_PrefabInstance: {fileID: 6507969636041476887}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1231335756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231335753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a4557ed8369b44ca120247829cd743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SignalBoost_CameraEffect
-  placedVirtualCamera: {fileID: 1700669462}
 --- !u!4 &1443863123 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4846442962652430628, guid: d23710cbd583a2a438833f7493d385c0, type: 3}
@@ -2159,6 +2141,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1268583002574113053, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2247882766131964296, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2168,6 +2154,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2104050783}
     - target: {fileID: 3719640120594315301, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373705575069184986, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -2181,11 +2171,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7750356026029242207, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: currentBatteryCells
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634364667692783261, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8764655801327688344, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: turnOffOnStartup
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2211,6 +2209,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1015287556647405523, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
+      propertyPath: placedVirtualCamera
+      value: 
+      objectReference: {fileID: 2006020504}
     - target: {fileID: 4123931780021968217, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2255,17 +2257,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
-    - target: {fileID: 7494163721366355619, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7494163721366355619, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1231335756}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
 --- !u!1001 &7677660511253246422
 PrefabInstance:
@@ -2327,10 +2322,6 @@ PrefabInstance:
       propertyPath: carriedVirtualCamera
       value: 
       objectReference: {fileID: 2006020504}
-    - target: {fileID: 2450482220910652310, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -9.4779124e-15
-      objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
       value: 

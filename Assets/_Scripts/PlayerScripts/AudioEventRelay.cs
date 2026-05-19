@@ -12,10 +12,23 @@ public class AudioEventRelay : MonoBehaviour
         }
     }
 
-
-
     public void FootstepAudioRelay()
     {
         playerAudioController.PlayFootStep();
+    }
+
+    public void JumpUpAudioRelay()
+    {
+        playerAudioController.PlayJumpUpSFX();
+    }
+
+    public void JumpLandingAudioRelay()
+    {
+        playerAudioController.PlayJumpLandingSFX();
+    }
+
+    public void InteractAudioRelay()
+    {
+        playerAudioController.PlayInteractSFX();
     }
 }

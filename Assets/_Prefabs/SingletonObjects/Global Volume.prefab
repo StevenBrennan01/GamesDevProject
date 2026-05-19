@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4123931780021968217}
   - component: {fileID: 6249506588337100147}
+  - component: {fileID: 1015287556647405523}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -49,3 +50,21 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d33ecca728cb7a44a9cc5c28edf8c305, type: 2}
+--- !u!114 &1015287556647405523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7494163721366355619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a4557ed8369b44ca120247829cd743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SignalBoost_CameraEffect
+  placedVirtualCamera: {fileID: 0}
+  globalVolume: {fileID: 6249506588337100147}
+  targetFOV: 75.5
+  targetBloom: 5
+  targetChromAbberation: 1
+  returnDuration: 0.75

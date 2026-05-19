@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1707730597805010298
 RectTransform:
   m_ObjectHideFlags: 0
@@ -472,7 +472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &668456620114915303
 RectTransform:
   m_ObjectHideFlags: 0
@@ -738,7 +738,7 @@ MonoBehaviour:
   HUDStartupSFX:
   - {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
   - {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
-  turnOffOnStartup: 0
+  turnOffOnStartup: 1
 --- !u!114 &7750356026029242207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,7 +774,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -950,7 +950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7072877169521979514
 RectTransform:
   m_ObjectHideFlags: 0
