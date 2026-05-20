@@ -15,7 +15,8 @@ public class PlayerAudioController : MonoBehaviour
 
     [Header("Movement Audio Clips")]
     [SerializeField] private AudioClip[] footstepClips;
-    [SerializeField] private AudioClip interactClip;
+    [SerializeField] private AudioClip headInteractClip;
+    [SerializeField] private AudioClip leverPullClip;
     [SerializeField] private AudioClip jumpUpClip;
     [SerializeField] private AudioClip jumpLandingClip;
 
@@ -90,10 +91,14 @@ public class PlayerAudioController : MonoBehaviour
         movementSource.PlayOneShot(jumpLandingClip);
     }
 
-
     // --- || Interacting Audio Methods || ---
-    public void PlayInteractSFX()
+    public void PlayHeadInteractSFX()
     {
-        movementSource.PlayOneShot(interactClip);
+        movementSource.PlayOneShot(headInteractClip);
+    }
+
+    public void PlayLeverPullSFX()
+    {
+        movementSource.PlayOneShot(leverPullClip);
     }
 }

@@ -16,6 +16,10 @@ public class StairInteraction : MonoBehaviour, IInteraction
     private bool stairsAreDown;
     public bool animationFinished;
 
+    [Header("-= SFX & Audio Sources =-")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip stairMoveSFX;
+
     private Coroutine animationFinishedCoroutine;
 
     private void Awake()
@@ -39,6 +43,8 @@ public class StairInteraction : MonoBehaviour, IInteraction
             bannisterBlocker2.SetActive(true);
             stairBlocker.SetActive(true);
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void PerformInteraction(GameObject interactor)
@@ -85,5 +91,12 @@ public class StairInteraction : MonoBehaviour, IInteraction
             if (animationFinishedCoroutine != null) StopCoroutine(animationFinishedCoroutine);
             animationFinishedCoroutine = StartCoroutine(animationFinishedDelay());
         }
+    }
+
+    public void PlayStairMoveSFX()
+    {
+        if(audioSource == null || stairMoveSFX == null) return;
+        
+        audioSource.PlayOneShot(stairMoveSFX);
     }
 }

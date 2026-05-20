@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("UI SFX Attributes")]
     [Space(5)]
-    [SerializeField] private AudioSource uiSfxSource;
+    [SerializeField] private AudioSource uiSFXSource;
     [SerializeField] private AudioClip clickSFXClip;
 
     [Header("Settings")]
@@ -252,8 +252,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlayOneShotClick()
     {
-        if (uiSfxSource == null || clickSFXClip == null) return;
-        uiSfxSource.PlayOneShot(clickSFXClip, sfxVolume);
+        if (uiSFXSource == null || clickSFXClip == null) return;
+        uiSFXSource.PlayOneShot(clickSFXClip, sfxVolume);
     }
 
     public void FadeMusic(float targetFade01, float fadeSeconds)

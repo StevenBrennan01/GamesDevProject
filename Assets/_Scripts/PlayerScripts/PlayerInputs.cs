@@ -99,6 +99,18 @@ public class PlayerInputs : MonoBehaviour
         if (movementLocked)
         {
             Move = Vector2.zero;
+            //Look = Vector2.zero;
+        }
+
+        if(cameraLocked)
+        {
+            //Move = Vector2.zero;
+            Look = Vector2.zero;
+        }
+
+        if(movementAndCameraLocked)
+        {
+            Move = Vector2.zero;
             Look = Vector2.zero;
         }
     }
@@ -107,6 +119,17 @@ public class PlayerInputs : MonoBehaviour
     public void SetMovementLocked(bool lockStatus)
     {
         movementLocked = lockStatus;
+    }
+
+    public void SetCameraLocked(bool lockStatus)
+    {
+        cameraLocked = lockStatus;
+    }
+    public void SetMovementAndCameraLocked(bool lockStatus)
+    {
+        movementAndCameraLocked = lockStatus;
+        movementLocked = lockStatus;
+        cameraLocked = lockStatus;
     }
 
     private void TogglePaused(InputAction.CallbackContext context)

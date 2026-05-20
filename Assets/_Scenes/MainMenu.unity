@@ -544,9 +544,9 @@ MonoBehaviour:
   musicSource: {fileID: 49800790}
   menuMusicClip: {fileID: 8300000, guid: 9dcff88b3c4bea44fb1ce04d98980291, type: 3}
   gameMusicClip: {fileID: 8300000, guid: 8aa16b513f1cdcc438af283d29f4f065, type: 3}
-  uiSfxSource: {fileID: 49800793}
-  clickSFXClip: {fileID: 8300000, guid: 4a555fee27b3001419c70972f7a9dfb9, type: 3}
-  resetPlayerPrefs: 0
+  uiSFXSource: {fileID: 0}
+  clickSFXClip: {fileID: 8300000, guid: 44766caa059435f4fb71af84b2bea7e4, type: 3}
+  resetPlayerPrefs: 1
   playMenuMusicOnStart: 1
   loopMenuMusic: 1
   masterVolume: 0.3

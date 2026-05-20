@@ -11,11 +11,30 @@ public class BatteryManager : MonoBehaviour
     [Header("-= SFX & Audio Sources =-")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip cellChangeSFX;
+    [SerializeField] private AudioClip cellGlitchSFX;
 
     [Header("-= Battery Values =-")]
     private int maxBatteryCells = 5;
     [SerializeField] public int currentBatteryCells;
     private Coroutine ChargeBatteryCoroutine;
+
+                // just using for testing, remove when done
+                private PlayerInputs playerInputs;
+
+                void Awake()
+                {
+                    playerInputs = FindAnyObjectByType<PlayerInputs>();
+                }
+
+                private void OnEnable()
+                {
+                    playerInputs.OnSignalBoost += DepleteOneCell;
+                }
+
+                private void OnDisable()
+                {
+                    playerInputs.OnSignalBoost -= DepleteOneCell;
+                }
 
     private void Start()
     {
@@ -33,6 +52,8 @@ public class BatteryManager : MonoBehaviour
 
     private IEnumerator ChargeBattery()
     {
+        yield return new WaitForSeconds(.85f);
+
         while (currentBatteryCells < maxBatteryCells)
         {
             currentBatteryCells++;
@@ -65,9 +86,79 @@ public class BatteryManager : MonoBehaviour
         currentBatteryCells = Mathf.Max(currentBatteryCells - depleteAmount, 0);
         //Debug.Log(currentBatteryCells);
 
-        audioSource.PlayOneShot(cellChangeSFX);// can maybe call audio elswhere as might want different sfx for depleting vs signalboost
+        //audioSource.PlayOneShot(cellChangeSFX); // can maybe call audio elswhere as might want different sfx for depleting vs signalboost
         UpdateBatteryHUD();
 
         return true;
+    }
+
+
+
+    // Below is most likely going to be used for depleting one cell every x amount of time
+    public void DepleteOneCell()
+    {
+        StartCoroutine(DepleteOneCellCoroutine());
+    }
+
+    private IEnumerator DepleteOneCellCoroutine()
+    {
+        if(currentBatteryCells <= 0)
+        {
+            Debug.Log("No battery cells left to deplete!");
+            yield break;
+        }
+
+        BatteryIcons[currentBatteryCells - 1].SetActive(false);
+        audioSource.PlayOneShot(cellGlitchSFX);
+
+        yield return new WaitForSeconds(0.2f);
+        BatteryIcons[currentBatteryCells - 1].SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+        BatteryIcons[currentBatteryCells - 1].SetActive(false);
+        audioSource.PlayOneShot(cellGlitchSFX);
+
+        yield return new WaitForSeconds(0.2f);
+        BatteryIcons[currentBatteryCells - 1].SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+        BatteryIcons[currentBatteryCells - 1].SetActive(false);
+        //audioSource.PlayOneShot(cellGlitchSFX);
+        audioSource.PlayOneShot(cellChangeSFX);
+
+        currentBatteryCells = Mathf.Max(currentBatteryCells - 1, 0);
+        UpdateBatteryHUD();
+    }
+
+
+
+    // Below is the same as the above DepleteBattery but it just triggers a coroutine to wait for a second, so signal boost
+    // effect can happen, then it does the battery depletion, sound effects, that sort of thing, so it doesnt happen all at once.
+    public bool DepleteBatteryAfterSignalBoost(int depleteAmount)
+    {
+        if(depleteAmount > currentBatteryCells)
+        {
+            Debug.Log("Not enough battery cells to perform action!");
+            return false;
+        }
+
+        StartCoroutine(DepleteBatteryAfterSignalBoost_Coroutine(depleteAmount));
+        return true;
+    }
+
+    private IEnumerator DepleteBatteryAfterSignalBoost_Coroutine(int depleteAmount)
+    {
+        yield return new WaitForSeconds(1f); // delay to allow signal boost effect to trigger before battery depletes
+
+        if(depleteAmount > currentBatteryCells)
+        {
+            Debug.Log("Not enough battery cells to perform action!");
+            yield break;
+        }
+
+        currentBatteryCells = Mathf.Max(currentBatteryCells - depleteAmount, 0);
+        //audioSource.PlayOneShot(cellGlitchSFX);
+        audioSource.PlayOneShot(cellChangeSFX);
+        UpdateBatteryHUD();
     }
 }

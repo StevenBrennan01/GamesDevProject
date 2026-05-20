@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [RequireComponent (typeof(Collider))]
 public class InteractionVolume : MonoBehaviour
@@ -13,14 +14,17 @@ public class InteractionVolume : MonoBehaviour
     [Header("Interaction Settings")]
     [Space(5)]
     private bool isLeverPulled = false;
+    [SerializeField] private bool returnLeverToStart = false;
+    [SerializeField, Range(0, 10)] private float returnAfterSeconds = 0f;
 
-    public bool canPull /* { get; private set; } */ = true; 
+    [HideInInspector] public bool canPull /* { get; private set; } */ = true; 
     private Animator leverAnim = null;
 
     [Space(5)]
     [Header("Lever Settings")]
     [Space(5)]
-    [SerializeField] private GameObject LEDLight;
+    [SerializeField] private GameObject LEDObject;
+    [SerializeField] private Light LEDPointLight;
     [SerializeField] private Material OnMat;
     [SerializeField] private Material OffMat; // Make it so that it switches based on lever being up or down
 
@@ -39,7 +43,7 @@ public class InteractionVolume : MonoBehaviour
 
     [Space(5)]
     [Header("Lever and Interaction Block Seconds")]
-    [Tooltip("2 Seconds for Stairs, etc.")]
+    [Tooltip("2 Seconds for Stairs, 4.25 for Chargers, etc.")]
     [SerializeField, Range(0f, 15f)] public float cooldownSeconds = 0f;
 
     private float lastExecuteTime = -Mathf.Infinity;
@@ -76,6 +80,19 @@ public class InteractionVolume : MonoBehaviour
         {
             Debug.LogError($"InteractionZone '{name}': Requires a script/interaction behaviour");
         }
+
+        if(LEDObject == null)
+        {
+            Debug.LogWarning("No LED Object assigned to" + this.name + "Interaction Volume");
+        }
+
+        if(LEDPointLight == null)
+        {
+            Debug.LogWarning("No PointLight assigned to" + this.name + "Interaction Volume");
+        }
+
+        LEDObject.GetComponent<Renderer>().material = OffMat;
+        LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
     }
 
     public void ExecuteInteraction(GameObject interactor)
@@ -102,13 +119,22 @@ public class InteractionVolume : MonoBehaviour
                     if (!isLeverPulled && canPull)
                     {
                         leverAnim.Play("LeverPullAnim");
+                        LEDObject.GetComponent<Renderer>().material = OnMat;
+                        LEDPointLight.color = new Color(0.02f, 1f, 0f); // Green
 
                         StartCoroutine(LeverPullCountdown());
                         isLeverPulled = true;
+
+                        if(returnLeverToStart)
+                        {
+                            StartCoroutine(ResetInteractionAfter(returnAfterSeconds, interactor));
+                        }
                     }
                     else if (isLeverPulled && canPull)
                     {
                         leverAnim.Play("LeverPushAnim");
+                        LEDObject.GetComponent<Renderer>().material = OffMat;
+                        LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
 
                         StartCoroutine(LeverPullCountdown());
                         isLeverPulled = false;
@@ -137,6 +163,21 @@ public class InteractionVolume : MonoBehaviour
             if (behaviour is IInteraction interactable)
             {
                 interactable.PerformInteraction(interactor);
+            }
+
+            if(!isLeverPulled)
+            {
+                leverAnim.Play("LeverPullAnim");
+                LEDObject.GetComponent<Renderer>().material = OnMat;
+                LEDPointLight.color = new Color(0.02f, 1f, 0f); // Green
+                isLeverPulled = true;
+            }
+            else
+            {
+                leverAnim.Play("LeverPushAnim");
+                LEDObject.GetComponent<Renderer>().material = OffMat;
+                LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
+                isLeverPulled = false;
             }
         }
     }

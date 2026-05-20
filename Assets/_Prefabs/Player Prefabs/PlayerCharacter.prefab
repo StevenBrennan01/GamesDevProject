@@ -292,7 +292,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f7c73eb9b5b8af24b87031b591566444, type: 3}
   - {fileID: 8300000, guid: 52c5e1808bea0b34e8abeab31591f4cc, type: 3}
   - {fileID: 8300000, guid: 9a47b64b8d432b94eb7317d268127b1d, type: 3}
-  interactClip: {fileID: 0}
+  headInteractClip: {fileID: 0}
+  leverPullClip: {fileID: 8300000, guid: e377ad3692a705e488a129917c984d48, type: 3}
   jumpUpClip: {fileID: 8300000, guid: 293f9cc4ac64b3b4cb6f57d953bca997, type: 3}
   jumpLandingClip: {fileID: 8300000, guid: d2b2858ce5c7ca9428bfd0e424d5a82d, type: 3}
   movementThreshold: 0.1
@@ -521,7 +522,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -618,7 +619,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -715,7 +716,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
