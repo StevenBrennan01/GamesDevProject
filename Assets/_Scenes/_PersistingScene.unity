@@ -209,6 +209,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: levelSceneNames.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: 'levelSceneNames.Array.data[1]'
+      value: TestingGrounds
+      objectReference: {fileID: 0}
     - target: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -407,13 +415,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1201231511532603954, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268583002574113053, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247882766131964296, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3042257376820864792, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
+    - target: {fileID: 3719640120594315301, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373705575069184986, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530985113611723705, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634364667692783261, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764655801327688344, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192917552546908164, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: turnOffOnStartup
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

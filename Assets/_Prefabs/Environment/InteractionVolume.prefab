@@ -44,7 +44,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 0.17337054, b: 0, a: 1}
-  m_Intensity: 0.025
+  m_Intensity: 0.03
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -179,7 +179,6 @@ MonoBehaviour:
   returnLeverToStart: 0
   returnAfterSeconds: 0
   canPull: 1
-  executeAfterSeconds: 0.25
   LEDObject: {fileID: 4208156762054646744}
   LEDPointLight: {fileID: 7361456931432590941}
   OnMat: {fileID: 2100000, guid: 650646556f5bb7d44ad85a1ee74c39a2, type: 2}

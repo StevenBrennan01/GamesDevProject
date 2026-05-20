@@ -1133,6 +1133,10 @@ PrefabInstance:
       propertyPath: 'interactionBehaviours.Array.data[1]'
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7361456931432590941, guid: 25709dabd6c0e7543a48e3b1f430b2ef, type: 3}
+      propertyPath: m_Intensity
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2534058452275643132, guid: 25709dabd6c0e7543a48e3b1f430b2ef, type: 3}
@@ -2203,6 +2207,10 @@ PrefabInstance:
     - target: {fileID: 8508145782487181995, guid: 14d240bd08665cb4d9e885e917c0bc59, type: 3}
       propertyPath: m_Name
       value: InteractionVolume_Charger
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670244489802046404, guid: 14d240bd08665cb4d9e885e917c0bc59, type: 3}
+      propertyPath: m_Intensity
+      value: 0.03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
