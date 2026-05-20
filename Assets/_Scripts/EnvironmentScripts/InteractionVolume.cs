@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 [RequireComponent (typeof(Collider))]
 public class InteractionVolume : MonoBehaviour
@@ -23,6 +22,7 @@ public class InteractionVolume : MonoBehaviour
     [Space(5)]
     [Header("Lever Settings")]
     [Space(5)]
+    private float executeAfterSeconds = 0.25f;
     [SerializeField] private GameObject LEDObject;
     [SerializeField] private Light LEDPointLight;
     [SerializeField] private Material OnMat;
@@ -45,6 +45,10 @@ public class InteractionVolume : MonoBehaviour
     [Header("Lever and Interaction Block Seconds")]
     [Tooltip("2 Seconds for Stairs, 4.25 for Chargers, etc.")]
     [SerializeField, Range(0f, 15f)] public float cooldownSeconds = 0f;
+
+    [Header("-= SFX & Audio Sources =-")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip leverFlipSFX;
 
     private float lastExecuteTime = -Mathf.Infinity;
     private bool hasExecutedOnce = false;
@@ -97,12 +101,18 @@ public class InteractionVolume : MonoBehaviour
 
     public void ExecuteInteraction(GameObject interactor)
     {
-        if (executeOnce && hasExecutedOnce) return;
+        StartCoroutine(DebounceInteractions(executeAfterSeconds, interactor));
+    }
 
-        if (Time.time < lastExecuteTime + cooldownSeconds) return;
+    private IEnumerator DebounceInteractions(float executeAfterSeconds, GameObject interactor)
+    {
+        if (executeOnce && hasExecutedOnce) yield break;
 
-        if (interactions == null || interactions.Length == 0) return;
+        if (Time.time < lastExecuteTime + cooldownSeconds) yield break;
 
+        if (interactions == null || interactions.Length == 0) yield break;
+
+        yield return new WaitForSeconds(executeAfterSeconds);
         lastExecuteTime = Time.time;
         if (runSequentially && sequentialDelaySeconds > 0f) // Delay Interactions
         {
@@ -170,6 +180,7 @@ public class InteractionVolume : MonoBehaviour
                 leverAnim.Play("LeverPullAnim");
                 LEDObject.GetComponent<Renderer>().material = OnMat;
                 LEDPointLight.color = new Color(0.02f, 1f, 0f); // Green
+                audioSource.PlayOneShot(leverFlipSFX);
                 isLeverPulled = true;
             }
             else
@@ -177,6 +188,7 @@ public class InteractionVolume : MonoBehaviour
                 leverAnim.Play("LeverPushAnim");
                 LEDObject.GetComponent<Renderer>().material = OffMat;
                 LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
+                audioSource.PlayOneShot(leverFlipSFX);
                 isLeverPulled = false;
             }
         }

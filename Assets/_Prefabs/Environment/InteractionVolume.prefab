@@ -179,6 +179,7 @@ MonoBehaviour:
   returnLeverToStart: 0
   returnAfterSeconds: 0
   canPull: 1
+  executeAfterSeconds: 0.25
   LEDObject: {fileID: 4208156762054646744}
   LEDPointLight: {fileID: 7361456931432590941}
   OnMat: {fileID: 2100000, guid: 650646556f5bb7d44ad85a1ee74c39a2, type: 2}
@@ -189,6 +190,8 @@ MonoBehaviour:
   resetInteraction: 0
   resetAfter: 0
   cooldownSeconds: 4.25
+  audioSource: {fileID: 6018498913764202888}
+  leverFlipSFX: {fileID: 8300000, guid: e377ad3692a705e488a129917c984d48, type: 3}
 --- !u!135 &3435188344164470714
 SphereCollider:
   m_ObjectHideFlags: 0
