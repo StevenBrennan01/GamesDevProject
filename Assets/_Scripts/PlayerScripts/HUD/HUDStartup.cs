@@ -18,6 +18,8 @@ public class HUDStartup : MonoBehaviour
     [SerializeField] private AudioClip[] HUDStartupSFX;
 
     [SerializeField] private bool turnOffOnStartup;
+    
+    private BatteryManager batteryManager;
 
     void Awake()
     {
@@ -26,6 +28,8 @@ public class HUDStartup : MonoBehaviour
             BatteryParent.SetActive(false);
             SignalParent.SetActive(false);
         }
+
+        batteryManager = FindAnyObjectByType<BatteryManager>();
     }
 
     public IEnumerator BatteryStartup()
@@ -55,6 +59,8 @@ public class HUDStartup : MonoBehaviour
             BatteryIcons[i].SetActive(true);
             yield return new WaitForSeconds(1.42f);
         }
+
+        batteryManager.SetBatteryFull();
     }
 
     public IEnumerator SignalStartup()

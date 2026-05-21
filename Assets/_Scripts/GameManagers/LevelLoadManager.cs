@@ -6,11 +6,17 @@ public class LevelLoadManager : MonoBehaviour
 {
     [Header("Level Loading Order")]
     [SerializeField] private string[] levelSceneNames;
-
     private int currentLevelIndex = -1;
     private string currentLevelSceneName;
 
     [SerializeField] private float sceneSwapDelay = 2f;
+
+    private BatteryManager batteryManager;
+
+    private void Awake()
+    {
+        batteryManager = FindAnyObjectByType<BatteryManager>();
+    }
 
     private void Start()
     {
@@ -45,6 +51,11 @@ public class LevelLoadManager : MonoBehaviour
         {
             SceneManager.SetActiveScene(loadedScene);
             currentLevelSceneName = sceneName;
+
+            if(loadedScene.name != levelSceneNames[0])
+            {
+                batteryManager.SetBatteryFull();
+            }
         }
         else
         {

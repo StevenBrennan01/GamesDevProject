@@ -7,11 +7,12 @@ public class PlayerAudioController : MonoBehaviour
     private PlayerLocomotion playerLocomotion;
     private AnimatorController playerAnimatorController;
     private PlayerInputs playerInputs;
+    private BatteryManager batteryManager;
 
     [Header("Movement Audio Sources")]
     [SerializeField] private AudioSource footstepSource;
-    [SerializeField] private AudioSource movementSource;
-    [SerializeField] private AudioSource SFXSource;
+    [SerializeField] private AudioSource interactionSource;
+    [SerializeField] private AudioSource localSource;
 
     [Header("Movement Audio Clips")]
     [SerializeField] private AudioClip[] footstepClips;
@@ -20,9 +21,13 @@ public class PlayerAudioController : MonoBehaviour
     [SerializeField] private AudioClip jumpUpClip;
     [SerializeField] private AudioClip jumpLandingClip;
 
+    [Header("Interactions/Ability Audio Clips")]
+    [SerializeField] private AudioClip signalBoostClip;
+
     [Header("Footstep Audio Settings")]
     [SerializeField, Range(0, 0.25f)] private float movementThreshold = 0.1f;
     [SerializeField] private float firstPersonStepInterval = 0.45f;
+    
     private float stepTimer;
 
     private void Awake()
@@ -30,16 +35,8 @@ public class PlayerAudioController : MonoBehaviour
         if (playerState == null) playerState = GetComponent<PlayerStateController>();
         if (playerLocomotion == null) playerLocomotion = GetComponent<PlayerLocomotion>();
         if (playerAnimatorController == null) playerAnimatorController = GetComponent<AnimatorController>();
-    }
-
-    private void OnEnable()
-    {
-        //playerLocomotion.JumpSuccessful += HandleJumpSFX;
-    }
-
-    private void OnDisable()
-    {
-        //playerLocomotion.JumpSuccessful -= HandleJumpSFX;
+        if (playerInputs == null) playerInputs = GetComponent<PlayerInputs>();
+        if (batteryManager == null) batteryManager = FindAnyObjectByType<BatteryManager>();
     }
 
     private void Update()
@@ -83,22 +80,28 @@ public class PlayerAudioController : MonoBehaviour
     // --- || Jumping Audio Methods || ---
     public void PlayJumpUpSFX()
     {
-        movementSource.PlayOneShot(jumpUpClip);
+        interactionSource.PlayOneShot(jumpUpClip);
     }
 
     public void PlayJumpLandingSFX()
     {
-        movementSource.PlayOneShot(jumpLandingClip);
+        interactionSource.PlayOneShot(jumpLandingClip);
     }
 
     // --- || Interacting Audio Methods || ---
     public void PlayHeadInteractSFX()
     {
-        movementSource.PlayOneShot(headInteractClip);
+        interactionSource.PlayOneShot(headInteractClip);
     }
 
     public void PlayLeverPullSFX()
     {
-        movementSource.PlayOneShot(leverPullClip);
+        interactionSource.PlayOneShot(leverPullClip);
+    }
+
+    // Signal Boost SFX / Still technically an interaction
+    public void PlaySignalBoostSFX()
+    {
+        localSource.PlayOneShot(signalBoostClip);
     }
 }

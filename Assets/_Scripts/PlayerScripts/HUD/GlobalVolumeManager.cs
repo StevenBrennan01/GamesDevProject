@@ -9,6 +9,7 @@ public class GlobalVolumeManager : MonoBehaviour
     private PlayerInputs playerInput;
     private BatteryManager batteryManager;
     private PlayerStateController playerStateController;
+    private PlayerAudioController playerAudioController;
 
     [Tooltip("Cinemachine VCam for the placed head cam")]
     [SerializeField] private CinemachineCamera placedVirtualCamera;
@@ -29,16 +30,6 @@ public class GlobalVolumeManager : MonoBehaviour
 
     [SerializeField] private float returnDuration = .75f;
 
-    [Header("-= SFX & Audio Sources =-")]
-    [Space(5)]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip[] batteryCellSFX;
-    [SerializeField] private AudioClip[] signalBarsSFX;
-    [SerializeField] private AudioClip barDepletingSFX;
-
-    [Space(10)]
-    [SerializeField] private AudioClip signalBoostActivateSFX;
-
     private Bloom bloom;
     private ChromaticAberration chromaticAberration;
     private Coroutine signalBoostRoutine;
@@ -57,7 +48,7 @@ public class GlobalVolumeManager : MonoBehaviour
                 originalBloom = bloom.intensity.value;
             }
 
-            if(globalVolume.profile.TryGet<ChromaticAberration>(out ChromaticAberration chromaticAberrationOverride))
+            if(globalVolume.profile.TryGet(out ChromaticAberration chromaticAberrationOverride))
             {
                 chromaticAberration = chromaticAberrationOverride;
                 originalChromAbberation = chromaticAberration.intensity.value;
@@ -67,17 +58,18 @@ public class GlobalVolumeManager : MonoBehaviour
         playerInput = FindAnyObjectByType<PlayerInputs>();
         batteryManager = FindAnyObjectByType<BatteryManager>();
         playerStateController = FindAnyObjectByType<PlayerStateController>();
+        playerAudioController = FindAnyObjectByType<PlayerAudioController>();
     }
 
-    // private void OnEnable()
-    // {
-    //     playerInput.OnSignalBoost += TriggerSignalBoostEffect;
-    // }
+    private void OnEnable()
+    {
+        playerInput.OnSignalBoost += TriggerSignalBoostEffect;
+    }
 
-    // private void OnDisable()
-    // {
-    //     playerInput.OnSignalBoost -= TriggerSignalBoostEffect;
-    // }
+    private void OnDisable()
+    {
+        playerInput.OnSignalBoost -= TriggerSignalBoostEffect;
+    }
 
     public void TriggerSignalBoostEffect()
     {
@@ -89,6 +81,7 @@ public class GlobalVolumeManager : MonoBehaviour
             return;
         }
 
+        playerAudioController.PlaySignalBoostSFX();
         signalBoostRoutine = StartCoroutine(SignalBoostEffectCoroutine());
     }
 

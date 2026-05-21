@@ -15,32 +15,22 @@ public class BatteryManager : MonoBehaviour
 
     [Header("-= Battery Values =-")]
     private int maxBatteryCells = 5;
-    [SerializeField] public int currentBatteryCells;
+    [SerializeField, Range(0, 5)] public int currentBatteryCells = 0;
     private Coroutine ChargeBatteryCoroutine;
 
-                // just using for testing, remove when done
-                private PlayerInputs playerInputs;
-
-                void Awake()
-                {
-                    playerInputs = FindAnyObjectByType<PlayerInputs>();
-                }
-
-                private void OnEnable()
-                {
-                    playerInputs.OnSignalBoost += DepleteOneCell;
-                }
-
-                private void OnDisable()
-                {
-                    playerInputs.OnSignalBoost -= DepleteOneCell;
-                }
-
-    private void Start()
+    public void SetBatteryFull()
     {
         currentBatteryCells = maxBatteryCells;
         UpdateBatteryHUD();
     }
+
+            // Only for testing, remove when done
+            private void Update() // will however use update at some point to deplete 1 cell every 60 seconds or so
+            {
+                Debug.Log(this + " Is actively running the Update function, delete it when done testing");
+                UpdateBatteryHUD();
+            }
+            // Only for testing, remove when done
 
     public void StartChargingBattery()
     {
@@ -148,7 +138,7 @@ public class BatteryManager : MonoBehaviour
 
     private IEnumerator DepleteBatteryAfterSignalBoost_Coroutine(int depleteAmount)
     {
-        yield return new WaitForSeconds(1f); // delay to allow signal boost effect to trigger before battery depletes
+        yield return new WaitForSeconds(.75f); // delay to allow signal boost effect to trigger before battery depletes
 
         if(depleteAmount > currentBatteryCells)
         {

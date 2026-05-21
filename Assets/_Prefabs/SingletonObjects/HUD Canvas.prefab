@@ -167,7 +167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4379122600168209224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7613269054917171886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -409,10 +409,10 @@ RectTransform:
   - {fileID: 7072877169521979514}
   m_Father: {fileID: 338131888952983200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.79, y: 0.69140744}
-  m_AnchorMax: {x: 0.92200005, y: 0.8793705}
-  m_AnchoredPosition: {x: -594, y: -301.7}
-  m_SizeDelta: {x: -152, y: -103}
+  m_AnchorMin: {x: 0.77179176, y: 0.69140744}
+  m_AnchorMax: {x: 0.9063959, y: 0.8793705}
+  m_AnchoredPosition: {x: -596.5, y: -301.7}
+  m_SizeDelta: {x: -157, y: -103}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4875268991064384037
 GameObject:
@@ -450,10 +450,10 @@ RectTransform:
   - {fileID: 559999830799645953}
   m_Father: {fileID: 338131888952983200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.09947917, y: 0.69140744}
-  m_AnchorMax: {x: 0.1764375, y: 0.90251863}
-  m_AnchoredPosition: {x: 1.5, y: 0}
-  m_SizeDelta: {x: -46, y: -128}
+  m_AnchorMin: {x: 0.097, y: 0.69140744}
+  m_AnchorMax: {x: 0.178, y: 0.90251863}
+  m_AnchoredPosition: {x: 2.5, y: 0}
+  m_SizeDelta: {x: -54, y: -128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5373705575069184986
 GameObject:
@@ -619,7 +619,9 @@ GameObject:
   - component: {fileID: 4279469719571319706}
   - component: {fileID: 9192917552546908164}
   - component: {fileID: 7750356026029242207}
+  - component: {fileID: 4658470835639523067}
   - component: {fileID: 7030651964310131624}
+  - component: {fileID: 2399974320581970919}
   m_Layer: 5
   m_Name: HUD Canvas
   m_TagString: Untagged
@@ -760,7 +762,39 @@ MonoBehaviour:
   - {fileID: 8764655801327688344}
   audioSource: {fileID: 7030651964310131624}
   cellChangeSFX: {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
-  currentBatteryCells: 5
+  cellGlitchSFX: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
+  currentBatteryCells: 1
+--- !u!114 &4658470835639523067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441674839070373968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61bbaddabe9b96e4bb2db9f46458d271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  SignalParent: {fileID: 3875741816408489191}
+  SignalIcons:
+  - {fileID: 5373705575069184986}
+  - {fileID: 1268583002574113053}
+  - {fileID: 8634364667692783261}
+  maxSignalDistance: 8
+  midSignalDistance: 6
+  minSignalDistance: 4
+  originalFilmGrainIntensity: 0.15
+  midLevelFilmGrainIntensity: 0.2
+  highLevelFilmGrainIntensity: 0.3
+  originalVignetteIntensity: 0.385
+  midLevelVignetteIntensity: 0.45
+  highLevelVignetteIntensity: 0.525
+  ringAudioSource: {fileID: 7030651964310131624}
+  staticAudioSource: {fileID: 2399974320581970919}
+  ringChangeSFX: {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
+  ringGlitchSFX: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
+  playerLocation: {fileID: 0}
 --- !u!82 &7030651964310131624
 AudioSource:
   m_ObjectHideFlags: 0
@@ -775,6 +809,103 @@ AudioSource:
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &2399974320581970919
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441674839070373968}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 5090237669932314517, guid: 828b8a1301cd2974b8dce3ab45ad78b6, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -875,7 +1006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8094411916169108229
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1025,7 +1156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7953450725034315310
 RectTransform:
   m_ObjectHideFlags: 0
