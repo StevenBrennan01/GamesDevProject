@@ -22,6 +22,9 @@ public class PlayerStateController : MonoBehaviour
     [Header("References")]
     [Space(10)]
 
+    [SerializeField] private GameObject levelRespawnPoint;
+    [Space(10)]
+
     [SerializeField] private GameObject playerCharacter; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerBody; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerHead;
@@ -459,5 +462,76 @@ public class PlayerStateController : MonoBehaviour
         yield return new WaitForSeconds(lockSeconds);
 
         playerInput.SetMovementLocked(false);
+    }
+
+    public void ResetForLevelSpawn(Transform spawnPoint)
+    {
+        StopAllCoroutines();
+
+        isBlending = false;
+        potentialPlacementVolume = null;
+        placedHeadVolume = null;
+
+        CurrentMovementMode = MovementMode.FirstPerson;
+        InitializeCameraMode(CameraMode.Carried);
+
+        // if (playerBody != null)
+        // {
+        //     playerBody.SetActive(false);
+        // }
+
+        // if (playerInput != null)
+        // {
+        //     playerInput.SetMovementLocked(false);
+        //     playerInput.SetCameraLocked(false);
+        //     playerInput.SetMovementAndCameraLocked(false);
+        // }
+
+        // CharacterController controller = GetComponent<CharacterController>();
+        // if (controller != null)
+        // {
+        //     controller.enabled = false;
+        // }
+
+        transform.position = spawnPoint.position;
+        transform.rotation = spawnPoint.rotation;
+
+        if (firstPersonYawRoot != null)
+        {
+            firstPersonYawRoot.rotation = Quaternion.Euler(0f, spawnPoint.eulerAngles.y, 0f);
+            fpYaw = firstPersonYawRoot.eulerAngles.y;
+        }
+
+        if (firstPersonPitchPivot != null)
+        {
+            firstPersonPitchPivot.localRotation = Quaternion.identity;
+            fpPitch = 0f;
+        }
+
+        if (playerHead != null && carriedMount != null)
+        {
+            playerHead.transform.SetParent(carriedMount, false);
+            playerHead.transform.localPosition = Vector3.zero;
+            playerHead.transform.localRotation = Quaternion.identity;
+        }
+
+        StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
+
+        // if (controller != null)
+        // {
+        //     controller.enabled = true;
+        // }
+    }
+
+    private IEnumerator GiveBackControlsAfterLevelRestart(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (playerInput != null)
+        {
+            playerInput.SetMovementLocked(false);
+            playerInput.SetCameraLocked(false);
+            playerInput.SetMovementAndCameraLocked(false);
+        }
     }
 }

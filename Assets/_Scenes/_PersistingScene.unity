@@ -190,6 +190,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
+--- !u!114 &160002692 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6249506588337100147, guid: 137c92f5cc7ea6c4b9c1bdcbfa166ef4, type: 3}
+  m_PrefabInstance: {fileID: 160002691}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &335648171 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4415863639457852982, guid: 4e975539f6cb46e409ab4036bed11944, type: 3}
@@ -209,6 +220,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: 'levelSceneNames.Array.data[1]'
+      value: AdditiveLoadTesting
+      objectReference: {fileID: 0}
     - target: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -412,6 +427,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1201252087}
     - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: globalVolume
+      value: 
+      objectReference: {fileID: 160002692}
+    - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: playerLocation
       value: 
       objectReference: {fileID: 869835534}
@@ -466,6 +485,10 @@ PrefabInstance:
     - target: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1678245344841897345, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_LocalPosition.x
@@ -531,6 +554,10 @@ PrefabInstance:
       propertyPath: placeOrPickupAction
       value: 
       objectReference: {fileID: 127755122}
+    - target: {fileID: 6872927020802601568, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: rolloffMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -633,7 +660,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1660121534153362350, guid: 063794b609b101f489d517b4ed09b1e8, type: 3}
       propertyPath: field of view
-      value: 65
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2433127437542816682, guid: 063794b609b101f489d517b4ed09b1e8, type: 3}
       propertyPath: m_LocalPosition.x

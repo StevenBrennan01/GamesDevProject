@@ -86,7 +86,6 @@ public class ScreenFadeManager : MonoBehaviour
 
     public void TransitionToNextScene()
     {
-
         StartCoroutine(FadeToBlack(fadeInOutSeconds));
     }
 

@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
         //    return;
         //}
 
-        inputs.SetMovementLocked(true);
+        inputs.SetMovementAndCameraLocked(true);
 
         LoadScreen(pauseScreenUXML);
         //isPaused = true;
@@ -200,7 +200,7 @@ public class UIManager : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         root.pickingMode = PickingMode.Position;
 
-        inputs.SetMovementLocked(false);
+        inputs.SetMovementAndCameraLocked(false);
 
         //isPaused = false;
 

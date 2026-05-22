@@ -32,10 +32,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private bool resetPlayerPrefs;
     [SerializeField] private bool playMenuMusicOnStart;
     [SerializeField] private bool loopMenuMusic;
+    private bool startupDebounceAlreadyDone = false;
 
     [SerializeField, Range(0f, 1f)] private float masterVolume = 0.3f;
     [SerializeField, Range(0f, 1f)] private float musicVolume = 0.75f;
-    [SerializeField, Range(0f, 1f)] private float sfxVolume = 0.75f;
+    [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float musicFadeStorer = 1f;
 
     // PlayerPrefs keys
@@ -75,7 +76,7 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(ApplyVolumesNextFrame());
     }
 
-    private System.Collections.IEnumerator ApplyVolumesNextFrame()
+    private IEnumerator ApplyVolumesNextFrame()
     {
         yield return null;
         ApplyVolumes();
@@ -119,7 +120,14 @@ public class AudioManager : MonoBehaviour
                 {
                     // on first level, debounce to a coroutine that waits for startup to finish, then play music
                     // other levels/scenes can just play music straight away
-                    StartCoroutine(DebounceFirstLevelMusic());
+                    if(!startupDebounceAlreadyDone)
+                    {
+                        StartCoroutine(DebounceFirstLevelMusic());
+                    }
+                    else
+                    {
+                        BeginMusic(musicSource, gameMusicClip);
+                    }
                 }
                 break;
 
@@ -131,6 +139,9 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator DebounceFirstLevelMusic()
     {
+        if (startupDebounceAlreadyDone) yield break;
+
+        startupDebounceAlreadyDone = true;
         yield return new WaitForSeconds(40.5f);
         BeginMusic(musicSource, gameMusicClip);
     }

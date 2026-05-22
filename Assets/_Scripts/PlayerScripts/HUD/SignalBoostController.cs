@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class GlobalVolumeManager : MonoBehaviour
+public class SignalBoostController : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private BatteryManager batteryManager;
@@ -34,6 +34,7 @@ public class GlobalVolumeManager : MonoBehaviour
     private ChromaticAberration chromaticAberration;
     private Coroutine signalBoostRoutine;
     private int signalBoostCost = 2;
+    private bool isSignalBoostActive = false;
     
     private void Awake()
     {
@@ -74,6 +75,8 @@ public class GlobalVolumeManager : MonoBehaviour
     public void TriggerSignalBoostEffect()
     {
         if(playerStateController.CurrentCameraMode != CameraMode.Placed) return;
+        if(batteryManager.isCharging) return;
+        if(isSignalBoostActive) return;
 
         if(!batteryManager.DepleteBatteryAfterSignalBoost(signalBoostCost))
         {
@@ -87,6 +90,8 @@ public class GlobalVolumeManager : MonoBehaviour
 
     private IEnumerator SignalBoostEffectCoroutine()
     {
+        isSignalBoostActive = true;
+
         if (placedVirtualCamera != null)
         {
             originalFOV = placedVirtualCamera.Lens.FieldOfView;
@@ -139,5 +144,8 @@ public class GlobalVolumeManager : MonoBehaviour
             chromaticAberration.intensity.value = originalChromAbberation;
 
         signalBoostRoutine = null;
+
+        yield return new WaitForSeconds(2.5f);
+        isSignalBoostActive = false;
     }
 }

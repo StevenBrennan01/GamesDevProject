@@ -6,19 +6,20 @@ using UnityEngine.Rendering.Universal;
 public class SignalManager : MonoBehaviour
 {
     private PlayerStateController playerState;
-    private GlobalVolumeManager globalVolumeManager;
+    private SignalBoostController globalVolumeManager;
     [SerializeField] private Volume globalVolume;
 
     [Header("-= Signal HUD Elements =-")]
     [Space(5)]
-    [SerializeField] private GameObject SignalParent;
-    [SerializeField] private GameObject[] SignalIcons;
+    [SerializeField] private GameObject signalParent;
+    [SerializeField] private GameObject[] signalIcons;
 
     [Header("-= Signal Distance Values =-")]
     [Space(5)]
-    [SerializeField] private float maxSignalDistance = 25f;
-    [SerializeField] private float midSignalDistance = 15f;
-    [SerializeField] private float minSignalDistance = 7.5f;
+    [SerializeField] private float maxSignalDistance = 10f;
+    [SerializeField] private float midSignalDistance2 = 8f;
+    [SerializeField] private float midSignalDistance = 6f;
+    [SerializeField] private float minSignalDistance = 3f;
 
     [Header("-= Film Grain Values =-")]
     [Space(5)]
@@ -46,7 +47,8 @@ public class SignalManager : MonoBehaviour
     [Header("-= Other References =-")]
     private int currentSignalLevel = -1;
     private Coroutine signalChangeCoroutine;
-    private bool headSignalInitialized = false;
+    private Coroutine noSignalFlickerCoroutine;
+    public bool headSignalInitialized = false;
 
     private FilmGrain filmGrain;
     private Vignette vignette;
@@ -54,7 +56,7 @@ public class SignalManager : MonoBehaviour
     private void Awake()
     {
         if (playerState == null) playerState = FindAnyObjectByType<PlayerStateController>();
-        if (globalVolumeManager == null) globalVolumeManager = FindAnyObjectByType<GlobalVolumeManager>();
+        if (globalVolumeManager == null) globalVolumeManager = FindAnyObjectByType<SignalBoostController>();
         if (globalVolume == null) globalVolume = FindAnyObjectByType<Volume>();
 
         if(globalVolume != null && globalVolume.profile != null)
@@ -103,27 +105,96 @@ public class SignalManager : MonoBehaviour
                 StopCoroutine(signalChangeCoroutine);
             }
 
+            if (targetSignalLevel == 0)
+            {
+                if (noSignalFlickerCoroutine == null)
+                {
+                    noSignalFlickerCoroutine = StartCoroutine(FlickerWholeSignalIcon());
+                }
+            }
+            else
+            {
+                if (noSignalFlickerCoroutine != null)
+                {
+                    StopCoroutine(noSignalFlickerCoroutine);
+                    noSignalFlickerCoroutine = null;
+
+                    if (signalParent != null)
+                    {
+                        signalParent.SetActive(true);
+                    }
+                }
+            }
+
             signalChangeCoroutine = StartCoroutine(SwitchSignalLevel(previousSignalLevel, targetSignalLevel));
         }
     }
 
     private int GetSignalLevelFromDistance(float distanceToHead)
     {
+        // if (distanceToHead <= minSignalDistance)
+        // {
+        //     Debug.Log("Full Signal");
+        //     return 4; // Full Signal
+        // }
+        // else if (distanceToHead > minSignalDistance && distanceToHead <= midSignalDistance)
+        // {
+        //     Debug.Log("Medium Signal");
+        //     return 3; // Medium Signal
+        // }
+        // else if (distanceToHead > midSignalDistance && distanceToHead <= midSignalDistance2)
+        // {
+        //     Debug.Log("Low Signal");
+        //     return 2; // Low Signal
+        // }
+        // else if (distanceToHead > midSignalDistance2 && distanceToHead <= maxSignalDistance)
+        // {
+        //     Debug.Log("Almost no Signal");
+        //     return 1; // No Signal
+        // }
+        // else    
+        // {
+        //     Debug.Log("No Signal");
+        //     return 0; // No Signal
+        // }   
+
         if (distanceToHead <= minSignalDistance)
         {
+            Debug.Log("Full Signal");
             return 3; // Full Signal
         }
-        else if (distanceToHead <= midSignalDistance)
+        else if (distanceToHead > minSignalDistance && distanceToHead <= midSignalDistance)
         {
+            Debug.Log("Medium Signal");
             return 2; // Medium Signal
         }
-        else if (distanceToHead <= maxSignalDistance)
+        else if (distanceToHead > midSignalDistance && distanceToHead <= maxSignalDistance)
         {
+            Debug.Log("Low Signal");
             return 1; // Low Signal
         }
-        else
+        else    
         {
+            Debug.Log("No Signal");
             return 0; // No Signal
+        }   
+    }
+
+    private IEnumerator FlickerWholeSignalIcon()
+    {
+        if(signalParent != null)
+        {
+            yield return new WaitForSeconds(1.5f);
+
+            while (true)
+            {
+                signalParent.SetActive(false);
+                PlaySignalSfx(ringGlitchSFX);
+                yield return new WaitForSeconds(0.2f);
+
+                signalParent.SetActive(true);
+                yield return new WaitForSeconds(0.2f);
+            }
         }
     }
 
@@ -146,23 +217,23 @@ public class SignalManager : MonoBehaviour
             SetSignalIcons(targetSignalLevel);
         }
 
-        if(flickerIndex >= 0 && flickerIndex < SignalIcons.Length)
+        if(flickerIndex >= 0 && flickerIndex < signalIcons.Length)
         {
-            SignalIcons[flickerIndex].SetActive(false);
+            signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
             yield return new WaitForSeconds(0.2f);
 
-            SignalIcons[flickerIndex].SetActive(true);
+            signalIcons[flickerIndex].SetActive(true);
             yield return new WaitForSeconds(0.2f);
 
-            SignalIcons[flickerIndex].SetActive(false);
+            signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
             yield return new WaitForSeconds(0.2f);
 
-            SignalIcons[flickerIndex].SetActive(true);
+            signalIcons[flickerIndex].SetActive(true);
             yield return new WaitForSeconds(0.2f);
 
-            SignalIcons[flickerIndex].SetActive(false);
+            signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
             yield return new WaitForSeconds(0.2f);
         }
@@ -198,31 +269,31 @@ public class SignalManager : MonoBehaviour
             }
         }
 
-        if(vignette != null)
-        {
-            switch (signalLevel)
-            {
-                case 3:
-                    vignette.intensity.value = originalVignetteIntensity;
-                    break;
-                case 2:
-                    vignette.intensity.value = midLevelVignetteIntensity;
-                    break;
-                case 1:
-                    vignette.intensity.value = highLevelVignetteIntensity;
-                    break;
-                case 0:
-                    vignette.intensity.value = highLevelVignetteIntensity + 0.05f; // Extra vignette for no signal
-                    break;
-            }
-        }
+        // if(vignette != null)
+        // {
+        //     switch (signalLevel)
+        //     {
+        //         case 3:
+        //             vignette.intensity.value = originalVignetteIntensity;
+        //             break;
+        //         case 2:
+        //             vignette.intensity.value = midLevelVignetteIntensity;
+        //             break;
+        //         case 1:
+        //             vignette.intensity.value = highLevelVignetteIntensity;
+        //             break;
+        //         case 0:
+        //             vignette.intensity.value = highLevelVignetteIntensity + 0.05f; // Extra vignette for no signal
+        //             break;
+        //     }
+        // }
     }
 
     private void SetSignalIcons(int activeCount)
     {
-        for (int i = 0; i < SignalIcons.Length; i++)
+        for (int i = 0; i < signalIcons.Length; i++)
         {
-            SignalIcons[i].SetActive(i < activeCount);
+            signalIcons[i].SetActive(i < activeCount);
         }
     }
 

@@ -18,6 +18,8 @@ public class BatteryManager : MonoBehaviour
     [SerializeField, Range(0, 5)] public int currentBatteryCells = 0;
     private Coroutine ChargeBatteryCoroutine;
 
+    public bool isCharging;
+
     public void SetBatteryFull()
     {
         currentBatteryCells = maxBatteryCells;
@@ -27,7 +29,7 @@ public class BatteryManager : MonoBehaviour
             // Only for testing, remove when done
             private void Update() // will however use update at some point to deplete 1 cell every 60 seconds or so
             {
-                Debug.Log(this + " Is actively running the Update function, delete it when done testing");
+                Debug.LogWarning(this + " Is actively running the Update function, delete it when done testing");
                 UpdateBatteryHUD();
             }
             // Only for testing, remove when done
@@ -42,6 +44,7 @@ public class BatteryManager : MonoBehaviour
 
     private IEnumerator ChargeBattery()
     {
+        isCharging = true;
         yield return new WaitForSeconds(.85f);
 
         while (currentBatteryCells < maxBatteryCells)
@@ -53,6 +56,7 @@ public class BatteryManager : MonoBehaviour
             yield return new WaitForSeconds(.85f);
         }
 
+        isCharging = false;
         ChargeBatteryCoroutine = null;
     }
 
