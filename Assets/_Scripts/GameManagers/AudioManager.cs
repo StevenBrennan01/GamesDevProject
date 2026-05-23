@@ -34,9 +34,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private bool loopMenuMusic;
     private bool startupDebounceAlreadyDone = false;
 
-    [SerializeField, Range(0f, 1f)] private float masterVolume = 0.3f;
-    [SerializeField, Range(0f, 1f)] private float musicVolume = 0.75f;
-    [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+    [SerializeField, Range(0f, 1.5f)] private float masterVolume = 0.3f;
+    [SerializeField, Range(0f, 1.5f)] private float musicVolume = 0.75f;
+    [SerializeField, Range(0f, 1.5f)] private float sfxVolume = 0.85f;
     [SerializeField, Range(0f, 1f)] private float musicFadeStorer = 1f;
 
     // PlayerPrefs keys
@@ -122,10 +122,12 @@ public class AudioManager : MonoBehaviour
                     // other levels/scenes can just play music straight away
                     if(!startupDebounceAlreadyDone)
                     {
+                        Debug.Log("AudioManager: Starting debounce for first level music.");
                         StartCoroutine(DebounceFirstLevelMusic());
                     }
                     else
                     {
+                        Debug.Log("starting music immediately.");
                         BeginMusic(musicSource, gameMusicClip);
                     }
                 }
@@ -188,9 +190,9 @@ public class AudioManager : MonoBehaviour
     }
 
     // -------- Volume setters (called by sliders) --------
-    public void SetMusicVolume(float music01)
+    public void SetMusicVolume(float musicValue)
     {
-        musicVolume = Mathf.Clamp01(music01);
+        musicVolume = Mathf.Clamp(musicValue, 0f, 1.5f);
 
         if (audioMixer != null && !string.IsNullOrWhiteSpace(musicVolumeParameter))
         {
@@ -198,15 +200,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void SetMasterVolume(float master01)
+    public void SetMasterVolume(float masterValue)
     {
-        masterVolume = Mathf.Clamp01(master01);
+        masterVolume = Mathf.Clamp(masterValue, 0f, 1.5f);
         SetMixerVolume(masterVolumeParameter, masterVolume);
     }
 
-    public void SetSfxVolume(float sfx01)
+    public void SetSfxVolume(float sfxValue)
     {
-        sfxVolume = Mathf.Clamp01(sfx01);
+        sfxVolume = Mathf.Clamp(sfxValue, 0f, 1.5f);
         SetMixerVolume (sfxVolumeParameter, sfxVolume);
     }
 
@@ -220,7 +222,7 @@ public class AudioManager : MonoBehaviour
         if (audioMixer == null) return;
         if (string.IsNullOrWhiteSpace(parameter)) return;
 
-        volume01 = Mathf.Clamp01(volume01);
+        volume01 = Mathf.Clamp(volume01, 0f, 1.5f);
 
         float db = (volume01 < 0.0001f) ? -80f : Mathf.Log10(volume01) * 20f;
 
@@ -241,6 +243,7 @@ public class AudioManager : MonoBehaviour
         source.loop = loopMenuMusic;
 
         //ApplyVolumes();
+        Debug.Log("Playing music clip: " + clip.name);
         source.Play();
     }
 

@@ -1658,10 +1658,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelSpawnPoint
       objectReference: {fileID: 0}
-    - target: {fileID: 7561586192455959934, guid: 686c525e7979c824bb9de4100a39d4e1, type: 3}
-      propertyPath: m_TagString
-      value: LevelSpawnPoint
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

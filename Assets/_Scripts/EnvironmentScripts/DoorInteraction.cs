@@ -3,6 +3,9 @@ using UnityEngine;
 public class DoorInteraction : MonoBehaviour, IInteraction
 {
     [SerializeField] private Animator anchorAnimator = null;
+    [SerializeField] private AudioSource doorAudioSource;
+    [SerializeField] private AudioClip doorOpenSFX;
+    [SerializeField] private AudioClip doorCloseSFX;
 
     [SerializeField] private bool hasDoorBlocker;
     [SerializeField] private bool closeDoorAfterEntry;
@@ -20,6 +23,8 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
         doorCloseCollider = GetComponent<BoxCollider>();
         doorCloseCollider.enabled = false;
+
+        doorAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -48,6 +53,11 @@ public class DoorInteraction : MonoBehaviour, IInteraction
             anchorAnimator.Play("DoorOpenAnim");
             isOpen = true;
 
+            if (doorOpenSFX != null)
+            {
+                doorAudioSource.PlayOneShot(doorOpenSFX);
+            }
+
             if (hasDoorBlocker)
             {
                 doorCloseCollider.enabled = true;
@@ -56,6 +66,10 @@ public class DoorInteraction : MonoBehaviour, IInteraction
         else
         {
             anchorAnimator.Play("DoorCloseAnim");
+            if (doorCloseSFX != null)
+            {
+                doorAudioSource.PlayOneShot(doorCloseSFX);
+            }
             isOpen = false;
         }
     }

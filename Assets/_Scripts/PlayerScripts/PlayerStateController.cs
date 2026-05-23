@@ -529,8 +529,6 @@ public class PlayerStateController : MonoBehaviour
 
         if (playerInput != null)
         {
-            playerInput.SetMovementLocked(false);
-            playerInput.SetCameraLocked(false);
             playerInput.SetMovementAndCameraLocked(false);
         }
     }

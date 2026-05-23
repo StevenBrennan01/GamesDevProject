@@ -122,9 +122,9 @@ public class LevelLoadManager : MonoBehaviour
 
         ResetPersistentPlayerState();
         ResetPlayerPosToSpawn();
-        AudioManager.instance.ApplySceneMusic(currentLevelSceneName);
 
-        Debug.Log("Reload Starting");
+        AudioManager.instance.RestoreMusicInstant();
+        AudioManager.instance.ApplySceneMusic(currentLevelSceneName);
     }
 
     private IEnumerator SwapLevelRoutine(string nextSceneName)
