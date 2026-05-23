@@ -244,7 +244,7 @@ MonoBehaviour:
   stairBlocker: {fileID: 2321865882891505336}
   animationFinished: 0
   audioSource: {fileID: 1703728027670313694}
-  stairMoveSFX: {fileID: 8300000, guid: 0a92e94fbc9f8c84e9a25ce1c1332ac5, type: 3}
+  stairMoveSFX: {fileID: 8300000, guid: 6a22c8bab1f84bd49ba3ad41b949ce15, type: 3}
 --- !u!82 &1703728027670313694
 AudioSource:
   m_ObjectHideFlags: 0

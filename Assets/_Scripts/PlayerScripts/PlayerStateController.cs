@@ -22,9 +22,6 @@ public class PlayerStateController : MonoBehaviour
     [Header("References")]
     [Space(10)]
 
-    [SerializeField] private GameObject levelRespawnPoint;
-    [Space(10)]
-
     [SerializeField] private GameObject playerCharacter; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerBody; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerHead;
@@ -89,6 +86,8 @@ public class PlayerStateController : MonoBehaviour
     private float fpYaw;
     private float fpPitch;
 
+    private GameObject spawnPoint;
+
     private void Awake()
     {
         if (playerInput == null) playerInput = GetComponent<PlayerInputs>();
@@ -127,8 +126,25 @@ public class PlayerStateController : MonoBehaviour
             StartCoroutine(LockInput(startLockInputSeconds));
         }
 
+        StartCoroutine(PlacePlayerInSpawnPosition(0.1f));
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private IEnumerator PlacePlayerInSpawnPosition(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.transform.position;
+            transform.rotation = spawnPoint.transform.rotation;
+        }
+        else
+        {
+            Debug.LogWarning("No spawn point found for player");
+        }
     }
 
     private void OnEnable()
@@ -455,6 +471,19 @@ public class PlayerStateController : MonoBehaviour
         potentialPlacementVolume = null;
     }
 
+    public void ForceHeadBackToPlayer()
+    {
+        if(playerHead != null && carriedMount != null)
+        {
+            playerHead.transform.SetParent(firstPersonPitchPivot, false);
+            playerHead.transform.localPosition = Vector3.zero;
+            playerHead.transform.localRotation = Quaternion.identity;
+        }
+
+        placedHeadVolume = null;
+        potentialPlacementVolume = null;
+    }
+
     private IEnumerator LockInput(float lockSeconds)
     {
         playerInput.SetMovementLocked(true);
@@ -468,30 +497,14 @@ public class PlayerStateController : MonoBehaviour
     {
         StopAllCoroutines();
 
+        playerBody.SetActive(false);
+
         isBlending = false;
         potentialPlacementVolume = null;
         placedHeadVolume = null;
 
         CurrentMovementMode = MovementMode.FirstPerson;
         InitializeCameraMode(CameraMode.Carried);
-
-        // if (playerBody != null)
-        // {
-        //     playerBody.SetActive(false);
-        // }
-
-        // if (playerInput != null)
-        // {
-        //     playerInput.SetMovementLocked(false);
-        //     playerInput.SetCameraLocked(false);
-        //     playerInput.SetMovementAndCameraLocked(false);
-        // }
-
-        // CharacterController controller = GetComponent<CharacterController>();
-        // if (controller != null)
-        // {
-        //     controller.enabled = false;
-        // }
 
         transform.position = spawnPoint.position;
         transform.rotation = spawnPoint.rotation;
@@ -506,13 +519,6 @@ public class PlayerStateController : MonoBehaviour
         {
             firstPersonPitchPivot.localRotation = Quaternion.identity;
             fpPitch = 0f;
-        }
-
-        if (playerHead != null && carriedMount != null)
-        {
-            playerHead.transform.SetParent(carriedMount, false);
-            playerHead.transform.localPosition = Vector3.zero;
-            playerHead.transform.localRotation = Quaternion.identity;
         }
 
         StartCoroutine(GiveBackControlsAfterLevelRestart(3f));

@@ -116,6 +116,8 @@ public class LevelLoadManager : MonoBehaviour
         AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
         FadeOutCurrentLevel();
 
+        StartCoroutine(DebounceHeadReturnToPlayer());
+
         yield return new WaitForSeconds(sceneSwapDelay);
 
         yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[currentLevelIndex]));
@@ -125,6 +127,20 @@ public class LevelLoadManager : MonoBehaviour
 
         AudioManager.instance.RestoreMusicInstant();
         AudioManager.instance.ApplySceneMusic(currentLevelSceneName);
+    }
+
+    private IEnumerator DebounceHeadReturnToPlayer()
+    {
+        // We debounce and do almost a second delay below because returning the playerhead to its original pos
+        // causes it to snap back into the player for a short moment before the level restart happens.
+        // So we wait for the screen to go black, then snap it back to the player when they cant see the snap happen.
+        // just before the level restart happens.
+
+        yield return new WaitForSeconds(1.5f);
+        if(playerStateController != null)
+        {
+            playerStateController.ForceHeadBackToPlayer();
+        }
     }
 
     private IEnumerator SwapLevelRoutine(string nextSceneName)
