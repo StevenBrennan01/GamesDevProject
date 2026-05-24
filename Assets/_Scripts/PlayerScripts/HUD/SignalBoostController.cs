@@ -8,6 +8,7 @@ public class SignalBoostController : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private BatteryManager batteryManager;
+    private SignalManager signalManager;
     private PlayerStateController playerStateController;
     private PlayerAudioController playerAudioController;
 
@@ -70,6 +71,7 @@ public class SignalBoostController : MonoBehaviour
         batteryManager = FindAnyObjectByType<BatteryManager>();
         playerStateController = FindAnyObjectByType<PlayerStateController>();
         playerAudioController = FindAnyObjectByType<PlayerAudioController>();
+        signalManager = FindAnyObjectByType<SignalManager>();
     }
 
     private void OnEnable()
@@ -90,12 +92,12 @@ public class SignalBoostController : MonoBehaviour
 
         if(!batteryManager.DepleteBatteryAfterSignalBoost(signalBoostCost))
         {
-            Debug.Log("Not enough battery cells to trigger action");
             return;
         }
 
         playerAudioController.PlaySignalBoostSFX();
         signalBoostRoutine = StartCoroutine(SignalBoostEffectCoroutine());
+        signalManager.IncreaseSignalLevelForDuration(7.5f);
     }
 
     private IEnumerator SignalBoostEffectCoroutine()
@@ -168,7 +170,7 @@ public class SignalBoostController : MonoBehaviour
 
         signalBoostRoutine = null;
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(8f);
         isSignalBoostActive = false;
     }
 }

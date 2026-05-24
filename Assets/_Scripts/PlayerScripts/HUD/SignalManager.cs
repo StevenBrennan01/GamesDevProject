@@ -6,13 +6,17 @@ using UnityEngine.Rendering.Universal;
 public class SignalManager : MonoBehaviour
 {
     private PlayerStateController playerState;
-    private SignalBoostController globalVolumeManager;
+    private SignalBoostController signalBoostController;
     [SerializeField] private Volume globalVolume;
 
     [Header("-= Signal HUD Elements =-")]
     [Space(5)]
     [SerializeField] private GameObject signalParent;
     [SerializeField] private GameObject[] signalIcons;
+    [SerializeField] private GameObject TimerParent;
+    [SerializeField] private GameObject TimerFillImage;
+
+     [Header("-= Signal Boost Values =-")]
 
     [Header("-= Signal Distance Values =-")]
     [Space(5)]
@@ -54,7 +58,9 @@ public class SignalManager : MonoBehaviour
     private int currentSignalLevel = -1;
     private Coroutine signalChangeCoroutine;
     private Coroutine noSignalFlickerCoroutine;
+    private Coroutine signalBoostCoroutine;
     public bool headSignalInitialized = false;
+    private bool isSignalBoostActive = false;
 
     private FilmGrain filmGrain;
     private Vignette vignette;
@@ -62,7 +68,7 @@ public class SignalManager : MonoBehaviour
     private void Awake()
     {
         if (playerState == null) playerState = FindAnyObjectByType<PlayerStateController>();
-        if (globalVolumeManager == null) globalVolumeManager = FindAnyObjectByType<SignalBoostController>();
+        if (signalBoostController == null) signalBoostController = FindAnyObjectByType<SignalBoostController>();
         if (globalVolume == null) globalVolume = FindAnyObjectByType<Volume>();
 
         if(globalVolume != null && globalVolume.profile != null)
@@ -79,17 +85,29 @@ public class SignalManager : MonoBehaviour
                 originalVignetteIntensity = vignette.intensity.value;
             }
         }
+
+        TimerParent.SetActive(false);
+        TimerFillImage.SetActive(false);
     }
 
     private void Update()
     {
         if (playerState == null) return;
         if (playerState.placedHeadVolume == null) return;
-        if (globalVolumeManager == null) return;
+        if (signalBoostController == null) return;
         if (globalVolume == null) return;
 
         headLocation = playerState.placedHeadVolume.transform;
         float distanceToHead = Vector3.Distance(playerLocation.position, headLocation.position);
+
+        if(isSignalBoostActive)
+        {
+            SetSignalIcons(3);
+            ApplyBoostedSignalPostFX();
+            return;
+        }
+
+        ApplySignalPostFXByDistance(distanceToHead);
 
         int targetSignalLevel = GetSignalLevelFromDistance(distanceToHead);
 
@@ -97,7 +115,7 @@ public class SignalManager : MonoBehaviour
         {
             currentSignalLevel = targetSignalLevel;
             SetSignalIcons(currentSignalLevel);
-            ApplySignalPostFX(targetSignalLevel);
+            // ApplySignalPostFX(targetSignalLevel);
             headSignalInitialized = true;
             return;
         }
@@ -187,11 +205,83 @@ public class SignalManager : MonoBehaviour
         }   
     }
 
+    public void IncreaseSignalLevelForDuration(float duration)
+    {
+        if(signalBoostCoroutine != null)
+        {
+            StopCoroutine(signalBoostCoroutine);
+        }
+
+        signalBoostCoroutine = StartCoroutine(TemporaryMaxSignalBoost(duration));
+    }
+
+    private IEnumerator TemporaryMaxSignalBoost(float duration)
+    {
+        isSignalBoostActive = true;
+        
+        TimerParent.SetActive(true);
+        TimerFillImage.SetActive(true);
+
+        var timerFillImageComponent = TimerFillImage.GetComponent<UnityEngine.UI.Image>();
+        timerFillImageComponent.fillAmount = 1f;
+
+        if(signalChangeCoroutine != null)
+        {
+            StopCoroutine(signalChangeCoroutine);
+        }
+        if(noSignalFlickerCoroutine != null)
+        {
+            StopCoroutine(noSignalFlickerCoroutine);
+            noSignalFlickerCoroutine = null;
+
+            if (signalParent != null)
+            {
+                signalParent.SetActive(true);
+            }
+        }
+
+        currentSignalLevel = 3;
+        SetSignalIcons(currentSignalLevel);
+        ApplyBoostedSignalPostFX();
+
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float fillAmount = Mathf.Lerp(1f, 0f, timer / duration);
+            TimerFillImage.GetComponent<UnityEngine.UI.Image>().fillAmount = fillAmount;
+
+            yield return null;
+        }
+
+        timerFillImageComponent.fillAmount = 0f;
+
+        TimerParent.SetActive(false);
+        TimerFillImage.SetActive(false);
+
+        isSignalBoostActive = false;
+        signalBoostCoroutine = null;
+    }
+
+    private void ApplyBoostedSignalPostFX()
+    {
+        if (filmGrain != null)
+        {
+            filmGrain.intensity.value = originalFilmGrainIntensity;
+            filmGrain.response.value = originalFilmGrainResponse;
+        }
+
+        // if (vignette != null)
+        // {
+        //     vignette.intensity.value = originalVignetteIntensity;
+        // }
+    }
+
     private IEnumerator FlickerWholeSignalIcon()
     {
         if(signalParent != null)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.2f);
 
             while (true)
             {
@@ -237,12 +327,12 @@ public class SignalManager : MonoBehaviour
             PlaySignalSfx(ringGlitchSFX);
             yield return new WaitForSeconds(0.1f);
 
-            signalIcons[flickerIndex].SetActive(true);
-            yield return new WaitForSeconds(0.1f);
+            // signalIcons[flickerIndex].SetActive(true);
+            // yield return new WaitForSeconds(0.1f);
 
-            signalIcons[flickerIndex].SetActive(false);
-            PlaySignalSfx(ringGlitchSFX);
-            yield return new WaitForSeconds(0.1f);
+            // signalIcons[flickerIndex].SetActive(false);
+            // PlaySignalSfx(ringGlitchSFX);
+            // yield return new WaitForSeconds(0.1f);
         }
         else
         {
@@ -251,53 +341,20 @@ public class SignalManager : MonoBehaviour
         }
 
         SetSignalIcons(targetSignalLevel);
-        ApplySignalPostFX(targetSignalLevel);
+        //ApplySignalPostFX(targetSignalLevel);
         signalChangeCoroutine = null;
     }
 
-    private void ApplySignalPostFX(int signalLevel)
+    private void ApplySignalPostFXByDistance(float distanceToHead)
     {
+        float t = Mathf.InverseLerp(minSignalDistance, maxSignalDistance, distanceToHead);
+        t = Mathf.SmoothStep(0f, 1f, t); // test with and withoout smoothstep to see if it looks better with a curve or linear
+
         if(filmGrain != null)
         {
-            switch (signalLevel)
-            {
-                case 3:
-                    filmGrain.intensity.value = originalFilmGrainIntensity;
-                    filmGrain.response.value = originalFilmGrainResponse;
-                    break;
-                case 2:
-                    filmGrain.intensity.value = midLevelFilmGrainIntensity;
-                    filmGrain.response.value = midLevelFilmGrainResponse;
-                    break;
-                case 1:
-                    filmGrain.intensity.value = highLevelFilmGrainIntensity;
-                    filmGrain.response.value = highLevelFilmGrainResponse;
-                    break;
-                case 0:
-                    filmGrain.intensity.value = highLevelFilmGrainIntensity + 0.1f; // Extra grain for no signal
-                    filmGrain.response.value = highLevelFilmGrainResponse + 0.1f;
-                    break;
-            }
+            filmGrain.intensity.value = Mathf.Lerp(originalFilmGrainIntensity, highLevelFilmGrainIntensity, t);
+            filmGrain.response.value = Mathf.Lerp(originalFilmGrainResponse, highLevelFilmGrainResponse, t);
         }
-
-        // if(vignette != null)
-        // {
-        //     switch (signalLevel)
-        //     {
-        //         case 3:
-        //             vignette.intensity.value = originalVignetteIntensity;
-        //             break;
-        //         case 2:
-        //             vignette.intensity.value = midLevelVignetteIntensity;
-        //             break;
-        //         case 1:
-        //             vignette.intensity.value = highLevelVignetteIntensity;
-        //             break;
-        //         case 0:
-        //             vignette.intensity.value = highLevelVignetteIntensity;
-        //             break;
-        //     }
-        // }
     }
 
     private void SetSignalIcons(int activeCount)
