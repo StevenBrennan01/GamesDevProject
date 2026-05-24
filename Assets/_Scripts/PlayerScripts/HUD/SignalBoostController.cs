@@ -24,14 +24,18 @@ public class SignalBoostController : MonoBehaviour
     
     [SerializeField] private float targetChromAbberation = 1f;
 
+    [SerializeField] private float targetLensDistortion = -.5f;
+
     private float originalFOV;
     private float originalBloom;
     private float originalChromAbberation;
+    private float originalLensDistortion;
 
     [SerializeField] private float returnDuration = .75f;
 
     private Bloom bloom;
     private ChromaticAberration chromaticAberration;
+    private LensDistortion lensDistortion;
     private Coroutine signalBoostRoutine;
     private int signalBoostCost = 2;
     private bool isSignalBoostActive = false;
@@ -53,6 +57,12 @@ public class SignalBoostController : MonoBehaviour
             {
                 chromaticAberration = chromaticAberrationOverride;
                 originalChromAbberation = chromaticAberration.intensity.value;
+            }
+
+            if(globalVolume.profile.TryGet(out LensDistortion lensDistortionOverride))
+            {
+                lensDistortion = lensDistortionOverride;
+                originalLensDistortion = lensDistortion.intensity.value;
             }
         }
 
@@ -110,11 +120,18 @@ public class SignalBoostController : MonoBehaviour
             chromaticAberration.intensity.value = targetChromAbberation;
         } // set the chromatic aberration to its target value immediately
 
+        if (lensDistortion != null)
+        {
+            originalLensDistortion = lensDistortion.intensity.value;
+            lensDistortion.intensity.value = targetLensDistortion;
+        } // set the lens distortion to its target value immediately
+
         float timer = 0f;
 
         float changedFOV = placedVirtualCamera != null ? placedVirtualCamera.Lens.FieldOfView : 0f; // uses the current, active FOV
         float changedBloom = bloom != null ? bloom.intensity.value : 0f; // uses the current, active bloom value
         float changedChromatic = chromaticAberration != null ? chromaticAberration.intensity.value : 0f; // uses the current, active chromatic value
+        float changedLensDistortion = lensDistortion != null ? lensDistortion.intensity.value : 0f; // uses the current, active lens distortion value
 
         while (timer < returnDuration) // smoothly interpolate back to the original values over the return duration
         {
@@ -131,6 +148,9 @@ public class SignalBoostController : MonoBehaviour
             if(chromaticAberration != null)
                 chromaticAberration.intensity.value = Mathf.Lerp(changedChromatic, originalChromAbberation, t);
 
+            if(lensDistortion != null)
+                lensDistortion.intensity.value = Mathf.Lerp(changedLensDistortion, originalLensDistortion, t);
+
             yield return null;
         }
 
@@ -142,6 +162,9 @@ public class SignalBoostController : MonoBehaviour
 
         if(chromaticAberration != null)
             chromaticAberration.intensity.value = originalChromAbberation;
+
+        if(lensDistortion != null)
+            lensDistortion.intensity.value = originalLensDistortion;
 
         signalBoostRoutine = null;
 

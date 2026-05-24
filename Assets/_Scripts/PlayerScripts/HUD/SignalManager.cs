@@ -21,17 +21,23 @@ public class SignalManager : MonoBehaviour
     [SerializeField] private float midSignalDistance = 6f;
     [SerializeField] private float minSignalDistance = 3f;
 
-    [Header("-= Film Grain Values =-")]
+    [Header("-= Film Grain Intensity Values =-")]
     [Space(5)]
-    [SerializeField] private float originalFilmGrainIntensity = 0.15f; //0.15 intensity, 0.6 response
-    [SerializeField] private float midLevelFilmGrainIntensity = 0.2f;
-    [SerializeField] private float highLevelFilmGrainIntensity = 0.3f;
+    [SerializeField] private float originalFilmGrainIntensity = 0.15f; //0.15 original intensity
+    [SerializeField] private float midLevelFilmGrainIntensity;
+    [SerializeField] private float highLevelFilmGrainIntensity;
+
+    [Header("-= Film Grain Response Values =-")]
+    [Space(5)]
+    [SerializeField] private float originalFilmGrainResponse = 0.6f; //0.6 original response
+    [SerializeField] private float midLevelFilmGrainResponse;
+    [SerializeField] private float highLevelFilmGrainResponse;
 
     [Header("-= Vignette Values =-")]
     [Space(5)]
     [SerializeField] private float originalVignetteIntensity = 0.385f; //0.385 intensity, 0.45 smoothness
-    [SerializeField] private float midLevelVignetteIntensity = 0.45f;
-    [SerializeField] private float highLevelVignetteIntensity = 0.525f;
+    [SerializeField] private float midLevelVignetteIntensity = 0.4f;
+    [SerializeField] private float highLevelVignetteIntensity = 0.425f;
     
     [Header("-= SFX & Audio Sources =-")]
     [SerializeField] private AudioSource ringAudioSource;
@@ -65,6 +71,7 @@ public class SignalManager : MonoBehaviour
             {
                 filmGrain = filmGrainOverride;
                 originalFilmGrainIntensity = filmGrain.intensity.value;
+                originalFilmGrainResponse = filmGrain.response.value;
             }
             if(globalVolume.profile.TryGet(out Vignette vignetteOverride))
             {
@@ -221,26 +228,26 @@ public class SignalManager : MonoBehaviour
         {
             signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
 
             signalIcons[flickerIndex].SetActive(true);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
 
             signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
 
             signalIcons[flickerIndex].SetActive(true);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
 
             signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
         else
         {
             PlaySignalSfx(ringGlitchSFX);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         SetSignalIcons(targetSignalLevel);
@@ -256,15 +263,19 @@ public class SignalManager : MonoBehaviour
             {
                 case 3:
                     filmGrain.intensity.value = originalFilmGrainIntensity;
+                    filmGrain.response.value = originalFilmGrainResponse;
                     break;
                 case 2:
                     filmGrain.intensity.value = midLevelFilmGrainIntensity;
+                    filmGrain.response.value = midLevelFilmGrainResponse;
                     break;
                 case 1:
                     filmGrain.intensity.value = highLevelFilmGrainIntensity;
+                    filmGrain.response.value = highLevelFilmGrainResponse;
                     break;
                 case 0:
                     filmGrain.intensity.value = highLevelFilmGrainIntensity + 0.1f; // Extra grain for no signal
+                    filmGrain.response.value = highLevelFilmGrainResponse + 0.1f;
                     break;
             }
         }
@@ -283,7 +294,7 @@ public class SignalManager : MonoBehaviour
         //             vignette.intensity.value = highLevelVignetteIntensity;
         //             break;
         //         case 0:
-        //             vignette.intensity.value = highLevelVignetteIntensity + 0.05f; // Extra vignette for no signal
+        //             vignette.intensity.value = highLevelVignetteIntensity;
         //             break;
         //     }
         // }
