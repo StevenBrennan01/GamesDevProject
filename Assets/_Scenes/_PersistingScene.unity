@@ -813,6 +813,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
+    - target: {fileID: 1653844719696547896, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -259.50012
+      objectReference: {fileID: 0}
     - target: {fileID: 2717962846909328688, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -893,9 +897,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6566308998969138600, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -196.99998
+      objectReference: {fileID: 0}
     - target: {fileID: 7966392584113269161, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
       propertyPath: m_Name
       value: StartupCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564882319275406712, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -218.00005
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770047193319659781, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -252.50009
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

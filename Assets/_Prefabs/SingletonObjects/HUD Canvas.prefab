@@ -894,16 +894,16 @@ MonoBehaviour:
   - {fileID: 8634364667692783261}
   TimerParent: {fileID: 6306815442661151905}
   TimerFillImage: {fileID: 7369889643750873532}
-  maxSignalDistance: 10
+  maxSignalDistance: 8.5
   midSignalDistance2: 8
   midSignalDistance: 6
   minSignalDistance: 3
   originalFilmGrainIntensity: 0.15
   midLevelFilmGrainIntensity: 0.2
-  highLevelFilmGrainIntensity: 0.34
+  highLevelFilmGrainIntensity: 0.3
   originalFilmGrainResponse: 0.6
   midLevelFilmGrainResponse: 0.4
-  highLevelFilmGrainResponse: 0.2
+  highLevelFilmGrainResponse: 0.25
   originalVignetteIntensity: 0.385
   midLevelVignetteIntensity: 0.45
   highLevelVignetteIntensity: 0.525

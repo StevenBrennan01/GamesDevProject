@@ -7,6 +7,7 @@ public class SignalManager : MonoBehaviour
 {
     private PlayerStateController playerState;
     private SignalBoostController signalBoostController;
+    private LevelLoadManager levelLoadManager;
     [SerializeField] private Volume globalVolume;
 
     [Header("-= Signal HUD Elements =-")]
@@ -37,11 +38,11 @@ public class SignalManager : MonoBehaviour
     [SerializeField] private float midLevelFilmGrainResponse;
     [SerializeField] private float highLevelFilmGrainResponse;
 
-    [Header("-= Vignette Values =-")]
-    [Space(5)]
-    [SerializeField] private float originalVignetteIntensity = 0.385f; //0.385 intensity, 0.45 smoothness
-    [SerializeField] private float midLevelVignetteIntensity = 0.4f;
-    [SerializeField] private float highLevelVignetteIntensity = 0.425f;
+    // [Header("-= Vignette Values =-")]
+    // [Space(5)]
+    // [SerializeField] private float originalVignetteIntensity = 0.385f; //0.385 intensity, 0.45 smoothness
+    // [SerializeField] private float midLevelVignetteIntensity = 0.4f;
+    // [SerializeField] private float highLevelVignetteIntensity = 0.425f;
     
     [Header("-= SFX & Audio Sources =-")]
     [SerializeField] private AudioSource ringAudioSource;
@@ -63,12 +64,12 @@ public class SignalManager : MonoBehaviour
     private bool isSignalBoostActive = false;
 
     private FilmGrain filmGrain;
-    private Vignette vignette;
 
     private void Awake()
     {
         if (playerState == null) playerState = FindAnyObjectByType<PlayerStateController>();
         if (signalBoostController == null) signalBoostController = FindAnyObjectByType<SignalBoostController>();
+        if (levelLoadManager == null) levelLoadManager = FindAnyObjectByType<LevelLoadManager>();
         if (globalVolume == null) globalVolume = FindAnyObjectByType<Volume>();
 
         if(globalVolume != null && globalVolume.profile != null)
@@ -79,15 +80,11 @@ public class SignalManager : MonoBehaviour
                 originalFilmGrainIntensity = filmGrain.intensity.value;
                 originalFilmGrainResponse = filmGrain.response.value;
             }
-            if(globalVolume.profile.TryGet(out Vignette vignetteOverride))
-            {
-                vignette = vignetteOverride;
-                originalVignetteIntensity = vignette.intensity.value;
-            }
         }
 
         TimerParent.SetActive(false);
         TimerFillImage.SetActive(false);
+        isSignalBoostActive = false;
     }
 
     private void Update()
@@ -267,24 +264,29 @@ public class SignalManager : MonoBehaviour
     {
         if (filmGrain != null)
         {
+            Debug.Log("Applying boosted signal post FX");
             filmGrain.intensity.value = originalFilmGrainIntensity;
             filmGrain.response.value = originalFilmGrainResponse;
         }
-
-        // if (vignette != null)
-        // {
-        //     vignette.intensity.value = originalVignetteIntensity;
-        // }
     }
 
     private IEnumerator FlickerWholeSignalIcon()
     {
         if(signalParent != null)
         {
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.25f);
+
+            float startTime = Time.time;
+            float maxDurationBeforeReset = 3f;
 
             while (true)
             {
+                if (Time.time - startTime >= maxDurationBeforeReset)
+                {
+                    levelLoadManager.ReloadCurrentLevel();
+                    yield break;
+                }
+
                 signalParent.SetActive(false);
                 PlaySignalSfx(ringGlitchSFX);
                 yield return new WaitForSeconds(0.2f);
@@ -341,7 +343,6 @@ public class SignalManager : MonoBehaviour
         }
 
         SetSignalIcons(targetSignalLevel);
-        //ApplySignalPostFX(targetSignalLevel);
         signalChangeCoroutine = null;
     }
 

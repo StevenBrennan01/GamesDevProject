@@ -2685,6 +2685,10 @@ PrefabInstance:
       propertyPath: playerLocation
       value: 
       objectReference: {fileID: 7677660511253246425}
+    - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: maxSignalDistance
+      value: 8.75
+      objectReference: {fileID: 0}
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas

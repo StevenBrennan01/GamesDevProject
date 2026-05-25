@@ -18,6 +18,7 @@ public class PlayerStateController : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private LevelStartHeadPlacement startHeadPlacement;
+    private SignalManager signalManager;
 
     [Header("References")]
     [Space(10)]
@@ -25,6 +26,8 @@ public class PlayerStateController : MonoBehaviour
     [SerializeField] private GameObject playerCharacter; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerBody; // rotate body to face cam just before head pickup
     [SerializeField] private GameObject playerHead;
+
+    private CharacterController characterController;
 
     [Tooltip("Cinemachine VCam for the carried mount 'hands'")]
     [SerializeField] private CinemachineCamera carriedVirtualCamera;
@@ -92,6 +95,7 @@ public class PlayerStateController : MonoBehaviour
     {
         if (playerInput == null) playerInput = GetComponent<PlayerInputs>();
         if (playerInput == null) { Debug.LogError("Player Input reference is missing"); }
+        if (signalManager == null) signalManager = FindAnyObjectByType<SignalManager>();
 
         if (potentialPlacementVolume != null)
         {
@@ -521,12 +525,14 @@ public class PlayerStateController : MonoBehaviour
             fpPitch = 0f;
         }
 
-        StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
+        if(characterController != null)
+        {
+            characterController.enabled = true;
+        }
 
-        // if (controller != null)
-        // {
-        //     controller.enabled = true;
-        // }
+        signalManager.IncreaseSignalLevelForDuration(.25f);
+
+        StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
     }
 
     private IEnumerator GiveBackControlsAfterLevelRestart(float delay)
