@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoadManager : MonoBehaviour
 {
+    private BatteryManager batteryManager;
+    private PlayerStateController playerStateController;
+    private LevelStartHeadPlacement levelStartHeadPlacement;
+
     [Header("Level Loading Order")]
     [SerializeField] private string[] levelSceneNames;
     private int currentLevelIndex = -1;
@@ -12,13 +16,11 @@ public class LevelLoadManager : MonoBehaviour
     [SerializeField] private float sceneSwapDelay = 2f;
     [SerializeField] private float fadeOutSeconds = 1f;
 
-    private BatteryManager batteryManager;
-    private PlayerStateController playerStateController;
-
     private void Awake()
     {
         batteryManager = FindAnyObjectByType<BatteryManager>();
         playerStateController = FindAnyObjectByType<PlayerStateController>();
+        levelStartHeadPlacement = GetComponentInChildren<LevelStartHeadPlacement>();
     }
 
     private void Start()
@@ -124,6 +126,8 @@ public class LevelLoadManager : MonoBehaviour
 
         ResetPersistentPlayerState();
         ResetPlayerPosToSpawn();
+
+        levelStartHeadPlacement.LookForHeadPlacement();
 
         AudioManager.instance.RestoreMusicInstant();
         AudioManager.instance.ApplySceneMusic(currentLevelSceneName);

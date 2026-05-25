@@ -291,17 +291,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5a499dd7-8a9c-48fd-ad3f-04123943c1d8",
-                    "path": "<XRController>/secondaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "34394c95-5bae-440b-91bf-137dcdee1ecb",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -370,6 +359,17 @@
                     "name": "",
                     "id": "87da08e8-3473-4910-9fe6-ca3915aa8bb8",
                     "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SignalBoost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "232cc72b-6ef2-47c3-ab8a-974193515b5d",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

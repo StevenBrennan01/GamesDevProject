@@ -44,7 +44,7 @@ public class PlayerStateController : MonoBehaviour
     [Header("Player Start in First Person, or Second Person?")]
     [Space(10)]
     [Tooltip("Will player be starting in FP or SP? Check box if starting in SP, then set freeze time below")]
-    [SerializeField] private bool playerStartInSecondPerson;
+    //[SerializeField] private bool playerStartInSecondPerson;
     [SerializeField] private bool playerStartWithInputLocked;
     public bool isHeadPlaced => placedHeadVolume != null;
     [SerializeField, Range(0, 10)] private float startLockInputSeconds;
@@ -102,12 +102,12 @@ public class PlayerStateController : MonoBehaviour
             potentialPlacementVolume = null;
         }
 
-        if (!playerStartInSecondPerson)
-        {
-            CurrentMovementMode = MovementMode.FirstPerson;
-            InitializeCameraMode(CameraMode.Carried);
-            playerBody.SetActive(false);
-        }
+        // if (!playerStartInSecondPerson)
+        // {
+        //     CurrentMovementMode = MovementMode.FirstPerson;
+        //     InitializeCameraMode(CameraMode.Carried);
+        //     playerBody.SetActive(false);
+        // }
         else
         {
             startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
@@ -138,6 +138,7 @@ public class PlayerStateController : MonoBehaviour
 
     private IEnumerator PlacePlayerInSpawnPosition(float delay)
     {
+        // delay so that the levelSpawnPos actually exists before we check for it
         yield return new WaitForSeconds(delay);
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
         if (spawnPoint != null)
@@ -440,20 +441,11 @@ public class PlayerStateController : MonoBehaviour
     }
 
     public void PlaceHeadOnStart(HeadPlacementVolume startVolume)
-    {
-        if (!playerStartInSecondPerson) return;
-
-        if (startVolume == null || startVolume.placementAnchor == null)
-        {
-            Debug.LogWarning("PlaceHeadAtStart: Volume or placement anchor is missing");
-            return;
-        }
+    {        
+        SetCurrentPlacementVolume(startVolume);
 
         startVolume.headVisualiser.SetActive(false);
-
-        StartCoroutine(LockInput(startLockInputSeconds));
-
-        SetCurrentPlacementVolume(startVolume);
+        placedHeadVolume = startVolume;
 
         playerHead.transform.position = startVolume.placementAnchor.position;
         playerHead.transform.rotation = startVolume.placementAnchor.rotation;
@@ -469,9 +461,28 @@ public class PlayerStateController : MonoBehaviour
             playerHead.transform.localRotation = Quaternion.identity;
         }
 
+        if(characterController != null)
+        {
+            characterController.enabled = true;
+        }
+
         CurrentMovementMode = MovementMode.SecondPerson;
         InitializeCameraMode(CameraMode.Placed);
 
+        playerBody.SetActive(true);
+
+        GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.transform.position;
+            transform.rotation = spawnPoint.transform.rotation;
+        }
+        // some other things to note:
+        // 1: an elevator or start scene where the body and head are far away, the signal will need to be dealt with.
+        // 2: if above is true, restarting that scene will also cause a long painful intro.
+        // maybe just dont have a distant intro for the first level, do a simpler one?
+        // one final thing is that the player rotation on respawn is still wrong
+        
         potentialPlacementVolume = null;
     }
 
@@ -529,6 +540,7 @@ public class PlayerStateController : MonoBehaviour
         {
             characterController.enabled = true;
         }
+
 
         signalManager.IncreaseSignalLevelForDuration(.25f);
 
