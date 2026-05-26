@@ -27,11 +27,11 @@ public class BatteryManager : MonoBehaviour
     }
 
             // Only for testing, remove when done
-            private void Update() // will however use update at some point to deplete 1 cell every 60 seconds or so
-            {
-                Debug.LogWarning(this + " Is actively running the Update function, delete it when done testing");
-                UpdateBatteryHUD();
-            }
+            // private void Update() // will however use update at some point to deplete 1 cell every 60 seconds or so
+            // {
+            //     Debug.LogWarning(this + " Is actively running the Update function, delete it when done testing");
+            //     UpdateBatteryHUD();
+            // }
             // Only for testing, remove when done
 
     public void StartChargingBattery()

@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0875625, y: 0.14818522}
   m_AnchorMax: {x: 0.425, y: 0.42600003}
-  m_AnchoredPosition: {x: -218.00003, y: 124.30003}
+  m_AnchoredPosition: {x: -218.00006, y: 124.30003}
   m_SizeDelta: {x: -448, y: -251}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8977658732747708062
@@ -183,7 +183,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0875625, y: 0.09170371}
   m_AnchorMax: {x: 0.40343723, y: 0.42044446}
-  m_AnchoredPosition: {x: -196.99997, y: 157.00005}
+  m_AnchoredPosition: {x: -197, y: 157.00005}
   m_SizeDelta: {x: -406, y: -305}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8516604011391700666
@@ -334,7 +334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0875625, y: 0.1435556}
   m_AnchorMax: {x: 0.46100003, y: 0.34837037}
-  m_AnchoredPosition: {x: -252.50006, y: 85.5}
+  m_AnchoredPosition: {x: -252.50015, y: 85.5}
   m_SizeDelta: {x: -517, y: -171}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7014665434337859331
@@ -480,7 +480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0875625, y: 0.057444442}
   m_AnchorMax: {x: 0.46781254, y: 0.48800004}
-  m_AnchoredPosition: {x: -259.5001, y: 204}
+  m_AnchoredPosition: {x: -259.50012, y: 204}
   m_SizeDelta: {x: -531, y: -415}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2910002107308720437
@@ -753,8 +753,8 @@ MonoBehaviour:
       HANDSHAKE COMPLETE
 
       > REMOTE PERSPECTIVE SUPPORT ENABLED'
-    charactersPerSecond: 50
-    delayAfter: 1.5
+    charactersPerSecond: 60
+    delayAfter: 1.25
   - textComponent: {fileID: 7919587326850841214}
     message: '> POWERING HUD: BATTERY
 
@@ -773,7 +773,7 @@ MonoBehaviour:
       >
       POWER CALIBRATION.........COMPLETE'
     charactersPerSecond: 22
-    delayAfter: 1.5
+    delayAfter: 1.25
   - textComponent: {fileID: 5929606427428522597}
     message: '> POWERING HUD: SIGNAL
 
@@ -789,7 +789,7 @@ MonoBehaviour:
 
       > HEAD SIGNAL...............DETACHED'
     charactersPerSecond: 22
-    delayAfter: 1.5
+    delayAfter: 1.25
   - textComponent: {fileID: 5023638242402404127}
     message: '> VISUAL FEED...............CLEAR
 
@@ -802,7 +802,7 @@ MonoBehaviour:
 
       > BEGIN'
     charactersPerSecond: 60
-    delayAfter: 3
+    delayAfter: 2
 --- !u!82 &827816616177100251
 AudioSource:
   m_ObjectHideFlags: 0

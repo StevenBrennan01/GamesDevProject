@@ -34,30 +34,31 @@ public class HUDStartup : MonoBehaviour
 
     public IEnumerator BatteryStartup()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.25f);
         BatteryParent.SetActive(true);
         audioSource.PlayOneShot(HUDStartupSFX[0]);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f); // originally 0.2f
         BatteryParent.SetActive(false);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f); // originally 0.2f
         BatteryParent.SetActive(true);
         audioSource.PlayOneShot(HUDStartupSFX[0]);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f); // originally 0.2f
         BatteryParent.SetActive(false);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f); // originally 0.2f
         BatteryParent.SetActive(true);
         audioSource.PlayOneShot(HUDStartupSFX[0]);
-        yield return new WaitForSeconds(.75f);
+        
+        yield return new WaitForSeconds(.4f);
 
         for (int i = 0; i < BatteryIcons.Length; i++)
         {
             audioSource.PlayOneShot(HUDStartupSFX[1]);
             BatteryIcons[i].SetActive(true);
-            yield return new WaitForSeconds(1.42f);
+            yield return new WaitForSeconds(1f); // originally 1.42f
         }
 
         batteryManager.SetBatteryFull();
@@ -65,30 +66,31 @@ public class HUDStartup : MonoBehaviour
 
     public IEnumerator SignalStartup()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.25f);
         SignalParent.SetActive(true);
         audioSource.PlayOneShot(HUDStartupSFX[0]);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f);
         SignalParent.SetActive(false);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f);
         SignalParent.SetActive(true);
         audioSource.PlayOneShot(HUDStartupSFX[0]);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f);
         SignalParent.SetActive(false);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f);
         SignalParent.SetActive(true);
         audioSource.PlayOneShot(HUDStartupSFX[0]);
-        yield return new WaitForSeconds(.75f);
+        
+        yield return new WaitForSeconds(.4f);
 
         for (int i = 0; i < SignalIcons.Length; i++)
         {
             audioSource.PlayOneShot(HUDStartupSFX[1]);
             SignalIcons[i].SetActive(true);
-            yield return new WaitForSeconds(1.575f);
+            yield return new WaitForSeconds(1f); // originally 1.575f
         }
     }
 }

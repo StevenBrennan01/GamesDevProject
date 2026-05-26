@@ -7,6 +7,10 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
     [SerializeField] private Transform targetPointTop;
     [SerializeField] private Transform targetPointBottom;
 
+    [SerializeField] private AudioSource elevatorAudioSource;
+    [SerializeField] private AudioClip elevatorMoveSFX;
+    [SerializeField] private AudioClip elevatorStopSFX;
+
     public bool elevatorIsDown = false;
     public bool elevatorIsUp = false;
     private bool isMoving;
@@ -37,6 +41,12 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
             transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
             yield return null;
         }
+
+        if(elevatorIsDown)
+        {
+            elevatorAudioSource.PlayOneShot(elevatorStopSFX);
+        }
+
         isMoving = false;
     }
 }

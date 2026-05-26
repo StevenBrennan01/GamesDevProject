@@ -62,6 +62,7 @@ public class SignalManager : MonoBehaviour
     private Coroutine signalBoostCoroutine;
     public bool headSignalInitialized = false;
     private bool isSignalBoostActive = false;
+    private bool signalChecksEnabled = false;
 
     private FilmGrain filmGrain;
 
@@ -93,6 +94,7 @@ public class SignalManager : MonoBehaviour
         if (playerState.placedHeadVolume == null) return;
         if (signalBoostController == null) return;
         if (globalVolume == null) return;
+        if (!signalChecksEnabled) return;
 
         headLocation = playerState.placedHeadVolume.transform;
         float distanceToHead = Vector3.Distance(playerLocation.position, headLocation.position);
@@ -212,6 +214,32 @@ public class SignalManager : MonoBehaviour
         signalBoostCoroutine = StartCoroutine(TemporaryMaxSignalBoost(duration));
     }
 
+    public void EnableSignalChecks()
+    {
+        headSignalInitialized = false;
+        signalChecksEnabled = true;
+    }
+
+    public void DisableSignalChecks()
+    {
+        signalChecksEnabled = false;
+
+        if (noSignalFlickerCoroutine != null)
+        {
+            StopCoroutine(noSignalFlickerCoroutine);
+            noSignalFlickerCoroutine = null;
+        }
+
+        // if (signalParent != null)
+        // {
+        //     signalParent.SetActive(false);
+        // }
+
+        // currentSignalLevel = 3;
+        // SetSignalIcons(3);
+        // ApplyBoostedSignalPostFX();
+    }
+
     private IEnumerator TemporaryMaxSignalBoost(float duration)
     {
         isSignalBoostActive = true;
@@ -250,7 +278,7 @@ public class SignalManager : MonoBehaviour
 
             yield return null;
         }
-        
+
         isSignalBoostActive = false;
 
         Debug.Log("Signal boost ended, returning to normal signal level");
@@ -266,7 +294,6 @@ public class SignalManager : MonoBehaviour
     {
         if (filmGrain != null)
         {
-            Debug.Log("Applying boosted signal post FX");
             filmGrain.intensity.value = originalFilmGrainIntensity;
             filmGrain.response.value = originalFilmGrainResponse;
         }
