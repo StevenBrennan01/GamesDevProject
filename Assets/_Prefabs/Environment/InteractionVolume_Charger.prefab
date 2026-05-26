@@ -1040,6 +1040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   interactionBehaviours:
   - {fileID: 0}
+  isHeadChargerInteraction: 1
   returnLeverToStart: 1
   returnAfterSeconds: 4.25
   canPull: 1

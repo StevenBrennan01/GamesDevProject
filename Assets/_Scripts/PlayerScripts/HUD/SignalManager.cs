@@ -250,13 +250,15 @@ public class SignalManager : MonoBehaviour
 
             yield return null;
         }
+        
+        isSignalBoostActive = false;
 
+        Debug.Log("Signal boost ended, returning to normal signal level");
         timerFillImageComponent.fillAmount = 0f;
 
         TimerParent.SetActive(false);
         TimerFillImage.SetActive(false);
-
-        isSignalBoostActive = false;
+        
         signalBoostCoroutine = null;
     }
 

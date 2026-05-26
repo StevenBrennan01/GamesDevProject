@@ -48,13 +48,17 @@ public class PlayerInteractions : MonoBehaviour
     private void TryInteract()
     {
         if (activeZone == null) return;
-        //if (!canInteract) return;
         if (!activeZone.canPull) return;
         if (playerState.isBlending || playerInput.movementLocked) return;
-        if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+
+        if (playerState.placedHeadVolume != null && playerState.placedHeadVolume.isHeadCharger)
         {
-            Debug.Log("You need to be in second-person to interact!");
-            return;
+            if(activeZone == null || !activeZone.IsHeadChargerInteraction)
+            {
+                Debug.Log("You need to be in the head charger interaction zone to interact with the head charger!");
+                return;
+            }
         }
 
         activeZone.ExecuteInteraction(gameObject);

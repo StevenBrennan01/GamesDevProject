@@ -20,7 +20,7 @@ public class LevelLoadManager : MonoBehaviour
     {
         batteryManager = FindAnyObjectByType<BatteryManager>();
         playerStateController = FindAnyObjectByType<PlayerStateController>();
-        levelStartHeadPlacement = GetComponentInChildren<LevelStartHeadPlacement>();
+        levelStartHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
     }
 
     private void Start()
@@ -91,6 +91,12 @@ public class LevelLoadManager : MonoBehaviour
 
         if (currentLevelIndex < 0 || currentLevelIndex >= levelSceneNames.Length) yield break;
 
+        // if we are on the duplicate intro scene, set currentLevelIndex back to 0 so that next level loads correctly
+        // if(levelSceneNames[currentLevelIndex] == levelSceneNames[1]) // replace 1 with the actual duplicate scene index
+        // {
+        //     currentLevelIndex = 0;
+        // }
+
         int nextLevelIndex = currentLevelIndex + 1;
         if (nextLevelIndex >= levelSceneNames.Length) yield break;
 
@@ -122,11 +128,19 @@ public class LevelLoadManager : MonoBehaviour
 
         yield return new WaitForSeconds(sceneSwapDelay);
 
+        // check if currentLevelIndex name is the first level, if it is, reset to the duplicate scene that excludes to intro cutscene
+        // if(levelSceneNames[currentLevelIndex] == levelSceneNames[0])
+        // {
+        //     yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[1]));
+        //     // change 1 for the actual duplicated scene index
+        // }
+
         yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[currentLevelIndex]));
 
         ResetPersistentPlayerState();
         ResetPlayerPosToSpawn();
 
+        levelStartHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
         levelStartHeadPlacement.LookForHeadPlacement();
 
         AudioManager.instance.RestoreMusicInstant();

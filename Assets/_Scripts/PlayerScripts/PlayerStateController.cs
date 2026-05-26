@@ -80,6 +80,7 @@ public class PlayerStateController : MonoBehaviour
     public MovementMode CurrentMovementMode { get; private set; } = MovementMode.FirstPerson;
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.Carried;
     public bool isBlending = false;
+    private bool isTransitioningHead;
 
     // Neutral rotation for the head and placement, rotations and offsets are applied relative to this
     private Quaternion neutralHeadRotation;
@@ -89,13 +90,12 @@ public class PlayerStateController : MonoBehaviour
     private float fpYaw;
     private float fpPitch;
 
-    private GameObject spawnPoint;
-
     private void Awake()
     {
         if (playerInput == null) playerInput = GetComponent<PlayerInputs>();
         if (playerInput == null) { Debug.LogError("Player Input reference is missing"); }
         if (signalManager == null) signalManager = FindAnyObjectByType<SignalManager>();
+        if (characterController == null) characterController = GetComponent<CharacterController>();
 
         if (potentialPlacementVolume != null)
         {
@@ -108,11 +108,11 @@ public class PlayerStateController : MonoBehaviour
         //     InitializeCameraMode(CameraMode.Carried);
         //     playerBody.SetActive(false);
         // }
-        else
-        {
-            startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
-            placedHeadVolume = startHeadPlacement.startVolume;
-        }
+        // else
+        // {
+        //     startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
+        //     placedHeadVolume = startHeadPlacement.startVolume;
+        // }
 
         if (firstPersonYawRoot != null)
         {
@@ -140,7 +140,10 @@ public class PlayerStateController : MonoBehaviour
     {
         // delay so that the levelSpawnPos actually exists before we check for it
         yield return new WaitForSeconds(delay);
-        GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
+
+        //GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
+        Transform spawnPoint = GameObject.FindWithTag("LevelSpawnPoint")?.transform;
+
         if (spawnPoint != null)
         {
             transform.position = spawnPoint.transform.position;
@@ -152,6 +155,11 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StartCoroutine(PlaceHeadOnStartRoutine());
+    }
+
     private void OnEnable()
     {
         playerInput.OnTogglePlaceOrPickup += HandlePlaceOrPickup;
@@ -160,6 +168,24 @@ public class PlayerStateController : MonoBehaviour
     private void OnDisable ()
     {
         playerInput.OnTogglePlaceOrPickup -= HandlePlaceOrPickup;
+    }
+
+    private IEnumerator PlaceHeadOnStartRoutine()
+    {
+        yield return new WaitForSeconds(.75f);
+
+        startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
+        if(startHeadPlacement != null && startHeadPlacement.startVolume != null)
+        {
+            PlaceHeadOnStart(startHeadPlacement.startVolume);
+        }
+        else
+        {
+            Debug.LogWarning("No Start Head Placement Volume found, starting player in first person at spawn point");
+            CurrentMovementMode = MovementMode.FirstPerson;
+            InitializeCameraMode(CameraMode.Carried);
+            playerBody.SetActive(false);
+        }
     }
 
     private void Update()
@@ -182,7 +208,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void HandlePlaceOrPickup()
     {
-        if (isBlending) return;
+        if (isBlending || isTransitioningHead) return;
 
         if (CurrentCameraMode == CameraMode.Carried)
         {
@@ -196,30 +222,25 @@ public class PlayerStateController : MonoBehaviour
 
     private void TryPlaceHead()
     {
-        if (potentialPlacementVolume == null)
-        {
-            Debug.LogWarning("Player is not within a valid head bounds");
-            return;
-        }
+        if (potentialPlacementVolume == null) return;
+        if (!potentialPlacementVolume.canPlace) return;
+        if (isTransitioningHead) return;
+        if (potentialPlacementVolume.placementAnchor == null) return;
 
-        if (playerCharacter != null && !potentialPlacementVolume.canPlace)
-        {
-            Debug.LogWarning("Player cannot currently place");
-            return;
-        }
+        StartCoroutine(PlaceHeadRoutine(potentialPlacementVolume));
+    }
 
-        Transform anchor = potentialPlacementVolume.placementAnchor;
-        if (potentialPlacementVolume != null && anchor == null)
-        {
-            Debug.LogError("No Anchor for head placement exists within this volume");
-            return;
-        }
+    private IEnumerator PlaceHeadRoutine(HeadPlacementVolume targetVolume)
+    {
+        isTransitioningHead = true;
+        isBlending = true;
+        playerInput.SetMovementLocked(true);
 
-        placedHeadVolume = potentialPlacementVolume;
+        Transform anchor = targetVolume.placementAnchor;
+
+        placedHeadVolume = targetVolume;
 
         playerBody.SetActive(true);
-
-        // Here we will want the player body to face the head placement Volume straight away
 
         playerHead.transform.position = anchor.position;
         playerHead.transform.rotation = anchor.rotation;
@@ -230,7 +251,7 @@ public class PlayerStateController : MonoBehaviour
 
         if (placedVirtualCamera != null)
         {
-            playerHead.transform.SetParent(anchor.transform, false);
+            playerHead.transform.SetParent(anchor, false);
             playerHead.transform.localPosition = Vector3.zero;
             playerHead.transform.localRotation = Quaternion.identity;
         }
@@ -238,30 +259,28 @@ public class PlayerStateController : MonoBehaviour
         SetCameraMode(CameraMode.Placed);
         CurrentMovementMode = MovementMode.SecondPerson;
 
-        potentialPlacementVolume.headVisualiser.SetActive(false);
+        targetVolume.headVisualiser.SetActive(false);
 
-        if(placedHeadVolume.isHeadCharger)
+        if (placedHeadVolume.isHeadCharger)
         {
             // Begin charging battery
-            // Or, do some lever pull interaction to trigger charging instead of just placement within a charging zone
         }
+
+        yield return new WaitForSeconds(lockSecondsAfterPlacing);
+
+        isBlending = false;
+        isTransitioningHead = false;
+        playerInput.SetMovementLocked(false);
     }
 
     private void TryPickupHead()
     {
         if (placedHeadVolume == null) return;
-
-        if (potentialPlacementVolume != placedHeadVolume)
-        {
-            return;
-        }
+        if (potentialPlacementVolume != placedHeadVolume) return;
+        if (isTransitioningHead) return;
 
         //playerHead.transform.position = carriedMount.position;
         //playerHead.transform.rotation = carriedMount.rotation;
-
-        neutralHeadRotation = playerHead.transform.rotation;
-        placedYawOffset = 0f;
-        placedPitchOffset = 0f;
 
         //if (carriedMount != null && carriedVirtualCamera != null)
         //{
@@ -276,34 +295,55 @@ public class PlayerStateController : MonoBehaviour
         // and the camera shifts to new anchor.
         // This is ok as the head is invisible
 
-        StartCoroutine(PauseThenPickup());
+        StartCoroutine(PickupHeadRoutine(placedHeadVolume));
     }
 
-    private IEnumerator PauseThenPickup()
+    private IEnumerator PickupHeadRoutine(HeadPlacementVolume pickupVolume)
     {
-        playerInput.SetMovementLocked(true);
+        isTransitioningHead = true;
         isBlending = true;
+        playerInput.SetMovementLocked(true);
+
+        neutralHeadRotation = playerHead.transform.rotation;
+        placedYawOffset = 0f;
+        placedPitchOffset = 0f;
 
         yield return new WaitForSeconds(waitSecondsBeforePickup);
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
 
-        StartCoroutine(HidePlayerBody());
+        yield return StartCoroutine(HidePlayerBody(pickupVolume));
+
+        isTransitioningHead = false;
+        isBlending = false;
     }
 
-    private IEnumerator HidePlayerBody()
+    private IEnumerator HidePlayerBody(HeadPlacementVolume pickupVolume)
     {
         // 0.5 is just shy of the camera blend so to not see the body vanish, but not hide it too late.
         yield return new WaitForSeconds(0.5f);
 
         // Disabling body in first person so to avoid clipping
         playerBody.SetActive(false);
+
+        yield return new WaitForSeconds(0.2f);
+
+        if(playerHead != null && firstPersonPitchPivot != null)
+        {
+            playerHead.transform.SetParent(firstPersonPitchPivot, false);
+            playerHead.transform.localPosition = Vector3.zero;
+            playerHead.transform.localRotation = Quaternion.identity;
+        }
+
+        if (pickupVolume != null)
+        {
+            pickupVolume.headVisualiser.SetActive(true);
+        }
+
+        //potentialPlacementVolume = null;
+        placedHeadVolume = null;
         playerInput.SetMovementLocked(false);
-
-        potentialPlacementVolume.headVisualiser.SetActive(true);
-
-        isBlending = false;
     }
 
     private void SetCameraMode(CameraMode targetMode)
@@ -479,8 +519,7 @@ public class PlayerStateController : MonoBehaviour
         }
         // some other things to note:
         // 1: an elevator or start scene where the body and head are far away, the signal will need to be dealt with.
-        // 2: if above is true, restarting that scene will also cause a long painful intro.
-        // maybe just dont have a distant intro for the first level, do a simpler one?
+        // 2: if above is true, when restarting, just make a dupe scene that gets triggered instead and doesnt have the intro
         // one final thing is that the player rotation on respawn is still wrong
         
         potentialPlacementVolume = null;
@@ -497,6 +536,9 @@ public class PlayerStateController : MonoBehaviour
 
         placedHeadVolume = null;
         potentialPlacementVolume = null;
+
+        CurrentMovementMode = MovementMode.FirstPerson;
+        InitializeCameraMode(CameraMode.Carried);
     }
 
     private IEnumerator LockInput(float lockSeconds)

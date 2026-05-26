@@ -13,10 +13,14 @@ public class InteractionVolume : MonoBehaviour
     [Header("Interaction Settings")]
     [Space(5)]
     private bool isLeverPulled = false;
+    [SerializeField] private bool isHeadChargerInteraction;
+    public bool IsHeadChargerInteraction => isHeadChargerInteraction;
+    [Space(5)]
     [SerializeField] private bool returnLeverToStart = false;
     [SerializeField, Range(0, 10)] private float returnAfterSeconds = 0f;
 
     [HideInInspector] public bool canPull /* { get; private set; } */ = true; 
+
     private Animator leverAnim = null;
 
     [Space(5)]
