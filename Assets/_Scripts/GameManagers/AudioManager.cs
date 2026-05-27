@@ -142,7 +142,7 @@ public class AudioManager : MonoBehaviour
         if (startupDebounceAlreadyDone) yield break;
 
         startupDebounceAlreadyDone = true;
-        yield return new WaitForSeconds(31.25f);
+        yield return new WaitForSeconds(32f);
         BeginMusic(musicSource, gameMusicClip);
     }
 

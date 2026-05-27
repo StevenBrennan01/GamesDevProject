@@ -1,15 +1,11 @@
 :root {
 }
 
-
-
-
-
 .button {
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
+    margin-top: -1px;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    margin-left: -1px;
     min-height: auto;
     -unity-font-style: bold;
     font-size: 45px;
@@ -22,7 +18,7 @@
     border-top-color: rgb(255, 232, 0);
     border-bottom-color: rgb(255, 232, 0);
     width: auto;
-    max-width: 320px;
+    max-width: none;
     min-width: auto;
 }
 

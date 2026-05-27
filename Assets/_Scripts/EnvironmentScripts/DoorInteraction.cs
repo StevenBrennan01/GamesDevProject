@@ -2,19 +2,15 @@ using UnityEngine;
 
 public class DoorInteraction : MonoBehaviour, IInteraction
 {
+    private PlayerStateController playerState;
+    private BoxCollider doorCloseCollider;
+
     [SerializeField] private Animator anchorAnimator = null;
     [SerializeField] private AudioSource doorAudioSource;
     [SerializeField] private AudioClip doorOpenSFX;
     [SerializeField] private AudioClip doorCloseSFX;
 
     [SerializeField] private bool hasDoorBlocker;
-    [SerializeField] private bool closeDoorAfterEntry;
-    //[SerializeField] private float closerDoorAfter = 4f;
-
-    private PlayerStateController playerState;
-
-    private BoxCollider doorCloseCollider;
-
     private bool isOpen = false;
 
     private void Awake()
@@ -73,20 +69,4 @@ public class DoorInteraction : MonoBehaviour, IInteraction
             isOpen = false;
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // if (closeDoorAfterEntry)
-        // {
-        //     StartCoroutine(DoorCloseAfterSeconds(closerDoorAfter));
-        // }
-        // else return;
-    }
-
-    // private IEnumerator DoorCloseAfterSeconds(float seconds)
-    // {
-    //     doorCloseCollider.enabled = false;
-    //     yield return new WaitForSeconds(seconds);
-    //     BeginAnimation();
-    // }
 }
