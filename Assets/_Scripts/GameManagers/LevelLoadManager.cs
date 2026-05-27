@@ -100,6 +100,10 @@ public class LevelLoadManager : MonoBehaviour
         int nextLevelIndex = currentLevelIndex + 1;
         if (nextLevelIndex >= levelSceneNames.Length) yield break;
 
+        StartCoroutine(DebounceHeadReturnToPlayer());
+        ResetPersistentPlayerState();
+        ResetPlayerPosToSpawn();
+
         StartCoroutine(SwapLevelRoutine(levelSceneNames[nextLevelIndex]));
         currentLevelIndex = nextLevelIndex;
     }

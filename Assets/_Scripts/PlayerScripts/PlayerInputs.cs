@@ -46,6 +46,7 @@ public class PlayerInputs : MonoBehaviour
     public bool movementLocked;
     public bool cameraLocked;
     public bool movementAndCameraLocked;
+    public bool pauseMenuLocked;
 
     public event Action OnJump;
     public event Action OnInteract;
@@ -132,8 +133,15 @@ public class PlayerInputs : MonoBehaviour
         cameraLocked = lockStatus;
     }
 
+    public void SetPauseMenuLocked(bool lockStatus)
+    {
+        pauseMenuLocked = lockStatus;
+    }
+
     private void TogglePaused(InputAction.CallbackContext context)
     {
+        if (pauseMenuLocked) return;
+
         OnPaused?.Invoke();
     }
 

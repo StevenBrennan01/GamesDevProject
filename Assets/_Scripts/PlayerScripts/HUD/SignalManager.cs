@@ -73,6 +73,8 @@ public class SignalManager : MonoBehaviour
         if (levelLoadManager == null) levelLoadManager = FindAnyObjectByType<LevelLoadManager>();
         if (globalVolume == null) globalVolume = FindAnyObjectByType<Volume>();
 
+        signalChecksEnabled = false;
+
         if(globalVolume != null && globalVolume.profile != null)
         {
             if(globalVolume.profile.TryGet(out FilmGrain filmGrainOverride))

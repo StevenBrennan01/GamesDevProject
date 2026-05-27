@@ -115,19 +115,17 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
 
-            case "TestingGrounds_Additive":
+            case "1_FirstLevel":
                 if (gameMusicClip != null)
                 {
                     // on first level, debounce to a coroutine that waits for startup to finish, then play music
                     // other levels/scenes can just play music straight away
                     if(!startupDebounceAlreadyDone)
                     {
-                        Debug.Log("AudioManager: Starting debounce for first level music.");
                         StartCoroutine(DebounceFirstLevelMusic());
                     }
                     else
                     {
-                        Debug.Log("starting music immediately.");
                         BeginMusic(musicSource, gameMusicClip);
                     }
                 }
@@ -144,7 +142,7 @@ public class AudioManager : MonoBehaviour
         if (startupDebounceAlreadyDone) yield break;
 
         startupDebounceAlreadyDone = true;
-        yield return new WaitForSeconds(27f);
+        yield return new WaitForSeconds(31.25f);
         BeginMusic(musicSource, gameMusicClip);
     }
 
@@ -243,7 +241,6 @@ public class AudioManager : MonoBehaviour
         source.loop = loopMenuMusic;
 
         //ApplyVolumes();
-        Debug.Log("Playing music clip: " + clip.name);
         source.Play();
     }
 

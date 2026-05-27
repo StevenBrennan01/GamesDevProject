@@ -47,7 +47,7 @@ public class PlayerStateController : MonoBehaviour
     //[SerializeField] private bool playerStartInSecondPerson;
     [SerializeField] private bool playerStartWithInputLocked;
     public bool isHeadPlaced => placedHeadVolume != null;
-    [SerializeField, Range(0, 10)] private float startLockInputSeconds;
+    [SerializeField, Range(0, 40)] private float startLockInputSeconds;
 
     [Tooltip("Priority values for Active and Inactive Vcameras")]
     private int activePriority = 5;
@@ -129,6 +129,8 @@ public class PlayerStateController : MonoBehaviour
         {
             StartCoroutine(LockInput(startLockInputSeconds));
         }
+
+        StartCoroutine(LockPauseMenu(startLockInputSeconds));
 
         StartCoroutine(PlacePlayerInSpawnPosition(0.1f));
 
@@ -550,9 +552,19 @@ public class PlayerStateController : MonoBehaviour
         playerInput.SetMovementLocked(false);
     }
 
+    private IEnumerator LockPauseMenu(float lockSeconds)
+    {
+        playerInput.SetPauseMenuLocked(true);
+
+        yield return new WaitForSeconds(lockSeconds);
+
+        playerInput.SetPauseMenuLocked(false);
+    }
+
     public void ResetForLevelSpawn(Transform spawnPoint)
     {
         StopAllCoroutines();
+        StartCoroutine(LockPauseMenu(3.5f));
 
         playerBody.SetActive(false);
 

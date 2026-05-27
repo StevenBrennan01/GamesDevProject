@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/TestingGrounds_Additive.unity
     guid: 00ca4388931fd214ab0ba5f0f879958c
+  - enabled: 1
+    path: Assets/_Scenes/z_GradEx_ReadyLevels/1_FirstLevel.unity
+    guid: e487c62dae1b09444844d35a2913e7e1
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
