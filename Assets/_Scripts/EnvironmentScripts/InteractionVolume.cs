@@ -47,7 +47,7 @@ public class InteractionVolume : MonoBehaviour
 
     [Space(5)]
     [Header("Lever and Interaction Block Seconds")]
-    [Tooltip("2 Seconds for Stairs, 4.25 for Chargers, etc.")]
+    [Tooltip("2 Seconds for Stairs/Doors, 4.25 for Chargers, etc.")]
     [SerializeField, Range(0f, 15f)] public float cooldownSeconds = 0f;
 
     [Header("-= SFX & Audio Sources =-")]

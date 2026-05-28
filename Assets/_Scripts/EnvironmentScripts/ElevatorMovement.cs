@@ -40,8 +40,8 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
         {
             StartCoroutine(DelayedMoveElevatorRoutine(targetPointBottom, delaySeconds));
 
-            consistentAudioSource.clip = elevatorMoveSFX;
-            consistentAudioSource.Play();
+            // consistentAudioSource.clip = elevatorMoveSFX;
+            // consistentAudioSource.Play();
 
             elevatorIsDown = true;
             elevatorIsUp = false;

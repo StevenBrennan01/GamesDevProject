@@ -88,7 +88,7 @@ public class BatteryManager : MonoBehaviour
 
 
 
-    // Below is most likely going to be used for depleting one cell every x amount of time
+    // Below is most likely going to be used for depleting one cell every x amount of time, if i add that
     public void DepleteOneCell()
     {
         StartCoroutine(DepleteOneCellCoroutine());
@@ -96,11 +96,7 @@ public class BatteryManager : MonoBehaviour
 
     private IEnumerator DepleteOneCellCoroutine()
     {
-        if(currentBatteryCells <= 0)
-        {
-            Debug.Log("No battery cells left to deplete!");
-            yield break;
-        }
+        if(currentBatteryCells <= 0) yield break;
 
         BatteryIcons[currentBatteryCells - 1].SetActive(false);
         audioSource.PlayOneShot(cellGlitchSFX);
@@ -123,8 +119,6 @@ public class BatteryManager : MonoBehaviour
         currentBatteryCells = Mathf.Max(currentBatteryCells - 1, 0);
         UpdateBatteryHUD();
     }
-
-
 
     // Below is the same as the above DepleteBattery but it just triggers a coroutine to wait for a second, so signal boost
     // effect can happen, then it does the battery depletion, sound effects, that sort of thing, so it doesnt happen all at once.
