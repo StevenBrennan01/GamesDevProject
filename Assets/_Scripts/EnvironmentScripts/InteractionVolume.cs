@@ -129,36 +129,36 @@ public class InteractionVolume : MonoBehaviour
                 try
                 {
                     interactions[i].PerformInteraction(interactor);
-
-                    if (!isLeverPulled && canPull)
-                    {
-                        leverAnim.Play("LeverPullAnim");
-                        LEDObject.GetComponent<Renderer>().material = OnMat;
-                        LEDPointLight.color = new Color(0.02f, 1f, 0f); // Green
-
-                        StartCoroutine(LeverPullCountdown());
-                        isLeverPulled = true;
-
-                        if(returnLeverToStart)
-                        {
-                            StartCoroutine(ResetInteractionAfter(returnAfterSeconds, interactor));
-                        }
-                    }
-                    else if (isLeverPulled && canPull)
-                    {
-                        leverAnim.Play("LeverPushAnim");
-                        LEDObject.GetComponent<Renderer>().material = OffMat;
-                        LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
-
-                        StartCoroutine(LeverPullCountdown());
-                        isLeverPulled = false;
-                    }
                 }
                 catch (System.Exception ex)
                 {
                     Debug.LogError($"InteractionVolume '{name}': Error executing interaction {i}: {ex}", this);
                 }
             }
+        }
+
+        if (!isLeverPulled && canPull)
+        {
+            leverAnim.Play("LeverPullAnim");
+            LEDObject.GetComponent<Renderer>().material = OnMat;
+            LEDPointLight.color = new Color(0.02f, 1f, 0f); // Green
+
+            StartCoroutine(LeverPullCountdown());
+            isLeverPulled = true;
+
+            if(returnLeverToStart)
+            {
+                StartCoroutine(ResetInteractionAfter(returnAfterSeconds, interactor));
+            }
+        }
+        else if (isLeverPulled && canPull)
+        {
+            leverAnim.Play("LeverPushAnim");
+            LEDObject.GetComponent<Renderer>().material = OffMat;
+            LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
+
+            StartCoroutine(LeverPullCountdown());
+            isLeverPulled = false;
         }
 
         if (executeOnce) hasExecutedOnce = true;

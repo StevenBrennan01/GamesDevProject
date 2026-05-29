@@ -283,7 +283,6 @@ public class SignalManager : MonoBehaviour
 
         isSignalBoostActive = false;
 
-        Debug.Log("Signal boost ended, returning to normal signal level");
         timerFillImageComponent.fillAmount = 0f;
 
         TimerParent.SetActive(false);

@@ -43,10 +43,9 @@ public class PlayerStateController : MonoBehaviour
 
     [Header("Player Start in First Person, or Second Person?")]
     [Space(10)]
-    [Tooltip("Will player be starting in FP or SP? Check box if starting in SP, then set freeze time below")]
-    //[SerializeField] private bool playerStartInSecondPerson;
     [SerializeField] private bool playerStartWithInputLocked;
     public bool isHeadPlaced => placedHeadVolume != null;
+    [Tooltip("freeze for 32.5 for first level")]
     [SerializeField, Range(0, 40)] private float startLockInputSeconds;
 
     [Tooltip("Priority values for Active and Inactive Vcameras")]
@@ -102,18 +101,6 @@ public class PlayerStateController : MonoBehaviour
             potentialPlacementVolume = null;
         }
 
-        // if (!playerStartInSecondPerson)
-        // {
-        //     CurrentMovementMode = MovementMode.FirstPerson;
-        //     InitializeCameraMode(CameraMode.Carried);
-        //     playerBody.SetActive(false);
-        // }
-        // else
-        // {
-        //     startHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
-        //     placedHeadVolume = startHeadPlacement.startVolume;
-        // }
-
         if (firstPersonYawRoot != null)
         {
             fpYaw = firstPersonYawRoot.eulerAngles.y;
@@ -132,29 +119,8 @@ public class PlayerStateController : MonoBehaviour
 
         StartCoroutine(LockPauseMenu(startLockInputSeconds));
 
-        StartCoroutine(PlacePlayerInSpawnPosition(0.1f));
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    private IEnumerator PlacePlayerInSpawnPosition(float delay)
-    {
-        // delay so that the levelSpawnPos actually exists before we check for it
-        yield return new WaitForSeconds(delay);
-
-        //GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
-        Transform spawnPoint = GameObject.FindWithTag("LevelSpawnPoint")?.transform;
-
-        if (spawnPoint != null)
-        {
-            transform.position = spawnPoint.transform.position;
-            transform.rotation = spawnPoint.transform.rotation;
-        }
-        else
-        {
-            Debug.LogWarning("No spawn point found for player");
-        }
     }
 
     private void Start()
@@ -609,5 +575,38 @@ public class PlayerStateController : MonoBehaviour
         {
             playerInput.SetMovementAndCameraLocked(false);
         }
+    }
+
+    public void MoveToSpawnAndAlign(Transform spawnPoint)
+    {
+        StartCoroutine(LockPauseMenu(3f));
+
+        playerBody.SetActive(false);
+
+        isBlending = false;
+        potentialPlacementVolume = null;
+        placedHeadVolume = null;
+
+        CurrentMovementMode = MovementMode.FirstPerson;
+        InitializeCameraMode(CameraMode.Carried);
+
+        transform.position = spawnPoint.position;
+        transform.rotation = spawnPoint.rotation;
+
+        if (firstPersonYawRoot != null)
+        {
+            firstPersonYawRoot.rotation = Quaternion.Euler(0f, spawnPoint.eulerAngles.y, 0f);
+            fpYaw = firstPersonYawRoot.eulerAngles.y;
+        }
+
+        if (firstPersonPitchPivot != null)
+        {
+            firstPersonPitchPivot.localRotation = Quaternion.identity;
+            fpPitch = 0f;
+        }
+
+        signalManager.IncreaseSignalLevelForDuration(.25f);
+
+        StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
     }
 }

@@ -12,8 +12,8 @@ public class StairInteraction : MonoBehaviour, IInteraction
     [SerializeField] private GameObject bannisterBlocker1;
     [SerializeField] private GameObject bannisterBlocker2;
     [SerializeField] private GameObject stairBlocker;
-    private bool stairsAreUp;
-    private bool stairsAreDown;
+    public bool stairsAreUp;
+    public bool stairsAreDown;
     public bool animationFinished;
 
     [Header("-= SFX & Audio Sources =-")]
@@ -78,18 +78,22 @@ public class StairInteraction : MonoBehaviour, IInteraction
         {
             anchorAnimator.Play("StairsDescending");
             stairsAreUp = false;
-
+            
             if (animationFinishedCoroutine != null) StopCoroutine(animationFinishedCoroutine);
             animationFinishedCoroutine = StartCoroutine(animationFinishedDelay());
+
+            stairsAreDown = true;
         }
 
         else
         {
             anchorAnimator.Play("StairsAscending");
-            stairsAreUp = true;
+            stairsAreDown = false;
 
             if (animationFinishedCoroutine != null) StopCoroutine(animationFinishedCoroutine);
             animationFinishedCoroutine = StartCoroutine(animationFinishedDelay());
+
+            stairsAreUp = true;
         }
     }
 

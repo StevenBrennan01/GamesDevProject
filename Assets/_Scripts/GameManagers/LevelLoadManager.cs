@@ -72,12 +72,6 @@ public class LevelLoadManager : MonoBehaviour
         }
     }
 
-    // private IEnumerator FadeOutCurrentLevel(float fadeSeconds)
-    // {
-    //     ScreenFadeManager.instance.TransitionToNextScene();
-    //     yield return new WaitForSeconds(fadeSeconds);
-    // }
-
     private void FadeOutCurrentLevel()
     {
         ScreenFadeManager.instance.TransitionToNextScene();
@@ -85,27 +79,40 @@ public class LevelLoadManager : MonoBehaviour
 
     public IEnumerator LoadNextLevel()
     {
+        PlayerInputs inputs = FindAnyObjectByType<PlayerInputs>();
+        if (inputs != null)
+        {
+            inputs.SetMovementAndCameraLocked(true);
+        }
+
         AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
         FadeOutCurrentLevel();
+
+        StartCoroutine(DebounceHeadReturnToPlayer());
+
         yield return new WaitForSeconds(sceneSwapDelay);
 
         if (currentLevelIndex < 0 || currentLevelIndex >= levelSceneNames.Length) yield break;
 
         // if we are on the duplicate intro scene, set currentLevelIndex back to 0 so that next level loads correctly
-        // if(levelSceneNames[currentLevelIndex] == levelSceneNames[1]) // replace 1 with the actual duplicate scene index
-        // {
-        //     currentLevelIndex = 0;
-        // }
+        if(levelSceneNames[currentLevelIndex] == levelSceneNames[3]) // replace 3 with the actual duplicate scene index
+        {
+            currentLevelIndex = 0;
+        }
 
         int nextLevelIndex = currentLevelIndex + 1;
         if (nextLevelIndex >= levelSceneNames.Length) yield break;
-
-        StartCoroutine(DebounceHeadReturnToPlayer());
-        ResetPersistentPlayerState();
-        ResetPlayerPosToSpawn();
-
-        StartCoroutine(SwapLevelRoutine(levelSceneNames[nextLevelIndex]));
+        
+        yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[nextLevelIndex]));
         currentLevelIndex = nextLevelIndex;
+
+        HandleNewLevelRepositioning();
+
+        if(levelStartHeadPlacement != null)
+        {
+            levelStartHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
+            levelStartHeadPlacement.LookForHeadPlacement();
+        }
     }
 
     public void ReloadCurrentLevel()
@@ -133,15 +140,16 @@ public class LevelLoadManager : MonoBehaviour
         yield return new WaitForSeconds(sceneSwapDelay);
 
         // check if currentLevelIndex name is the first level, if it is, reset to the duplicate scene that excludes to intro cutscene
-        // if(levelSceneNames[currentLevelIndex] == levelSceneNames[0])
-        // {
-        //     yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[1]));
-        //     // change 1 for the actual duplicated scene index
-        // }
+        if(levelSceneNames[currentLevelIndex] == levelSceneNames[0])
+        {
+            yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[3]));
+            // change 3 for the actual duplicated scene index
+        }
+        else
+        {
+            yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[currentLevelIndex]));
+        }
 
-        yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[currentLevelIndex]));
-
-        ResetPersistentPlayerState();
         ResetPlayerPosToSpawn();
 
         levelStartHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
@@ -158,10 +166,11 @@ public class LevelLoadManager : MonoBehaviour
         // So we wait for the screen to go black, then snap it back to the player when they cant see the snap happen.
         // just before the level restart happens.
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         if(playerStateController != null)
         {
             playerStateController.ForceHeadBackToPlayer();
+            ResetPersistentPlayerState();
         }
     }
 
@@ -177,6 +186,15 @@ public class LevelLoadManager : MonoBehaviour
         }
 
         yield return StartCoroutine(LoadLevelRoutine(nextSceneName));
+    }
+
+    private void HandleNewLevelRepositioning()
+    {
+        Transform spawnPoint = GameObject.FindWithTag("LevelSpawnPoint")?.transform;
+        if (playerStateController != null && spawnPoint != null)
+        {
+            playerStateController.MoveToSpawnAndAlign(spawnPoint);
+        }
     }
 
     private void ResetPlayerPosToSpawn()
