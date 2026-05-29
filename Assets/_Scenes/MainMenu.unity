@@ -543,15 +543,17 @@ MonoBehaviour:
   sfxVolumeParameter: SFXVolume
   musicSource: {fileID: 49800790}
   menuMusicClip: {fileID: 8300000, guid: 9dcff88b3c4bea44fb1ce04d98980291, type: 3}
-  gameMusicClip: {fileID: 8300000, guid: 8aa16b513f1cdcc438af283d29f4f065, type: 3}
+  gameMusicClip:
+  - {fileID: 8300000, guid: 8aa16b513f1cdcc438af283d29f4f065, type: 3}
+  - {fileID: 8300000, guid: 1c0318591b9a2524a836f56173562059, type: 3}
   uiSFXSource: {fileID: 49800793}
   clickSFXClip: {fileID: 8300000, guid: 44766caa059435f4fb71af84b2bea7e4, type: 3}
   resetPlayerPrefs: 1
   playMenuMusicOnStart: 1
   loopMenuMusic: 1
-  masterVolume: 0.4
-  musicVolume: 0.2
-  sfxVolume: 1
+  masterVolume: 0.75
+  musicVolume: 0.3
+  sfxVolume: 0.55
   musicFadeStorer: 1
 --- !u!4 &49800792
 Transform:

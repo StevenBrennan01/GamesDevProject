@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
     [Space(5)]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioClip menuMusicClip;
-    [SerializeField] private AudioClip gameMusicClip;
+    [SerializeField] private AudioClip[] gameMusicClip;
 
     [Header("UI SFX Attributes")]
     [Space(5)]
@@ -32,7 +32,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private bool resetPlayerPrefs;
     [SerializeField] private bool playMenuMusicOnStart;
     [SerializeField] private bool loopMenuMusic;
-    private bool startupDebounceAlreadyDone = false;
 
     [SerializeField, Range(0f, 1.5f)] private float masterVolume = 0.3f;
     [SerializeField, Range(0f, 1.5f)] private float musicVolume = 0.75f;
@@ -108,26 +107,31 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
 
-            case "FYPLevel":
-                if (gameMusicClip != null)
+            case "1_FirstLevel":
+                if (gameMusicClip != null && gameMusicClip.Length > 0)
                 {
-                    BeginMusic(musicSource, gameMusicClip);
+                     StartCoroutine(DebounceFirstLevelMusic());
                 }
                 break;
 
-            case "1_FirstLevel":
-                if (gameMusicClip != null)
+            case "1_FirstLevel_Reset":
+                 if (gameMusicClip != null && gameMusicClip.Length > 0)
                 {
-                    // on first level, debounce to a coroutine that waits for startup to finish, then play music
-                    // other levels/scenes can just play music straight away
-                    if(!startupDebounceAlreadyDone)
-                    {
-                        StartCoroutine(DebounceFirstLevelMusic());
-                    }
-                    else
-                    {
-                        BeginMusic(musicSource, gameMusicClip);
-                    }
+                    BeginMusic(musicSource, gameMusicClip[0]);
+                }
+                break;
+
+            case "2_SecondLevel":
+                if (gameMusicClip != null && gameMusicClip.Length > 0)
+                {
+                    BeginMusic(musicSource, gameMusicClip[1]);
+                }
+                break;
+
+            case "3_ThirdLevel":
+                if (gameMusicClip != null && gameMusicClip.Length > 0)
+                {
+                    BeginMusic(musicSource, gameMusicClip[0]);
                 }
                 break;
 
@@ -139,11 +143,11 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator DebounceFirstLevelMusic()
     {
-        if (startupDebounceAlreadyDone) yield break;
-
-        startupDebounceAlreadyDone = true;
-        yield return new WaitForSeconds(32f);
-        BeginMusic(musicSource, gameMusicClip);
+        yield return new WaitForSeconds(32.5f);
+        if (gameMusicClip != null && gameMusicClip.Length > 0)
+        {
+            BeginMusic(musicSource, gameMusicClip[0]);
+        }
     }
 
     // -------- Saving / Loading --------
@@ -240,7 +244,8 @@ public class AudioManager : MonoBehaviour
         source.clip = clip;
         source.loop = loopMenuMusic;
 
-        //ApplyVolumes();
+        FadeMusic(1f, 0.05f);
+        ApplyVolumes();
         source.Play();
     }
 
@@ -249,12 +254,6 @@ public class AudioManager : MonoBehaviour
         if (source == null) return;
         source.Stop();
     }
-
-    //private void PlayOneShotHover()
-    //{
-    //    uiSfxSource.PlayOneShot(hoverSFXClip, uiSFXVolume);
-    //    // play one shot hover sound here
-    //}
 
     public void PlaySfxPreview()
     {

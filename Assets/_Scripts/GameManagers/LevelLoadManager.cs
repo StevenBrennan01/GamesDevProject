@@ -39,7 +39,7 @@ public class LevelLoadManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.L))
         {
-            StartCoroutine(LoadNextLevel());
+            StartCoroutine(LoadNextLevelRoutine());
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
@@ -77,7 +77,12 @@ public class LevelLoadManager : MonoBehaviour
         ScreenFadeManager.instance.TransitionToNextScene();
     }
 
-    public IEnumerator LoadNextLevel()
+    public void LoadNextLevel()
+    {
+        StartCoroutine(LoadNextLevelRoutine());
+    }
+
+    private IEnumerator LoadNextLevelRoutine()
     {
         PlayerInputs inputs = FindAnyObjectByType<PlayerInputs>();
         if (inputs != null)
