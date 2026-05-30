@@ -7,8 +7,10 @@ public class DoorInteraction : MonoBehaviour, IInteraction
 
     [SerializeField] private Animator anchorAnimator = null;
     [SerializeField] private AudioSource doorAudioSource;
+    [SerializeField] private AudioSource doorTimerAudioSource;
     [SerializeField] private AudioClip doorOpenSFX;
     [SerializeField] private AudioClip doorCloseSFX;
+    [SerializeField] private AudioClip doorTimerSFX;
 
     [SerializeField] private bool hasDoorBlocker;
     private bool isOpen = false;
@@ -21,6 +23,7 @@ public class DoorInteraction : MonoBehaviour, IInteraction
         doorCloseCollider.enabled = false;
 
         doorAudioSource = GetComponent<AudioSource>();
+        doorTimerAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
