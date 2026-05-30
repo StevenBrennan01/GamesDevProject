@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -16,6 +17,7 @@ public class SignalManager : MonoBehaviour
     [SerializeField] private GameObject[] signalIcons;
     [SerializeField] private GameObject TimerParent;
     [SerializeField] private GameObject TimerFillImage;
+    [SerializeField] private TextMeshProUGUI signalLostText;
 
      [Header("-= Signal Boost Values =-")]
 
@@ -88,6 +90,7 @@ public class SignalManager : MonoBehaviour
         TimerParent.SetActive(false);
         TimerFillImage.SetActive(false);
         isSignalBoostActive = false;
+        signalLostText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -186,22 +189,18 @@ public class SignalManager : MonoBehaviour
 
         if (distanceToHead <= minSignalDistance)
         {
-            Debug.Log("Full Signal");
             return 3; // Full Signal
         }
         else if (distanceToHead > minSignalDistance && distanceToHead <= midSignalDistance)
         {
-            Debug.Log("Medium Signal");
             return 2; // Medium Signal
         }
         else if (distanceToHead > midSignalDistance && distanceToHead <= maxSignalDistance)
         {
-            Debug.Log("Low Signal");
             return 1; // Low Signal
         }
         else    
         {
-            Debug.Log("No Signal");
             return 0; // No Signal
         }   
     }
@@ -230,6 +229,11 @@ public class SignalManager : MonoBehaviour
         {
             StopCoroutine(noSignalFlickerCoroutine);
             noSignalFlickerCoroutine = null;
+        }
+
+        if (signalLostText != null)
+        {
+            signalLostText.gameObject.SetActive(false);
         }
 
         // if (signalParent != null)
@@ -318,10 +322,12 @@ public class SignalManager : MonoBehaviour
                 }
 
                 signalParent.SetActive(false);
+                signalLostText.gameObject.SetActive(false);
                 PlaySignalSfx(ringGlitchSFX);
                 yield return new WaitForSeconds(0.2f);
 
                 signalParent.SetActive(true);
+                signalLostText.gameObject.SetActive(true);
                 yield return new WaitForSeconds(0.2f);
             }
         }

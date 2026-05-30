@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class BatteryManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class BatteryManager : MonoBehaviour
     [Space(5)]
     [SerializeField] private GameObject BatteryParent;
     [SerializeField] private GameObject[] BatteryIcons;
+    [SerializeField] private TextMeshProUGUI batteryFullText;
     
     [Header("-= SFX & Audio Sources =-")]
     [SerializeField] private AudioSource audioSource;
@@ -25,14 +27,6 @@ public class BatteryManager : MonoBehaviour
         currentBatteryCells = maxBatteryCells;
         UpdateBatteryHUD();
     }
-
-            // Only for testing, remove when done
-            // private void Update() // will however use update at some point to deplete 1 cell every 60 seconds or so
-            // {
-            //     Debug.LogWarning(this + " Is actively running the Update function, delete it when done testing");
-            //     UpdateBatteryHUD();
-            // }
-            // Only for testing, remove when done
 
     public void StartChargingBattery()
     {
@@ -58,6 +52,16 @@ public class BatteryManager : MonoBehaviour
 
         isCharging = false;
         ChargeBatteryCoroutine = null;
+
+        batteryFullText.gameObject.SetActive(true);
+        audioSource.PlayOneShot(cellGlitchSFX);
+        yield return new WaitForSeconds(.75f);
+        batteryFullText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(.75f);
+        batteryFullText.gameObject.SetActive(true);
+        audioSource.PlayOneShot(cellGlitchSFX);
+        yield return new WaitForSeconds(.75f);
+        batteryFullText.gameObject.SetActive(false);
     }
 
     private void UpdateBatteryHUD()

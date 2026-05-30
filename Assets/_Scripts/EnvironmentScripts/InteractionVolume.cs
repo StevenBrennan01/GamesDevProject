@@ -17,6 +17,7 @@ public class InteractionVolume : MonoBehaviour
     public bool IsHeadChargerInteraction => isHeadChargerInteraction;
     [Space(5)]
     [SerializeField] private bool returnLeverToStart = false;
+    [SerializeField] private bool returnLeverToStartVisualOnly = false;
     [SerializeField, Range(0, 10)] private float returnAfterSeconds = 0f;
 
     [HideInInspector] public bool canPull /* { get; private set; } */ = true; 
@@ -150,6 +151,10 @@ public class InteractionVolume : MonoBehaviour
             {
                 StartCoroutine(ResetInteractionAfter(returnAfterSeconds, interactor));
             }
+            if(returnLeverToStartVisualOnly)
+            {
+                StartCoroutine(ResetLeverVisualsAfter(returnAfterSeconds));
+            }
         }
         else if (isLeverPulled && canPull)
         {
@@ -195,6 +200,28 @@ public class InteractionVolume : MonoBehaviour
                 audioSource.PlayOneShot(leverFlipSFX);
                 isLeverPulled = false;
             }
+        }
+    }
+
+    private IEnumerator ResetLeverVisualsAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        if(!isLeverPulled)
+        {
+            leverAnim.Play("LeverPullAnim");
+            LEDObject.GetComponent<Renderer>().material = OnMat;
+            LEDPointLight.color = new Color(0.02f, 1f, 0f); // Green
+            audioSource.PlayOneShot(leverFlipSFX);
+            isLeverPulled = true;
+        }
+        else
+        {
+            leverAnim.Play("LeverPushAnim");
+            LEDObject.GetComponent<Renderer>().material = OffMat;
+            LEDPointLight.color = new Color(1f, 0.2f, 0f); // Red
+            audioSource.PlayOneShot(leverFlipSFX);
+            isLeverPulled = false;
         }
     }
 

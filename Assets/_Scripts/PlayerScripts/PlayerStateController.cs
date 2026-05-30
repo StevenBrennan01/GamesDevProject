@@ -213,6 +213,8 @@ public class PlayerStateController : MonoBehaviour
         playerHead.transform.position = anchor.position;
         playerHead.transform.rotation = anchor.rotation;
 
+        FaceTargetDirection(anchor);
+
         neutralHeadRotation = playerHead.transform.rotation;
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
@@ -280,6 +282,8 @@ public class PlayerStateController : MonoBehaviour
 
         SetCameraMode(CameraMode.Carried);
         CurrentMovementMode = MovementMode.FirstPerson;
+
+        FaceTargetDirection(pickupVolume.placementAnchor);
 
         yield return StartCoroutine(HidePlayerBody(pickupVolume));
 
@@ -448,6 +452,25 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
+    private void FaceTargetDirection(Transform target)
+    {
+        if(target == null || playerCharacter == null) return;
+
+        Vector3 forward = -target.forward;
+        forward.y = 0f;
+
+        if (forward.sqrMagnitude < 0.001f) return; // Avoid zero-length direction
+        Quaternion targetRotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
+
+        transform.rotation = targetRotation;
+
+        if(firstPersonYawRoot != null)
+        {
+            firstPersonYawRoot.rotation = targetRotation;
+            fpYaw = firstPersonYawRoot.eulerAngles.y;
+        }
+    }
+
     public void PlaceHeadOnStart(HeadPlacementVolume startVolume)
     {        
         SetCurrentPlacementVolume(startVolume);
@@ -607,6 +630,7 @@ public class PlayerStateController : MonoBehaviour
 
         signalManager.IncreaseSignalLevelForDuration(.25f);
 
+        signalManager.EnableSignalChecks();
         StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
     }
 }

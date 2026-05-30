@@ -5,6 +5,8 @@ public class PlayerInteractions : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip interactNotAllowedSFX;
 
     [Tooltip("How long the player movement locked for when interacting, Interaction lock is found on the Interaction Volume")]
     [SerializeField, Range(0, 5)] private float lockMovementSeconds;
@@ -50,7 +52,14 @@ public class PlayerInteractions : MonoBehaviour
         if (activeZone == null) return;
         if (!activeZone.canPull) return;
         if (playerState.isBlending || playerInput.movementLocked) return;
-        if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
+        if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
+        {
+            if (audioSource != null && interactNotAllowedSFX != null)
+            {
+                audioSource.PlayOneShot(interactNotAllowedSFX);
+            }
+            return;
+        }
 
         if (playerState.placedHeadVolume != null && playerState.placedHeadVolume.isHeadCharger)
         {
