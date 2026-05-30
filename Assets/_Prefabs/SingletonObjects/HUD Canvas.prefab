@@ -1435,6 +1435,7 @@ MonoBehaviour:
   - {fileID: 2247882766131964296}
   - {fileID: 3719640120594315301}
   - {fileID: 8764655801327688344}
+  batteryFullText: {fileID: 0}
   audioSource: {fileID: 7030651964310131624}
   cellChangeSFX: {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
   cellGlitchSFX: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
@@ -1460,6 +1461,7 @@ MonoBehaviour:
   - {fileID: 8634364667692783261}
   TimerParent: {fileID: 6306815442661151905}
   TimerFillImage: {fileID: 7369889643750873532}
+  signalLostText: {fileID: 0}
   maxSignalDistance: 8.5
   midSignalDistance2: 8
   midSignalDistance: 6
