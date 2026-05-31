@@ -1,12 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
 public class GameEnd : MonoBehaviour
 {
-    private string playerTag = "Player"; //The Player Tag
-    private string gameSceneName = "MainMenu"; //The Player Tag
+    private string colliderTag = "Elevator"; //The Player Tag
+    private string gameSceneName = "MainMenu"; //The Game Scene Name
 
     [SerializeField] private float fadeInSeconds = 0.5f;
     [SerializeField] private float fadeOutSeconds = 1f;
+    [SerializeField] private float waitBeforeStartingTransition = 4f;
     [SerializeField] private BoxCollider endCollider;
 
     private void Awake()
@@ -14,19 +16,27 @@ public class GameEnd : MonoBehaviour
         endCollider = GetComponent<BoxCollider>();
     }
 
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.tag == playerTag)
-    //     {
-    //         AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == colliderTag)
+        {
+            StartCoroutine(DebounceReturnToMenu());
+        }
+    }
 
-    //         if (ScreenFadeManager != null)
-    //         {
-    //             Cursor.visible = true;
-    //             Cursor.lockState = CursorLockMode.None;
+    private IEnumerator DebounceReturnToMenu()
+    {
+        yield return new WaitForSeconds(waitBeforeStartingTransition);
 
-    //             ScreenFadeManager.TransitionToScene(gameSceneName, fadeOutSeconds: fadeOutSeconds, holdBlackSeconds: 0.25f, fadeInSeconds: fadeInSeconds);
-    //         }
-    //     }
-    // }
+        AudioManager.instance.FadeMusic(0f, fadeOutSeconds);
+        ScreenFadeManager screenFadeManager = FindAnyObjectByType<ScreenFadeManager>();
+
+        if (screenFadeManager != null)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            screenFadeManager.TransitionToScene(gameSceneName, fadeOutSeconds: fadeOutSeconds, holdBlackSeconds: 0.25f, fadeInSeconds: fadeInSeconds);
+        }
+    }
 }
