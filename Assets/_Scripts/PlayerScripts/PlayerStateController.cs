@@ -115,9 +115,8 @@ public class PlayerStateController : MonoBehaviour
         if (playerStartWithInputLocked)
         {
             StartCoroutine(LockInput(startLockInputSeconds));
+            StartCoroutine(LockPauseMenu(startLockInputSeconds));
         }
-
-        StartCoroutine(LockPauseMenu(startLockInputSeconds));
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -456,6 +455,7 @@ public class PlayerStateController : MonoBehaviour
     {
         if(target == null || playerCharacter == null) return;
 
+        Debug.Log("Facing target direction: " + target.name);
         Vector3 forward = -target.forward;
         forward.y = 0f;
 
@@ -564,9 +564,6 @@ public class PlayerStateController : MonoBehaviour
         CurrentMovementMode = MovementMode.FirstPerson;
         InitializeCameraMode(CameraMode.Carried);
 
-        transform.position = spawnPoint.position;
-        transform.rotation = spawnPoint.rotation;
-
         if (firstPersonYawRoot != null)
         {
             firstPersonYawRoot.rotation = Quaternion.Euler(0f, spawnPoint.eulerAngles.y, 0f);
@@ -584,6 +581,26 @@ public class PlayerStateController : MonoBehaviour
             characterController.enabled = true;
         }
 
+        // if(placedHeadVolume != null)
+        // {
+        //     Debug.Log("attempting to face head placement anchor direction on respawn");
+        //     FaceTargetDirection(placedHeadVolume.placementAnchor);
+        // }
+        // else
+        // {
+        //     Debug.Log("no placed head volume on respawn, facing spawn point direction");
+        //     transform.position = spawnPoint.position;
+        //     transform.rotation = spawnPoint.rotation;
+        // }
+
+        //StartCoroutine(DebounceCorrectPlayerRespawnRotation(spawnPoint));
+        FaceSpawnDirection(spawnPoint);
+
+        Debug.Log("Spawn yaw target: " + spawnPoint.eulerAngles.y);
+        Debug.Log("Transform yaw: " + transform.eulerAngles.y);
+        Debug.Log("Yaw root yaw: " + firstPersonYawRoot.eulerAngles.y);
+        Debug.Log("Player body yaw: " + playerBody.transform.eulerAngles.y);
+        Debug.Log("Player character yaw: " + playerCharacter.transform.eulerAngles.y);
 
         signalManager.IncreaseSignalLevelForDuration(.25f);
 
@@ -599,6 +616,48 @@ public class PlayerStateController : MonoBehaviour
             playerInput.SetMovementAndCameraLocked(false);
         }
     }
+
+    private void FaceSpawnDirection(Transform spawnPoint)
+    {
+        if (spawnPoint == null) return;
+
+        transform.position = spawnPoint.position;
+        transform.rotation = spawnPoint.rotation;
+
+        if (playerBody != null)
+        {
+            playerBody.transform.rotation = Quaternion.Euler(0f, spawnPoint.eulerAngles.y, 0f);
+        }
+
+        if (firstPersonYawRoot != null)
+        {
+            firstPersonYawRoot.rotation = Quaternion.Euler(0f, spawnPoint.eulerAngles.y, 0f);
+            fpYaw = firstPersonYawRoot.eulerAngles.y;
+        }
+
+        if (firstPersonPitchPivot != null)
+        {
+            firstPersonPitchPivot.localRotation = Quaternion.identity;
+            fpPitch = 0f;
+        }
+    }
+
+    // private IEnumerator DebounceCorrectPlayerRespawnRotation(Transform spawnPoint)
+    // {
+    //     yield return new WaitForSeconds(1.5f);
+
+    //     if(placedHeadVolume != null)
+    //     {
+    //         Debug.Log($"attempting to face head placement anchor direction on respawn: {placedHeadVolume.name}");
+    //         FaceTargetDirection(placedHeadVolume.placementAnchor);
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("no placed head volume on respawn, facing spawn point direction");
+    //         transform.position = spawnPoint.position;
+    //         transform.rotation = spawnPoint.rotation;
+    //     }
+    // }
 
     public void MoveToSpawnAndAlign(Transform spawnPoint)
     {

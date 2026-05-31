@@ -1428,14 +1428,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16db7bcbf4ab6aa48a0705ff968666fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  BatteryParent: {fileID: 4875268991064384037}
-  BatteryIcons:
+  batteryParent: {fileID: 4875268991064384037}
+  batteryIcons:
   - {fileID: 1201231511532603954}
   - {fileID: 7530985113611723705}
   - {fileID: 2247882766131964296}
   - {fileID: 3719640120594315301}
   - {fileID: 8764655801327688344}
   batteryFullText: {fileID: 0}
+  batteryLowText: {fileID: 0}
   audioSource: {fileID: 7030651964310131624}
   cellChangeSFX: {fileID: 8300000, guid: 60636e4e0fe9fd447a025dc19a530e0c, type: 3}
   cellGlitchSFX: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}

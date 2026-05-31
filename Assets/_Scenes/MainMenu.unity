@@ -552,7 +552,7 @@ MonoBehaviour:
   playMenuMusicOnStart: 1
   loopMenuMusic: 1
   masterVolume: 0.75
-  musicVolume: 0.3
+  musicVolume: 0.28
   sfxVolume: 0.55
   musicFadeStorer: 1
 --- !u!4 &49800792
@@ -3142,7 +3142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -4022,7 +4022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -6580,7 +6580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -8557,7 +8557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4378029079053854749, guid: 1f74d84c61b602a43b58f44be027145f, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -10280,7 +10280,7 @@ SceneRoots:
   - {fileID: 1843847971}
   - {fileID: 298998208}
   - {fileID: 1941093962}
-  - {fileID: 33987445}
   - {fileID: 1151662717}
   - {fileID: 1759999190}
   - {fileID: 1381780887}
+  - {fileID: 33987445}

@@ -158,7 +158,12 @@ public class LevelLoadManager : MonoBehaviour
         ResetPlayerPosToSpawn();
 
         levelStartHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
-        levelStartHeadPlacement.LookForHeadPlacement();
+        if(levelStartHeadPlacement != null)
+        {
+            levelStartHeadPlacement.LookForHeadPlacement();
+        }
+
+        batteryManager.SetBatteryFull();
 
         AudioManager.instance.RestoreMusicInstant();
         AudioManager.instance.ApplySceneMusic(currentLevelSceneName);

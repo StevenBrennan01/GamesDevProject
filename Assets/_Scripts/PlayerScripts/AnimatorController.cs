@@ -117,6 +117,20 @@ public class AnimatorController : MonoBehaviour
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson) return;
         if (playerInput.isCrouching) return;
         if (!playerLocomotion.isGrounded) return;
+        if (playerState.placedHeadVolume != null && playerState.placedHeadVolume.isHeadCharger)
+        {
+            if (interactions.activeZone == null || !interactions.activeZone.IsHeadChargerInteraction)
+            {
+                return;
+            }
+        }
+        if (playerState.placedHeadVolume != null && !playerState.placedHeadVolume.isHeadCharger)
+        {
+            if (interactions.activeZone == null || interactions.activeZone.IsHeadChargerInteraction)
+            {
+                return;
+            }
+        }
 
         animator.SetTrigger(InteractHash);
     }

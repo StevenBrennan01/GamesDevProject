@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent (typeof(Collider))]
 public class InteractionVolume : MonoBehaviour
 {
+    // private BatteryManager batteryManager;
+    // private PlayerAudioController playerAudioController;
+
     [Tooltip("Object/Script being interacted with that utilises the IInteraction contract")]
     [SerializeField] private MonoBehaviour[] interactionBehaviours;
     private IInteraction[] interactions;
@@ -64,6 +67,9 @@ public class InteractionVolume : MonoBehaviour
     {
         volumeTrigger = GetComponent<Collider>();
         leverAnim = GetComponentInChildren<Animator>();
+
+        // batteryManager = FindAnyObjectByType<BatteryManager>();
+        // playerAudioController = FindAnyObjectByType<PlayerAudioController>();
 
         if (interactionBehaviours != null && interactionBehaviours.Length > 0)
         {
@@ -255,7 +261,7 @@ public class InteractionVolume : MonoBehaviour
 
     public IEnumerator LeverPullCountdown()
     {
-        yield return new WaitForSeconds(0.05f); // Short debounce to allow interact animation to trigger before blocking interaction
+        yield return new WaitForSeconds(0.05f); // Short debounce to allow interact animation to trigger, then disable lever for cooldown duration
         canPull = false;
 
         yield return new WaitForSeconds(cooldownSeconds);

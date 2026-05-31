@@ -439,6 +439,10 @@ PrefabInstance:
       value: HUD Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 7750356026029242207, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: batteryLowText
+      value: 
+      objectReference: {fileID: 6726274608390209651}
+    - target: {fileID: 7750356026029242207, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: batteryFullText
       value: 
       objectReference: {fileID: 871606968}
@@ -490,10 +494,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1678245344841897345, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -544,23 +544,7 @@ PrefabInstance:
       objectReference: {fileID: 335648171}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: startLockInputSeconds
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: firstPersonFieldOfView
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: secondPersonFieldOfView
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: playerStartInSecondPerson
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: playerStartWithInputLocked
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
@@ -947,11 +931,26 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
+    - target: {fileID: 8585886159730636829, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+--- !u!114 &6726274608390209651 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2376571015899088815, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+  m_PrefabInstance: {fileID: 6726274608390209650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &7212114382511134631
 PrefabInstance:
   m_ObjectHideFlags: 0

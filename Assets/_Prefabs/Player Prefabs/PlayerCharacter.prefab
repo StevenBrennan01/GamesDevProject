@@ -337,6 +337,7 @@ MonoBehaviour:
   movementLocked: 0
   cameraLocked: 0
   movementAndCameraLocked: 0
+  pauseMenuLocked: 0
 --- !u!114 &1778732153065050997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,18 +358,17 @@ MonoBehaviour:
   carriedMount: {fileID: 5671790931530551728}
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
-  playerStartInSecondPerson: 0
-  playerStartWithInputLocked: 0
-  startLockInputSeconds: 10
+  playerStartWithInputLocked: 1
+  startLockInputSeconds: 1
   lockSecondsAfterPlacing: 1.25
   waitSecondsBeforePickup: 0.5
   placedYawClamp: 45
   placedPitchClamp: 30
   secondPersonLookSensitivity: {x: 0.1, y: 0.1}
-  secondPersonFieldOfView: 60
+  secondPersonFieldOfView: 75
   firstPersonPitchClamp: 85
   firstPersonLookSensitivity: {x: 0.1, y: 0.1}
-  firstPersonFieldOfView: 60
+  firstPersonFieldOfView: 75
   potentialPlacementVolume: {fileID: 0}
   placedHeadVolume: {fileID: 0}
   isBlending: 0
@@ -421,7 +421,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a95103b9794c14fb47c27bd3a43b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractions
-  lockMovementSeconds: 0.5
+  audioSource: {fileID: 1553046600204074595}
+  interactNotAllowedSFX: {fileID: 8300000, guid: 3c66b73858fd51a40ab3c57644e7b93e, type: 3}
+  lockMovementSeconds: 0.55
   activeZone: {fileID: 0}
 --- !u!143 &970298166419111237
 CharacterController:

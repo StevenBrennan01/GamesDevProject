@@ -5,6 +5,8 @@ public class PlayerInteractions : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
+    private BatteryManager batteryManager;
+    private PlayerAudioController playerAudioController;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip interactNotAllowedSFX;
 
@@ -22,6 +24,12 @@ public class PlayerInteractions : MonoBehaviour
 
         if (playerState == null) playerState = GetComponent<PlayerStateController>();
         if (playerState == null) Debug.LogError("PlayerState reference is missing / not found");
+
+        if (playerAudioController == null) playerAudioController = GetComponent<PlayerAudioController>();
+        if (playerAudioController == null) Debug.LogError("PlayerAudioController reference is missing / not found");
+
+        if (batteryManager == null) batteryManager = FindAnyObjectByType<BatteryManager>();
+        if (batteryManager == null) Debug.LogError("BatteryManager reference is missing / not found");
     }
 
     private void OnEnable()
@@ -65,13 +73,47 @@ public class PlayerInteractions : MonoBehaviour
         {
             if(activeZone == null || !activeZone.IsHeadChargerInteraction)
             {
+                if(audioSource != null && interactNotAllowedSFX != null)
+                {
+                    audioSource.PlayOneShot(interactNotAllowedSFX);
+                }
                 Debug.Log("You need to be in the head charger interaction zone to interact with the head charger!");
                 return;
             }
         }
 
+        if (playerState.placedHeadVolume != null && !playerState.placedHeadVolume.isHeadCharger)
+        {
+            if (activeZone == null || activeZone.IsHeadChargerInteraction)
+            {
+                if (audioSource != null && interactNotAllowedSFX != null)
+                {
+                    audioSource.PlayOneShot(interactNotAllowedSFX);
+                }
+                Debug.Log("You need to be in the head placement interaction zone to interact with the head placement!");
+                return;
+            }
+        }
+        
+        StartCoroutine(DebounceAndDepleteBattery());
+
         activeZone.ExecuteInteraction(gameObject);
         StartCoroutine(LockInputDuringInteraction(lockMovementSeconds)); // Pause player whilst interaction is happening
+    }
+
+    private IEnumerator DebounceAndDepleteBattery()
+    {
+        yield return new WaitForSeconds(0.3f); // Short debounce to allow interact animation to trigger, then attempt battery depletion
+
+        if (!batteryManager.DepleteBattery(1))
+        {
+            audioSource.PlayOneShot(interactNotAllowedSFX);
+        }
+
+        if (playerAudioController != null)
+        {
+            playerAudioController.PlaySignalBoostSFX();
+        }
     }
 
     private IEnumerator LockInputDuringInteraction(float lockSeconds)
