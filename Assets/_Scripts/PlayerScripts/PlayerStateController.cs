@@ -215,6 +215,7 @@ public class PlayerStateController : MonoBehaviour
         isTransitioningHead = true;
         isBlending = true;
         playerInput.SetMovementLocked(true);
+        playerInput.SetCameraLocked(true);
 
         Transform anchor = targetVolume.placementAnchor;
 
@@ -253,6 +254,7 @@ public class PlayerStateController : MonoBehaviour
         isBlending = false;
         isTransitioningHead = false;
         playerInput.SetMovementLocked(false);
+        playerInput.SetCameraLocked(false);
     }
 
     private void TryPickupHead()
@@ -285,7 +287,7 @@ public class PlayerStateController : MonoBehaviour
         isTransitioningHead = true;
         isBlending = true;
         playerInput.SetMovementLocked(true);
-
+        playerInput.SetCameraLocked(true);
         neutralHeadRotation = playerHead.transform.rotation;
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
@@ -347,6 +349,7 @@ public class PlayerStateController : MonoBehaviour
         //potentialPlacementVolume = null;
         placedHeadVolume = null;
         playerInput.SetMovementLocked(false);
+        playerInput.SetCameraLocked(false);
     }
 
     private void SetCameraMode(CameraMode targetMode)

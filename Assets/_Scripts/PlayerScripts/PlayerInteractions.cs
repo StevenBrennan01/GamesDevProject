@@ -5,6 +5,7 @@ public class PlayerInteractions : MonoBehaviour
 {
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
+    private PlayerLocomotion playerLocomotion;
     private BatteryManager batteryManager;
     
     [SerializeField] private AudioSource audioSource;
@@ -24,6 +25,9 @@ public class PlayerInteractions : MonoBehaviour
 
         if (playerState == null) playerState = GetComponent<PlayerStateController>();
         if (playerState == null) Debug.LogError("PlayerState reference is missing / not found");
+
+        if (playerLocomotion == null) playerLocomotion = GetComponent<PlayerLocomotion>();
+        if (playerLocomotion == null) Debug.LogError("PlayerLocomotion reference is missing / not found");
 
         if (batteryManager == null) batteryManager = FindAnyObjectByType<BatteryManager>();
         if (batteryManager == null) Debug.LogError("BatteryManager reference is missing / not found");
@@ -57,6 +61,7 @@ public class PlayerInteractions : MonoBehaviour
         if (activeZone == null) return;
         if (!activeZone.canPull) return;
         if (playerState.isBlending || playerInput.movementLocked) return;
+        if (!playerLocomotion.isGrounded) return;
         if (playerState.CurrentMovementMode != MovementMode.SecondPerson)
         {
             if (audioSource != null && interactNotAllowedSFX != null)
