@@ -24,7 +24,7 @@ public class SignalManager : MonoBehaviour
     [Header("-= Signal Distance Values =-")]
     [Space(5)]
     [SerializeField] private float maxSignalDistance = 10f;
-    [SerializeField] private float midSignalDistance2 = 8f;
+    //[SerializeField] private float midSignalDistance2 = 8f;
     [SerializeField] private float midSignalDistance = 6f;
     [SerializeField] private float minSignalDistance = 3f;
 
@@ -108,6 +108,7 @@ public class SignalManager : MonoBehaviour
         {
             SetSignalIcons(3);
             ApplyBoostedSignalPostFX();
+            signalLostText.gameObject.SetActive(false);
             return;
         }
 
@@ -147,6 +148,8 @@ public class SignalManager : MonoBehaviour
                 {
                     StopCoroutine(noSignalFlickerCoroutine);
                     noSignalFlickerCoroutine = null;
+
+                    signalLostText.gameObject.SetActive(false);
 
                     if (signalParent != null)
                     {
@@ -311,12 +314,14 @@ public class SignalManager : MonoBehaviour
             yield return new WaitForSeconds(1.25f);
 
             float startTime = Time.time;
-            float maxDurationBeforeReset = 3f;
+            float maxDurationBeforeReset = 4f;
 
             while (true)
             {
                 if (Time.time - startTime >= maxDurationBeforeReset)
                 {
+                    signalParent.SetActive(false);
+                    signalLostText.gameObject.SetActive(false);
                     levelLoadManager.ReloadCurrentLevel();
                     yield break;
                 }

@@ -6,7 +6,7 @@ public class PlayerInteractions : MonoBehaviour
     private PlayerInputs playerInput;
     private PlayerStateController playerState;
     private BatteryManager batteryManager;
-    private PlayerAudioController playerAudioController;
+    
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip interactNotAllowedSFX;
 
@@ -24,9 +24,6 @@ public class PlayerInteractions : MonoBehaviour
 
         if (playerState == null) playerState = GetComponent<PlayerStateController>();
         if (playerState == null) Debug.LogError("PlayerState reference is missing / not found");
-
-        if (playerAudioController == null) playerAudioController = GetComponent<PlayerAudioController>();
-        if (playerAudioController == null) Debug.LogError("PlayerAudioController reference is missing / not found");
 
         if (batteryManager == null) batteryManager = FindAnyObjectByType<BatteryManager>();
         if (batteryManager == null) Debug.LogError("BatteryManager reference is missing / not found");
@@ -95,10 +92,17 @@ public class PlayerInteractions : MonoBehaviour
             }
         }
         
+        if(playerState.placedHeadVolume.isHeadCharger && activeZone != null && activeZone.IsHeadChargerInteraction)
+        {
+            activeZone.ExecuteInteraction(gameObject);
+            StartCoroutine(LockInputDuringInteraction(lockMovementSeconds)); // Pause player whilst interaction is happening
+            return;
+        }
+
         StartCoroutine(DebounceAndDepleteBattery());
 
         activeZone.ExecuteInteraction(gameObject);
-        StartCoroutine(LockInputDuringInteraction(lockMovementSeconds)); // Pause player whilst interaction is happening
+        StartCoroutine(LockInputDuringInteraction(lockMovementSeconds));
     }
 
     private IEnumerator DebounceAndDepleteBattery()
@@ -107,12 +111,10 @@ public class PlayerInteractions : MonoBehaviour
 
         if (!batteryManager.DepleteBattery(1))
         {
-            audioSource.PlayOneShot(interactNotAllowedSFX);
-        }
-
-        if (playerAudioController != null)
-        {
-            playerAudioController.PlaySignalBoostSFX();
+            if (audioSource != null && interactNotAllowedSFX != null)
+            {
+                audioSource.PlayOneShot(interactNotAllowedSFX);
+            }
         }
     }
 

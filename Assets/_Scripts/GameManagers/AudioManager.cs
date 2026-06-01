@@ -135,6 +135,13 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
 
+            case "TestLevel_4":
+                if(gameMusicClip != null && gameMusicClip.Length > 0)
+                {
+                    BeginMusic(musicSource, gameMusicClip[1]);
+                }
+                break;
+
             default:
                 StopMusic(musicSource);
                 break;

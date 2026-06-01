@@ -47,7 +47,7 @@ public class InteractionVolume : MonoBehaviour
     [SerializeField] private bool executeOnce = false;
 
     [SerializeField] private bool resetInteraction;
-    [SerializeField, Range(0, 10)] private float resetAfter;
+    [SerializeField, Range(0, 20)] private float resetAfter;
 
     [Space(5)]
     [Header("Lever and Interaction Block Seconds")]

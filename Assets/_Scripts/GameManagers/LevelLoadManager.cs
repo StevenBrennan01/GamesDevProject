@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 public class LevelLoadManager : MonoBehaviour
 {
     private BatteryManager batteryManager;
+    private SignalManager signalManager;
     private PlayerStateController playerStateController;
     private LevelStartHeadPlacement levelStartHeadPlacement;
 
     [Header("Level Loading Order")]
     [SerializeField] private string[] levelSceneNames;
     private int currentLevelIndex = -1;
+    [SerializeField] private int introDuplicateSceneIndex; // set this to the actual index of the duplicate intro scene in the levelSceneNames array
     private string currentLevelSceneName;
 
     [SerializeField] private float sceneSwapDelay = 2f;
@@ -21,6 +23,7 @@ public class LevelLoadManager : MonoBehaviour
         batteryManager = FindAnyObjectByType<BatteryManager>();
         playerStateController = FindAnyObjectByType<PlayerStateController>();
         levelStartHeadPlacement = FindAnyObjectByType<LevelStartHeadPlacement>();
+        signalManager = FindAnyObjectByType<SignalManager>();
     }
 
     private void Start()
@@ -61,9 +64,15 @@ public class LevelLoadManager : MonoBehaviour
             SceneManager.SetActiveScene(loadedScene);
             currentLevelSceneName = sceneName;
 
-            if(loadedScene.name != levelSceneNames[0])
+            if(loadedScene.name != levelSceneNames[0] && currentLevelIndex != introDuplicateSceneIndex)
             {
                 batteryManager.SetBatteryFull();
+                signalManager.EnableSignalChecks();
+            }
+
+            if(loadedScene.name == levelSceneNames[0] && currentLevelIndex == introDuplicateSceneIndex)
+            {
+                signalManager.DisableSignalChecks();
             }
         }
         else
@@ -100,7 +109,7 @@ public class LevelLoadManager : MonoBehaviour
         if (currentLevelIndex < 0 || currentLevelIndex >= levelSceneNames.Length) yield break;
 
         // if we are on the duplicate intro scene, set currentLevelIndex back to 0 so that next level loads correctly
-        if(levelSceneNames[currentLevelIndex] == levelSceneNames[3]) // replace 3 with the actual duplicate scene index
+        if(levelSceneNames[currentLevelIndex] == levelSceneNames[introDuplicateSceneIndex])
         {
             currentLevelIndex = 0;
         }
@@ -147,8 +156,7 @@ public class LevelLoadManager : MonoBehaviour
         // check if currentLevelIndex name is the first level, if it is, reset to the duplicate scene that excludes to intro cutscene
         if(levelSceneNames[currentLevelIndex] == levelSceneNames[0])
         {
-            yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[3]));
-            // change 3 for the actual duplicated scene index
+            yield return StartCoroutine(SwapLevelRoutine(levelSceneNames[introDuplicateSceneIndex]));
         }
         else
         {

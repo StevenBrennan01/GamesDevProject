@@ -5,11 +5,15 @@ using UnityEngine;
 public class BatteryManager : MonoBehaviour
 {
     private LevelLoadManager levelLoadManager;
+    private PlayerInputs playerInputs;
 
     [Header("-= Battery HUD Elements =-")]
     [Space(5)]
     [SerializeField] private GameObject batteryParent;
     [SerializeField] private GameObject[] batteryIcons;
+    [SerializeField] private GameObject countdownParent;
+    [SerializeField] private GameObject[] batteryCountdownIcons;
+    [Space(10)]
     [SerializeField] private TextMeshProUGUI batteryFullText;
     [SerializeField] private TextMeshProUGUI batteryLowText;
     
@@ -23,24 +27,52 @@ public class BatteryManager : MonoBehaviour
     [SerializeField, Range(0, 5)] public int currentBatteryCells = 0;
     private Coroutine ChargeBatteryCoroutine;
     private Coroutine FlickerBatteryCoroutine;
+    private Coroutine CountDownToResetCoroutine;
 
     public bool isCharging;
+    public bool isCountingDownToReset;
 
     private void Awake()
     {
         if(levelLoadManager == null) levelLoadManager = FindAnyObjectByType<LevelLoadManager>();
         if(levelLoadManager == null) Debug.LogError("LevelLoadManager reference is missing / not found");
 
+        if(playerInputs == null) playerInputs = FindAnyObjectByType<PlayerInputs>();
+        if(playerInputs == null) Debug.LogError("PlayerInputs reference is missing / not found");
+
         batteryFullText.gameObject.SetActive(false);
         batteryLowText.gameObject.SetActive(false);
+        countdownParent.SetActive(false);
     }
 
     public void SetBatteryFull()
     {
+        currentBatteryCells = maxBatteryCells;
+
+        if (FlickerBatteryCoroutine != null)
+        {
+            StopCoroutine(FlickerBatteryCoroutine);
+            FlickerBatteryCoroutine = null;
+        }
+
+        if (CountDownToResetCoroutine != null)
+        {
+            StopCoroutine(CountDownToResetCoroutine);
+            CountDownToResetCoroutine = null;
+        }
+
+        if (ChargeBatteryCoroutine != null)
+        {
+            StopCoroutine(ChargeBatteryCoroutine);
+            ChargeBatteryCoroutine = null;
+        }
+
         batteryParent.SetActive(true);
         batteryLowText.gameObject.SetActive(false);
+        batteryFullText.gameObject.SetActive(false);
+        countdownParent.SetActive(false);
+        HideAllCountdownIcons();
 
-        currentBatteryCells = maxBatteryCells;
         UpdateBatteryHUD();
     }
 
@@ -54,6 +86,23 @@ public class BatteryManager : MonoBehaviour
 
     private IEnumerator ChargeBattery()
     {
+        if(FlickerBatteryCoroutine != null)
+        {
+            StopCoroutine(FlickerBatteryCoroutine);
+            FlickerBatteryCoroutine = null;
+            batteryParent.SetActive(true);
+            batteryLowText.gameObject.SetActive(false);
+        }
+        if(CountDownToResetCoroutine != null)
+        {
+            StopCoroutine(CountDownToResetCoroutine);
+            CountDownToResetCoroutine = null;
+            isCountingDownToReset = false;
+            countdownParent.SetActive(false);
+            
+            HideAllCountdownIcons();
+        }
+
         isCharging = true;
         yield return new WaitForSeconds(.85f);
 
@@ -66,25 +115,17 @@ public class BatteryManager : MonoBehaviour
             yield return new WaitForSeconds(.85f);
         }
 
-        if(FlickerBatteryCoroutine != null)
-        {
-            StopCoroutine(FlickerBatteryCoroutine);
-            FlickerBatteryCoroutine = null;
-            batteryParent.SetActive(true);
-            batteryLowText.gameObject.SetActive(false);
-        }
-
         isCharging = false;
         ChargeBatteryCoroutine = null;
 
         batteryFullText.gameObject.SetActive(true);
         audioSource.PlayOneShot(cellGlitchSFX);
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.25f);
         batteryFullText.gameObject.SetActive(false);
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.25f);
         batteryFullText.gameObject.SetActive(true);
         audioSource.PlayOneShot(cellGlitchSFX);
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.25f);
         batteryFullText.gameObject.SetActive(false);
     }
 
@@ -106,62 +147,86 @@ public class BatteryManager : MonoBehaviour
         }
 
         currentBatteryCells = Mathf.Max(currentBatteryCells - depleteAmount, 0);
-        //Debug.Log(currentBatteryCells);
 
         audioSource.PlayOneShot(cellChangeSFX); // can maybe call audio elswhere as might want different sfx for depleting vs signalboost
         UpdateBatteryHUD();
 
-        if(currentBatteryCells == 1 && FlickerBatteryCoroutine == null)
+        if(currentBatteryCells <= 1 && FlickerBatteryCoroutine == null)
         {
             FlickerBatteryCoroutine = StartCoroutine(FlickerWholeBatteryIcon());
         }
         if(currentBatteryCells <= 0)
         {
-            if(FlickerBatteryCoroutine != null)
+            if(CountDownToResetCoroutine == null)
             {
-                StopCoroutine(FlickerBatteryCoroutine);
-                FlickerBatteryCoroutine = null;
+                CountDownToResetCoroutine = StartCoroutine(StartCountDownToLevelReset());
             }
-            batteryParent.SetActive(false);
-            batteryLowText.gameObject.SetActive(false);
-
-            levelLoadManager.ReloadCurrentLevel();
         }
 
         return true;
     }
 
-        // Below is most likely going to be used for depleting one cell every x amount of time, if i add that
-        // public void DepleteOneCell()
-        // {
-        //     StartCoroutine(DepleteOneCellCoroutine());
-        // }
+    private IEnumerator StartCountDownToLevelReset()
+    {
+        isCountingDownToReset = true;
+        countdownParent.SetActive(true);
 
-        // private IEnumerator DepleteOneCellCoroutine()
-        // {
-        //     if(currentBatteryCells <= 0) yield break;
+        HideAllCountdownIcons();
 
-        //     BatteryIcons[currentBatteryCells - 1].SetActive(false);
-        //     audioSource.PlayOneShot(cellGlitchSFX);
+        for(int i = 0; i < batteryCountdownIcons.Length; i++)
+        {
+            if(currentBatteryCells > 0)
+            {
+                countdownParent.SetActive(false);
+                isCountingDownToReset = false;
+                CountDownToResetCoroutine = null;
+                yield break;
+            }
 
-        //     yield return new WaitForSeconds(0.2f);
-        //     BatteryIcons[currentBatteryCells - 1].SetActive(true);
+            batteryCountdownIcons[i].SetActive(true);
+            audioSource.PlayOneShot(cellChangeSFX);
 
-        //     yield return new WaitForSeconds(0.2f);
-        //     BatteryIcons[currentBatteryCells - 1].SetActive(false);
-        //     audioSource.PlayOneShot(cellGlitchSFX);
+            if(i == batteryCountdownIcons.Length - 1)
+            {
+                batteryParent.SetActive(false);
+                batteryLowText.gameObject.SetActive(false);
+                yield return new WaitForSeconds(1f);
+                break;
+            }
 
-        //     yield return new WaitForSeconds(0.2f);
-        //     BatteryIcons[currentBatteryCells - 1].SetActive(true);
+            yield return new WaitForSeconds(1f);
 
-        //     yield return new WaitForSeconds(0.2f);
-        //     BatteryIcons[currentBatteryCells - 1].SetActive(false);
-        //     //audioSource.PlayOneShot(cellGlitchSFX);
-        //     audioSource.PlayOneShot(cellChangeSFX);
+            HideAllCountdownIcons();
+        }
 
-        //     currentBatteryCells = Mathf.Max(currentBatteryCells - 1, 0);
-        //     UpdateBatteryHUD();
-        // }
+        isCountingDownToReset = false;
+
+        CountDownToResetCoroutine = null;
+
+        if(FlickerBatteryCoroutine != null)
+        {
+            StopCoroutine(FlickerBatteryCoroutine);
+            FlickerBatteryCoroutine = null;
+        }
+
+        batteryLowText.gameObject.SetActive(false);
+        batteryParent.SetActive(false);
+        countdownParent.SetActive(false);
+        HideAllCountdownIcons();
+
+        if(currentBatteryCells <= 0)
+        {
+            levelLoadManager.ReloadCurrentLevel();
+        }
+    }
+
+    private void HideAllCountdownIcons()
+    {
+        foreach(GameObject icon in batteryCountdownIcons)
+        {
+            icon.SetActive(false);
+        }
+    }
 
     // Below is the same as the above DepleteBattery but it just triggers a coroutine to wait for a second, so signal boost
     // effect can happen, then it does the battery depletion, sound effects, that sort of thing, so it doesnt happen all at once.
@@ -188,9 +253,23 @@ public class BatteryManager : MonoBehaviour
         }
 
         currentBatteryCells = Mathf.Max(currentBatteryCells - depleteAmount, 0);
-        //audioSource.PlayOneShot(cellGlitchSFX);
         audioSource.PlayOneShot(cellChangeSFX);
         UpdateBatteryHUD();
+
+        if(currentBatteryCells <= 1 && FlickerBatteryCoroutine == null)
+        {
+            FlickerBatteryCoroutine = StartCoroutine(FlickerWholeBatteryIcon());
+        }
+        if(currentBatteryCells <= 0)
+        {
+            if(CountDownToResetCoroutine == null)
+            {
+                yield return new WaitForSeconds(1.25f);
+                CountDownToResetCoroutine = StartCoroutine(StartCountDownToLevelReset());
+            }
+        }
+
+        //yield break;
     }
 
     private IEnumerator FlickerWholeBatteryIcon()

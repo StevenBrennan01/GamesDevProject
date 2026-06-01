@@ -18,6 +18,7 @@ public class FirstLevel_Startup : MonoBehaviour
         if (Elevator != null)
         {
             ElevatorMovement elevatorMovement = Elevator.GetComponent<ElevatorMovement>();
+            
             if (elevatorMovement != null)
             {
                 elevatorMovement.MoveElevatorAutomatic(4.5f);

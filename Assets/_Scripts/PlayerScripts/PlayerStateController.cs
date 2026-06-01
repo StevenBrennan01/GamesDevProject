@@ -149,6 +149,11 @@ public class PlayerStateController : MonoBehaviour
         else
         {
             Debug.LogWarning("No Start Head Placement Volume found, starting player in first person at spawn point");
+            
+            GameObject spawnPoint = GameObject.FindGameObjectWithTag("LevelSpawnPoint");
+            var spawnTransform = spawnPoint != null ? spawnPoint.transform : null;
+            MoveToSpawnAndAlign(spawnTransform);
+
             CurrentMovementMode = MovementMode.FirstPerson;
             InitializeCameraMode(CameraMode.Carried);
             playerBody.SetActive(false);
@@ -288,6 +293,25 @@ public class PlayerStateController : MonoBehaviour
 
         isTransitioningHead = false;
         isBlending = false;
+    }
+
+    private void FaceTargetDirection(Transform target)
+    {
+        if(target == null || playerCharacter == null) return;
+
+        Vector3 forward = -target.forward;
+        forward.y = 0f;
+
+        if (forward.sqrMagnitude < 0.001f) return; // Avoid zero-length direction
+        Quaternion targetRotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
+
+        transform.rotation = targetRotation;
+
+        if(firstPersonYawRoot != null)
+        {
+            firstPersonYawRoot.rotation = targetRotation;
+            fpYaw = firstPersonYawRoot.eulerAngles.y;
+        }
     }
 
     private IEnumerator HidePlayerBody(HeadPlacementVolume pickupVolume)
@@ -451,26 +475,6 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
-    private void FaceTargetDirection(Transform target)
-    {
-        if(target == null || playerCharacter == null) return;
-
-        Debug.Log("Facing target direction: " + target.name);
-        Vector3 forward = -target.forward;
-        forward.y = 0f;
-
-        if (forward.sqrMagnitude < 0.001f) return; // Avoid zero-length direction
-        Quaternion targetRotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
-
-        transform.rotation = targetRotation;
-
-        if(firstPersonYawRoot != null)
-        {
-            firstPersonYawRoot.rotation = targetRotation;
-            fpYaw = firstPersonYawRoot.eulerAngles.y;
-        }
-    }
-
     public void PlaceHeadOnStart(HeadPlacementVolume startVolume)
     {        
         SetCurrentPlacementVolume(startVolume);
@@ -581,30 +585,11 @@ public class PlayerStateController : MonoBehaviour
             characterController.enabled = true;
         }
 
-        // if(placedHeadVolume != null)
-        // {
-        //     Debug.Log("attempting to face head placement anchor direction on respawn");
-        //     FaceTargetDirection(placedHeadVolume.placementAnchor);
-        // }
-        // else
-        // {
-        //     Debug.Log("no placed head volume on respawn, facing spawn point direction");
-        //     transform.position = spawnPoint.position;
-        //     transform.rotation = spawnPoint.rotation;
-        // }
-
-        //StartCoroutine(DebounceCorrectPlayerRespawnRotation(spawnPoint));
         FaceSpawnDirection(spawnPoint);
-
-        Debug.Log("Spawn yaw target: " + spawnPoint.eulerAngles.y);
-        Debug.Log("Transform yaw: " + transform.eulerAngles.y);
-        Debug.Log("Yaw root yaw: " + firstPersonYawRoot.eulerAngles.y);
-        Debug.Log("Player body yaw: " + playerBody.transform.eulerAngles.y);
-        Debug.Log("Player character yaw: " + playerCharacter.transform.eulerAngles.y);
 
         signalManager.IncreaseSignalLevelForDuration(.25f);
 
-        StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
+        StartCoroutine(GiveBackControlsAfterLevelRestart(2f));
     }
 
     private IEnumerator GiveBackControlsAfterLevelRestart(float delay)
@@ -641,23 +626,6 @@ public class PlayerStateController : MonoBehaviour
             fpPitch = 0f;
         }
     }
-
-    // private IEnumerator DebounceCorrectPlayerRespawnRotation(Transform spawnPoint)
-    // {
-    //     yield return new WaitForSeconds(1.5f);
-
-    //     if(placedHeadVolume != null)
-    //     {
-    //         Debug.Log($"attempting to face head placement anchor direction on respawn: {placedHeadVolume.name}");
-    //         FaceTargetDirection(placedHeadVolume.placementAnchor);
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("no placed head volume on respawn, facing spawn point direction");
-    //         transform.position = spawnPoint.position;
-    //         transform.rotation = spawnPoint.rotation;
-    //     }
-    // }
 
     public void MoveToSpawnAndAlign(Transform spawnPoint)
     {

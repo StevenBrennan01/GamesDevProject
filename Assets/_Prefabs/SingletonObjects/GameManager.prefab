@@ -50,8 +50,9 @@ MonoBehaviour:
   levelSceneNames:
   - 1_FirstLevel
   - 2_SecondLevel
-  - TestingGrounds_Additive
+  - TestLevel_4
   - 1_FirstLevel_Reset
+  introDuplicateSceneIndex: 3
   sceneSwapDelay: 2
   fadeOutSeconds: 1
 --- !u!114 &6660202739482693766

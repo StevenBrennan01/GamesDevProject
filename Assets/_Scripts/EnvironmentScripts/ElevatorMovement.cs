@@ -14,7 +14,7 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
 
     public bool elevatorIsDown = false;
     public bool elevatorIsUp = false; 
-    private bool isMoving;
+    private bool isMoving = false;
 
     private void Awake()
     {

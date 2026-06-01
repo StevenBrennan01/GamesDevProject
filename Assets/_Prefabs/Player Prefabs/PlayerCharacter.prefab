@@ -359,16 +359,16 @@ MonoBehaviour:
   firstPersonYawRoot: {fileID: 1678245344841897345}
   firstPersonPitchPivot: {fileID: 6116089243526192271}
   playerStartWithInputLocked: 1
-  startLockInputSeconds: 1
+  startLockInputSeconds: 32.5
   lockSecondsAfterPlacing: 1.25
   waitSecondsBeforePickup: 0.5
   placedYawClamp: 45
   placedPitchClamp: 30
   secondPersonLookSensitivity: {x: 0.1, y: 0.1}
-  secondPersonFieldOfView: 75
+  secondPersonFieldOfView: 80
   firstPersonPitchClamp: 85
   firstPersonLookSensitivity: {x: 0.1, y: 0.1}
-  firstPersonFieldOfView: 75
+  firstPersonFieldOfView: 80
   potentialPlacementVolume: {fileID: 0}
   placedHeadVolume: {fileID: 0}
   isBlending: 0

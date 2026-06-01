@@ -1435,6 +1435,19 @@ MonoBehaviour:
   - {fileID: 2247882766131964296}
   - {fileID: 3719640120594315301}
   - {fileID: 8764655801327688344}
+  countdownParent: {fileID: 0}
+  batteryCountdownIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   batteryFullText: {fileID: 0}
   batteryLowText: {fileID: 0}
   audioSource: {fileID: 7030651964310131624}
@@ -1442,6 +1455,7 @@ MonoBehaviour:
   cellGlitchSFX: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
   currentBatteryCells: 5
   isCharging: 0
+  isCountingDownToReset: 0
 --- !u!114 &4658470835639523067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1463,9 +1477,8 @@ MonoBehaviour:
   TimerParent: {fileID: 6306815442661151905}
   TimerFillImage: {fileID: 7369889643750873532}
   signalLostText: {fileID: 0}
-  maxSignalDistance: 8.5
-  midSignalDistance2: 8
-  midSignalDistance: 6
+  maxSignalDistance: 7.25
+  midSignalDistance: 5.25
   minSignalDistance: 3
   originalFilmGrainIntensity: 0.15
   midLevelFilmGrainIntensity: 0.2
