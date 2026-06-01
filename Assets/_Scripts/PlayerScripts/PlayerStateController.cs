@@ -60,11 +60,15 @@ public class PlayerStateController : MonoBehaviour
     [Header("Second-Person View Attributes")]
     [SerializeField, Range(0, 180)] private float placedYawClamp = 45f;
     [SerializeField, Range(0, 89)] private float placedPitchClamp = 30f;
+
+    [Tooltip("0.1 for M/KB , 0.6 ish for controller")]
     [SerializeField] private Vector2 secondPersonLookSensitivity = Vector2.one;
     [SerializeField, Range(0, 80)] private float secondPersonFieldOfView;
 
     [Header("First-Person View Attributes")]
     [SerializeField, Range(0, 89)] private float firstPersonPitchClamp = 85f;
+
+    [Tooltip("0.1 for M/KB , 0.6 ish for controller")]
     [SerializeField] private Vector2 firstPersonLookSensitivity = Vector2.one;
     [SerializeField, Range(0, 80)] private float firstPersonFieldOfView;
 
@@ -88,6 +92,10 @@ public class PlayerStateController : MonoBehaviour
 
     private float fpYaw;
     private float fpPitch;
+
+    [SerializeField] private bool secondPersonMovementLocked;     
+    private Vector3 placedMovementForward;
+    private Vector3 placedMovementRight;
 
     private void Awake()
     {
@@ -427,6 +435,11 @@ public class PlayerStateController : MonoBehaviour
         Transform basis;
         if (CurrentMovementMode == MovementMode.SecondPerson && placedVirtualCamera != null) // Is in 2nd Person
         {
+            if(secondPersonMovementLocked)
+            {
+                // locking movement from camera stuff
+            }
+
             basis = placedVirtualCamera.transform;
         }
         else if (carriedVirtualCamera != null) // Is in 1st Person

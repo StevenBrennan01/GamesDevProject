@@ -353,6 +353,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 288800203152335004, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 338131888952983200, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -452,6 +456,10 @@ PrefabInstance:
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038665802953222340, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -833.43994
       objectReference: {fileID: 0}
     - target: {fileID: 7750356026029242207, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: batteryLowText
@@ -615,6 +623,22 @@ PrefabInstance:
       propertyPath: carriedVirtualCamera
       value: 
       objectReference: {fileID: 335648171}
+    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: firstPersonLookSensitivity.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: firstPersonLookSensitivity.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: secondPersonLookSensitivity.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: secondPersonLookSensitivity.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
       value: 
