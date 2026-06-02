@@ -678,6 +678,6 @@ public class PlayerStateController : MonoBehaviour
         signalManager.IncreaseSignalLevelForDuration(.25f);
 
         signalManager.EnableSignalChecks();
-        StartCoroutine(GiveBackControlsAfterLevelRestart(3f));
+        StartCoroutine(GiveBackControlsAfterLevelRestart(2f));
     }
 }

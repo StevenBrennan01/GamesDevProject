@@ -119,6 +119,7 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
         {
             playerBlocker.enabled = false;
         }
+
         isMoving = false;
         consistentAudioSource.Stop();
         oneShotAudioSource.PlayOneShot(elevatorStopSFX);

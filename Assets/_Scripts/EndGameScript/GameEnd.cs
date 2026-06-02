@@ -3,23 +3,37 @@ using System.Collections;
 
 public class GameEnd : MonoBehaviour
 {
-    private string colliderTag = "Elevator"; //The Player Tag
-    private string gameSceneName = "MainMenu"; //The Game Scene Name
+    private SignalManager signalManager;
+    private BatteryManager batteryManager;
+    private PlayerInputs playerInputs;
+    private ControllerCheck controllerCheck;
+    
+    private string colliderTag = "Elevator";
+    private string gameSceneName = "MainMenu"; //The Menu Scene Name
 
     [SerializeField] private float fadeInSeconds = 0.5f;
     [SerializeField] private float fadeOutSeconds = 1f;
-    [SerializeField] private float waitBeforeStartingTransition = 4f;
-    [SerializeField] private BoxCollider endCollider;
-
+    [SerializeField] private float waitBeforeStartingTransition = 6f;
     private void Awake()
     {
-        endCollider = GetComponent<BoxCollider>();
+        signalManager = FindAnyObjectByType<SignalManager>();
+        batteryManager = FindAnyObjectByType<BatteryManager>();
+        playerInputs = FindAnyObjectByType<PlayerInputs>();
+        controllerCheck = FindAnyObjectByType<ControllerCheck>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == colliderTag)
+        if(other.CompareTag(colliderTag))
         {
+            playerInputs.SetMovementLocked(true);
+            signalManager.DisableSignalChecks();
+
+            signalManager.signalParent.SetActive(false);
+            batteryManager.batteryParent.SetActive(false);
+
+            controllerCheck.interactionTipsParent.SetActive(false);
+
             StartCoroutine(DebounceReturnToMenu());
         }
     }

@@ -14,7 +14,7 @@ public class SignalManager : MonoBehaviour
 
     [Header("-= Signal HUD Elements =-")]
     [Space(5)]
-    [SerializeField] private GameObject signalParent;
+    [SerializeField] public GameObject signalParent;
     [SerializeField] private GameObject[] signalIcons;
     [SerializeField] private GameObject TimerParent;
     [SerializeField] private GameObject TimerFillImage;
@@ -76,6 +76,7 @@ public class SignalManager : MonoBehaviour
         if (signalBoostController == null) signalBoostController = FindAnyObjectByType<SignalBoostController>();
         if (levelLoadManager == null) levelLoadManager = FindAnyObjectByType<LevelLoadManager>();
         if (globalVolume == null) globalVolume = FindAnyObjectByType<Volume>();
+        if (controllerCheck == null) controllerCheck = FindAnyObjectByType<ControllerCheck>();
 
         signalChecksEnabled = false;
 

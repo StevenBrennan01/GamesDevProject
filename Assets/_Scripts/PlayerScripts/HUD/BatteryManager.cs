@@ -9,7 +9,7 @@ public class BatteryManager : MonoBehaviour
 
     [Header("-= Battery HUD Elements =-")]
     [Space(5)]
-    [SerializeField] private GameObject batteryParent;
+    [SerializeField] public GameObject batteryParent;
     [SerializeField] private GameObject[] batteryIcons;
     [SerializeField] private GameObject countdownParent;
     [SerializeField] private GameObject[] batteryCountdownIcons;

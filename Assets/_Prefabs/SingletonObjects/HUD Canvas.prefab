@@ -371,7 +371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.62623996}
+  m_AnchoredPosition: {x: 0, y: 0.6209399}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3890645964558033576
@@ -1614,14 +1614,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   globalVolume: {fileID: 0}
-  signalParent: {fileID: 3467157248430609221}
+  signalParent: {fileID: 3875741816408489191}
   signalIcons:
   - {fileID: 5373705575069184986}
   - {fileID: 1268583002574113053}
   - {fileID: 8634364667692783261}
   TimerParent: {fileID: 6306815442661151905}
   TimerFillImage: {fileID: 7369889643750873532}
-  signalLostText: {fileID: 0}
+  signalLostText_Keyboard: {fileID: 0}
+  signalLostText_Controller: {fileID: 0}
   maxSignalDistance: 7.25
   midSignalDistance: 5.25
   minSignalDistance: 3
@@ -2129,7 +2130,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.6267}
+  m_AnchoredPosition: {x: 0, y: 0.6214}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9022801715176237402

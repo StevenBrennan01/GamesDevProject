@@ -127,6 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: 'levelSceneNames.Array.data[0]'
+      value: 3_ThirdLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: 'levelSceneNames.Array.data[1]'
+      value: 1_FirstLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: 'levelSceneNames.Array.data[2]'
+      value: 2_SecondLevel
+      objectReference: {fileID: 0}
     - target: {fileID: 1273227137794455233, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: isUsingController
       value: 0
@@ -374,10 +386,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 288800203152335004, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 338131888952983200, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -458,10 +466,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1768237374674904948, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3042257376820864792, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Camera
       value: 
@@ -475,10 +479,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 869835534}
     - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: signalLostText
-      value: 
-      objectReference: {fileID: 1734190997}
-    - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: signalLostText_Keyboard
       value: 
       objectReference: {fileID: 1734190997}
@@ -489,10 +489,6 @@ PrefabInstance:
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 6743514618934570546, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.6214
       objectReference: {fileID: 0}
     - target: {fileID: 7750356026029242207, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: batteryLowText
@@ -550,14 +546,6 @@ PrefabInstance:
       propertyPath: 'batteryCountdownIcons.Array.data[10]'
       value: 
       objectReference: {fileID: 1968590852}
-    - target: {fileID: 7792777258680754933, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.6209399
-      objectReference: {fileID: 0}
-    - target: {fileID: 8657709088122247246, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
