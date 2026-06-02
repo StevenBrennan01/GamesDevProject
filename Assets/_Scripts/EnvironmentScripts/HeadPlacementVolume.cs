@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent (typeof(BoxCollider))]
 public class HeadPlacementVolume : MonoBehaviour
 {
+    private PlayerStateController playerStateController;
+
     [Tooltip("The anchor that the player head will become a child of.")]
     public Transform placementAnchor;
 
@@ -22,6 +24,7 @@ public class HeadPlacementVolume : MonoBehaviour
     private void Awake()
     {
         volumeCollider = GetComponent<BoxCollider>();
+        playerStateController = FindAnyObjectByType<PlayerStateController>();
 
         headVisualiser.SetActive(true);
     }
@@ -31,9 +34,13 @@ public class HeadPlacementVolume : MonoBehaviour
         headVisualiser.transform.Rotate(Vector3.up * visualiserRotateSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)// Allow for placement etc.
+    private void OnTriggerStay(Collider other)// Allow for placement etc.
     {
         if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag)) return;
+        if (!other.CompareTag("Player")) return;
+        if (isHeadCharger && playerStateController != null && playerStateController.placedHeadVolume != null) return;
+        if (!isHeadCharger && playerStateController != null && playerStateController.placedHeadVolume == this) return;
+
         if (other.tag == playerTag)
         {
             canPlace = true;
@@ -43,6 +50,7 @@ public class HeadPlacementVolume : MonoBehaviour
     private void OnTriggerExit(Collider other) // Disallow for placement etc.
     {
         if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag)) return;
+        
         if (other.tag == playerTag)
         {
             canPlace = false;

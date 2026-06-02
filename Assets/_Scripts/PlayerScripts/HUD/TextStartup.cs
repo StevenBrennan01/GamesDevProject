@@ -5,10 +5,15 @@ using UnityEngine;
 public class TextStartupSequence : MonoBehaviour
 {
     private HUDStartup hudStartup;
+    private ControllerCheck controllerCheck;
+
+    [Header("-= Controller UI To Display if using Controller =-")]
+    [SerializeField] private GameObject ControllerUI_Parent;
 
     [Header("-= SFX & Audio Sources =-")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip BootStartupSFX;
+    [SerializeField] private AudioClip HUDGlitchSFX;
     [SerializeField, Range(1f, 5f)] private float audioFadeOutDuration = 2f;
 
     [Header("-= Startup Phases =-")]
@@ -36,6 +41,7 @@ public class TextStartupSequence : MonoBehaviour
     private void Start()
     {
         hudStartup = FindAnyObjectByType<HUDStartup>();
+        controllerCheck = FindAnyObjectByType<ControllerCheck>();
         StartCoroutine(PlayStartupSequence());
     }
 
@@ -72,6 +78,17 @@ public class TextStartupSequence : MonoBehaviour
                 StartCoroutine(FadeOutStartupAudio(audioSource, audioFadeOutDuration));
 
             phase.textComponent.gameObject.SetActive(false);
+        }
+
+        if(controllerCheck.isUsingController)
+        {
+            ControllerUI_Parent.SetActive(true);
+            audioSource.PlayOneShot(HUDGlitchSFX);
+            yield return new WaitForSeconds(0.25f);
+            ControllerUI_Parent.SetActive(false);
+            yield return new WaitForSeconds(0.25f);
+            audioSource.PlayOneShot(HUDGlitchSFX);
+            ControllerUI_Parent.SetActive(true);
         }
     }
 

@@ -129,11 +129,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: levelSceneNames.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: 'levelSceneNames.Array.data[3]'
-      value: MainMenu
+      value: 1_FirstLevel_Reset
       objectReference: {fileID: 0}
     - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: 'levelSceneNames.Array.data[4]'
@@ -186,8 +186,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 124909613}
   m_SourcePrefab: {fileID: 100100000, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+--- !u!1 &124909612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+  m_PrefabInstance: {fileID: 124909611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &124909613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124909612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b82d35ee3f4c764a8e4c1c21422ceca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  interactionTipsParent: {fileID: 445501944}
+  interactKeyboard_Element: {fileID: 1472733836}
+  interactController_Element: {fileID: 2111478790}
+  isUsingController: 1
 --- !u!114 &127755122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +314,11 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1321844590906280677, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
   m_PrefabInstance: {fileID: 6726274608390209650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &445501944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3354239772673014136, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &545263586
 PrefabInstance:
@@ -449,6 +478,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1768237374674904948, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3042257376820864792, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Camera
       value: 
@@ -469,9 +502,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7038665802953222340, guid: d3930d424641a694eab44930fda1ce40, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -833.43994
+    - target: {fileID: 6743514618934570546, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.6214
       objectReference: {fileID: 0}
     - target: {fileID: 7750356026029242207, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: batteryLowText
@@ -529,11 +562,24 @@ PrefabInstance:
       propertyPath: 'batteryCountdownIcons.Array.data[10]'
       value: 
       objectReference: {fileID: 1968590852}
+    - target: {fileID: 7792777258680754933, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.6209399
+      objectReference: {fileID: 0}
+    - target: {fileID: 8657709088122247246, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+--- !u!1 &577276951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 288800203152335004, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &619762374 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7001543506749454714, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
@@ -637,23 +683,19 @@ PrefabInstance:
       objectReference: {fileID: 335648171}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: firstPersonLookSensitivity.x
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: firstPersonLookSensitivity.y
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: secondPersonLookSensitivity.x
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: secondPersonLookSensitivity.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4796602321067822841, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
-      propertyPath: lockMovementSeconds
-      value: 0.75
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
@@ -889,6 +931,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ActionId: ff628275-5e12-4431-bc5e-29a4c3893d08
+--- !u!1 &1472733836 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8657709088122247246, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1504147088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,6 +1026,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6625520441985518528, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
   m_PrefabInstance: {fileID: 6726274608390209650}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2111478790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1768237374674904948, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+  m_PrefabInstance: {fileID: 577276947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6726274608390209650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1067,6 +1119,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1637095232257253162, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3756034057071856389, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
       propertyPath: m_Name
       value: Warning Canvas
@@ -1075,6 +1131,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
+    - target: {fileID: 8585886159730636829, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1103,6 +1163,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
+    - target: {fileID: 1031623592259673522, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 0.064
+      objectReference: {fileID: 0}
     - target: {fileID: 2717962846909328688, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1183,6 +1247,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6318453764673869980, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: HUDGlitchSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: eb1155aaa8747c140a0a19bcc52a0027, type: 3}
+    - target: {fileID: 6318453764673869980, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: ControllerUI_Parent
+      value: 
+      objectReference: {fileID: 577276951}
+    - target: {fileID: 7182005218441638612, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7966392584113269161, guid: 7cfe631e1d85e03469ccf6fa94eae0b7, type: 3}
       propertyPath: m_Name
       value: Startup Canvas
@@ -1201,8 +1277,8 @@ SceneRoots:
   - {fileID: 1201252086}
   - {fileID: 1928526954}
   - {fileID: 869835531}
-  - {fileID: 7212114382511134631}
   - {fileID: 577276947}
+  - {fileID: 7212114382511134631}
   - {fileID: 6726274608390209650}
   - {fileID: 816680342}
   - {fileID: 545263586}

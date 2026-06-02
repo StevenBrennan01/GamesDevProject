@@ -7,6 +7,8 @@ public class InteractionVolume : MonoBehaviour
 {
     // private BatteryManager batteryManager;
     // private PlayerAudioController playerAudioController;
+    private PlayerStateController playerStateController;
+    private ControllerCheck controllerCheck;
 
     [Tooltip("Object/Script being interacted with that utilises the IInteraction contract")]
     [SerializeField] private MonoBehaviour[] interactionBehaviours;
@@ -70,6 +72,8 @@ public class InteractionVolume : MonoBehaviour
 
         // batteryManager = FindAnyObjectByType<BatteryManager>();
         // playerAudioController = FindAnyObjectByType<PlayerAudioController>();
+        playerStateController = FindAnyObjectByType<PlayerStateController>();
+        controllerCheck = FindAnyObjectByType<ControllerCheck>();
 
         if (interactionBehaviours != null && interactionBehaviours.Length > 0)
         {
@@ -272,11 +276,49 @@ public class InteractionVolume : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        if(playerStateController != null && playerStateController.placedHeadVolume != null)
+        {
+            if(playerStateController.placedHeadVolume.isHeadCharger && !isHeadChargerInteraction)
+            {
+                if (controllerCheck != null)
+                {
+                    controllerCheck.interactKeyboard_Element.SetActive(false);
+                    controllerCheck.interactController_Element.SetActive(false);
+                }
+                return;
+            }
+            else if(!playerStateController.placedHeadVolume.isHeadCharger && isHeadChargerInteraction)
+            {
+                if (controllerCheck != null)
+                {
+                    controllerCheck.interactKeyboard_Element.SetActive(false);
+                    controllerCheck.interactController_Element.SetActive(false);
+                }
+                return;
+            }
+
+            if(playerStateController.placedHeadVolume.isHeadCharger && isHeadChargerInteraction || !playerStateController.placedHeadVolume.isHeadCharger && !isHeadChargerInteraction)
+            {
+                if (controllerCheck != null)
+                {
+                    if (controllerCheck.isUsingController)
+                    {
+                        controllerCheck.interactKeyboard_Element.SetActive(false);
+                        controllerCheck.interactController_Element.SetActive(true);
+                    }
+                    else
+                    {
+                        controllerCheck.interactController_Element.SetActive(false);
+                        controllerCheck.interactKeyboard_Element.SetActive(true);
+                    }
+                }
+            }
+        }
+
         var playerInteractions = other.GetComponentInParent<PlayerInteractions>();
         if (playerInteractions != null)
         {
             playerInteractions.SetCurrentZone(this);
-            // Optional: show prompt UI here via a separate component or event.
         }
     }
 
@@ -288,7 +330,15 @@ public class InteractionVolume : MonoBehaviour
         if (playerInteractions != null)
         {
             playerInteractions.ClearCurrentZone(this);
-            // Optional: hide prompt UI here.
+            
+            if (playerStateController != null && playerStateController.placedHeadVolume != null)
+            {
+                if (controllerCheck != null)
+                {
+                    controllerCheck.interactKeyboard_Element.SetActive(false);
+                    controllerCheck.interactController_Element.SetActive(false);
+                }
+            }
         }
     }
 }

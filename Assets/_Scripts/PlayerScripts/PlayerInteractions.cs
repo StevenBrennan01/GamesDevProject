@@ -67,8 +67,8 @@ public class PlayerInteractions : MonoBehaviour
             if (audioSource != null && interactNotAllowedSFX != null)
             {
                 audioSource.PlayOneShot(interactNotAllowedSFX);
+                return;
             }
-            return;
         }
 
         if (playerState.placedHeadVolume != null && playerState.placedHeadVolume.isHeadCharger)

@@ -19,6 +19,7 @@ public class PlayerStateController : MonoBehaviour
     private PlayerInputs playerInput;
     private LevelStartHeadPlacement startHeadPlacement;
     private SignalManager signalManager;
+    private PlayerLocomotion playerLocomotion;
 
     [Header("References")]
     [Space(10)]
@@ -103,6 +104,7 @@ public class PlayerStateController : MonoBehaviour
         if (playerInput == null) { Debug.LogError("Player Input reference is missing"); }
         if (signalManager == null) signalManager = FindAnyObjectByType<SignalManager>();
         if (characterController == null) characterController = GetComponent<CharacterController>();
+        if (playerLocomotion == null) playerLocomotion = GetComponent<PlayerLocomotion>();
 
         if (potentialPlacementVolume != null)
         {
@@ -189,6 +191,7 @@ public class PlayerStateController : MonoBehaviour
     private void HandlePlaceOrPickup()
     {
         if (isBlending || isTransitioningHead) return;
+        if (!playerLocomotion.isGrounded) return;
 
         if (CurrentCameraMode == CameraMode.Carried)
         {
@@ -205,8 +208,10 @@ public class PlayerStateController : MonoBehaviour
         if (potentialPlacementVolume == null) return;
         if (!potentialPlacementVolume.canPlace) return;
         if (isTransitioningHead) return;
+        if (!playerLocomotion.isGrounded) return;
         if (potentialPlacementVolume.placementAnchor == null) return;
 
+        playerInput.SetMovementAndCameraLocked(true);
         StartCoroutine(PlaceHeadRoutine(potentialPlacementVolume));
     }
 
@@ -214,8 +219,6 @@ public class PlayerStateController : MonoBehaviour
     {
         isTransitioningHead = true;
         isBlending = true;
-        playerInput.SetMovementLocked(true);
-        playerInput.SetCameraLocked(true);
 
         Transform anchor = targetVolume.placementAnchor;
 
@@ -244,17 +247,17 @@ public class PlayerStateController : MonoBehaviour
 
         targetVolume.headVisualiser.SetActive(false);
 
-        if (placedHeadVolume.isHeadCharger)
-        {
-            // Begin charging battery
-        }
+        // if (placedHeadVolume.isHeadCharger) now being done in the individual interaction objects to avoid issues
+        // {
+        //     // Begin charging battery
+        // }
 
         yield return new WaitForSeconds(lockSecondsAfterPlacing);
 
         isBlending = false;
         isTransitioningHead = false;
-        playerInput.SetMovementLocked(false);
-        playerInput.SetCameraLocked(false);
+
+        playerInput.SetMovementAndCameraLocked(false);
     }
 
     private void TryPickupHead()
@@ -262,6 +265,7 @@ public class PlayerStateController : MonoBehaviour
         if (placedHeadVolume == null) return;
         if (potentialPlacementVolume != placedHeadVolume) return;
         if (isTransitioningHead) return;
+        if (!playerLocomotion.isGrounded) return;
 
         //playerHead.transform.position = carriedMount.position;
         //playerHead.transform.rotation = carriedMount.rotation;
@@ -279,6 +283,7 @@ public class PlayerStateController : MonoBehaviour
         // and the camera shifts to new anchor.
         // This is ok as the head is invisible
 
+        playerInput.SetMovementAndCameraLocked(true);
         StartCoroutine(PickupHeadRoutine(placedHeadVolume));
     }
 
@@ -286,8 +291,7 @@ public class PlayerStateController : MonoBehaviour
     {
         isTransitioningHead = true;
         isBlending = true;
-        playerInput.SetMovementLocked(true);
-        playerInput.SetCameraLocked(true);
+        
         neutralHeadRotation = playerHead.transform.rotation;
         placedYawOffset = 0f;
         placedPitchOffset = 0f;
@@ -348,8 +352,8 @@ public class PlayerStateController : MonoBehaviour
 
         //potentialPlacementVolume = null;
         placedHeadVolume = null;
-        playerInput.SetMovementLocked(false);
-        playerInput.SetCameraLocked(false);
+
+        playerInput.SetMovementAndCameraLocked(false);
     }
 
     private void SetCameraMode(CameraMode targetMode)

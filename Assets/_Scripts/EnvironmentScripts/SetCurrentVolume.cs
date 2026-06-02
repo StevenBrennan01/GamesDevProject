@@ -4,25 +4,68 @@ using UnityEngine;
 [RequireComponent (typeof(BoxCollider))]
 public class SetCurrentVolume : MonoBehaviour
 {
-    private HeadPlacementVolume HeadPlacementVolume;
+    private HeadPlacementVolume headPlacementVolume;
+    private PlayerStateController playerStateController;
+    private ControllerCheck controllerCheck;
 
     private string playerTag = "Player"; //The Player Tag
 
     private void Awake()
     {
-        HeadPlacementVolume = GetComponent<HeadPlacementVolume>();
+        headPlacementVolume = GetComponent<HeadPlacementVolume>();
+        playerStateController = FindAnyObjectByType<PlayerStateController>();
+        controllerCheck = FindAnyObjectByType<ControllerCheck>();
+
         var boxCollider = GetComponent<BoxCollider>();
         boxCollider.isTrigger = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (!string.IsNullOrEmpty(playerTag) && !other.CompareTag(playerTag)) return;
         var state = other.GetComponent<PlayerStateController>();
 
         if (state != null)
         {
-            state.SetCurrentPlacementVolume(this.HeadPlacementVolume);
+            state.SetCurrentPlacementVolume(this.headPlacementVolume);
+        }
+
+        if(playerStateController != null && playerStateController.CurrentMovementMode == MovementMode.FirstPerson)
+        {
+            if (controllerCheck.isUsingController)
+            {
+                controllerCheck.interactKeyboard_Element.SetActive(false);
+                controllerCheck.interactController_Element.SetActive(true);
+            }
+            else
+            {
+                controllerCheck.interactController_Element.SetActive(false);
+                controllerCheck.interactKeyboard_Element.SetActive(true);
+            }
+        }
+        else if(playerStateController != null && playerStateController.CurrentMovementMode == MovementMode.SecondPerson)
+        {
+            if(playerStateController.placedHeadVolume == this.headPlacementVolume)
+            {
+                if (controllerCheck.isUsingController)
+                {
+                    controllerCheck.interactKeyboard_Element.SetActive(false);
+                    controllerCheck.interactController_Element.SetActive(true);
+                }
+                else
+                {
+                    controllerCheck.interactController_Element.SetActive(false);
+                    controllerCheck.interactKeyboard_Element.SetActive(true);
+                }
+            }
+            else
+            {
+                if (controllerCheck != null)
+                {
+                    controllerCheck.interactKeyboard_Element.SetActive(false);
+                    controllerCheck.interactController_Element.SetActive(false);
+                }
+            }
         }
     }
 
@@ -34,6 +77,12 @@ public class SetCurrentVolume : MonoBehaviour
         if (state != null)
         {
             state.SetCurrentPlacementVolume(null);
+        }
+
+        if (controllerCheck != null)
+        {
+            controllerCheck.interactKeyboard_Element.SetActive(false);
+            controllerCheck.interactController_Element.SetActive(false);
         }
     }
 }

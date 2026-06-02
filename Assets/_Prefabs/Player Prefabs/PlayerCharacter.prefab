@@ -362,7 +362,7 @@ MonoBehaviour:
   startLockInputSeconds: 32.5
   lockSecondsAfterPlacing: 1.25
   waitSecondsBeforePickup: 0.5
-  placedYawClamp: 45
+  placedYawClamp: 50
   placedPitchClamp: 30
   secondPersonLookSensitivity: {x: 0.1, y: 0.1}
   secondPersonFieldOfView: 80
@@ -372,6 +372,7 @@ MonoBehaviour:
   potentialPlacementVolume: {fileID: 0}
   placedHeadVolume: {fileID: 0}
   isBlending: 0
+  secondPersonMovementLocked: 0
 --- !u!114 &7963761225874429830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,7 +424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractions
   audioSource: {fileID: 1553046600204074595}
   interactNotAllowedSFX: {fileID: 8300000, guid: 3c66b73858fd51a40ab3c57644e7b93e, type: 3}
-  lockMovementSeconds: 0.55
+  lockMovementSeconds: 0.45
   activeZone: {fileID: 0}
 --- !u!143 &970298166419111237
 CharacterController:
