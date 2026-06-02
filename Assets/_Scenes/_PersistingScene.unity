@@ -127,18 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: levelSceneNames.Array.size
-      value: 4
+    - target: {fileID: 1273227137794455233, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: isUsingController
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: 'levelSceneNames.Array.data[3]'
-      value: 1_FirstLevel_Reset
-      objectReference: {fileID: 0}
-    - target: {fileID: 660471917765660573, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      propertyPath: 'levelSceneNames.Array.data[4]'
-      value: 1_FirstLevel_Reset
-      objectReference: {fileID: 0}
+    - target: {fileID: 1273227137794455233, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: interactionTipsParent
+      value: 
+      objectReference: {fileID: 445501944}
+    - target: {fileID: 1273227137794455233, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: interactKeyboard_Element
+      value: 
+      objectReference: {fileID: 1472733836}
+    - target: {fileID: 1273227137794455233, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
+      propertyPath: interactController_Element
+      value: 
+      objectReference: {fileID: 2111478790}
     - target: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -186,32 +190,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 124909613}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
---- !u!1 &124909612 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1845238092189597232, guid: d9695edd2f05c4a488df1023222cb828, type: 3}
-  m_PrefabInstance: {fileID: 124909611}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &124909613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 124909612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b82d35ee3f4c764a8e4c1c21422ceca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  interactionTipsParent: {fileID: 445501944}
-  interactKeyboard_Element: {fileID: 1472733836}
-  interactController_Element: {fileID: 2111478790}
-  isUsingController: 1
 --- !u!114 &127755122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +478,14 @@ PrefabInstance:
       propertyPath: signalLostText
       value: 
       objectReference: {fileID: 1734190997}
+    - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: signalLostText_Keyboard
+      value: 
+      objectReference: {fileID: 1734190997}
+    - target: {fileID: 4658470835639523067, guid: d3930d424641a694eab44930fda1ce40, type: 3}
+      propertyPath: signalLostText_Controller
+      value: 
+      objectReference: {fileID: 1102956643}
     - target: {fileID: 6441674839070373968, guid: d3930d424641a694eab44930fda1ce40, type: 3}
       propertyPath: m_Name
       value: HUD Canvas
@@ -633,6 +621,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 1314973009122170744, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1678245344841897345, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -683,19 +675,19 @@ PrefabInstance:
       objectReference: {fileID: 335648171}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: firstPersonLookSensitivity.x
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: firstPersonLookSensitivity.y
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: secondPersonLookSensitivity.x
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1778732153065050997, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: secondPersonLookSensitivity.y
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5347559498897338578, guid: 9a30950ad0f88d2438a425f700a92947, type: 3}
       propertyPath: pauseAction
@@ -736,6 +728,17 @@ Transform:
 --- !u!114 &871606968 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2062818663925470539, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+  m_PrefabInstance: {fileID: 6726274608390209650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1102956643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8545868969129975830, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
   m_PrefabInstance: {fileID: 6726274608390209650}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1119,19 +1122,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1637095232257253162, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3756034057071856389, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
       propertyPath: m_Name
       value: Warning Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5081844195028551331, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7173547946720911630, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1201252087}
-    - target: {fileID: 8585886159730636829, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
+    - target: {fileID: 7733773072789423929, guid: 32ea0210aa0169c4f9278d2e7e2f0624, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

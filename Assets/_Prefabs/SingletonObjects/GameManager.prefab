@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4215349513449318817}
   - component: {fileID: 660471917765660573}
   - component: {fileID: 6660202739482693766}
+  - component: {fileID: 1273227137794455233}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -50,7 +51,7 @@ MonoBehaviour:
   levelSceneNames:
   - 1_FirstLevel
   - 2_SecondLevel
-  - TestLevel_4
+  - 3_ThirdLevel
   - 1_FirstLevel_Reset
   introDuplicateSceneIndex: 3
   sceneSwapDelay: 2
@@ -67,6 +68,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e03f93ede63164ab517070bd944715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &1273227137794455233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845238092189597232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b82d35ee3f4c764a8e4c1c21422ceca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  interactionTipsParent: {fileID: 0}
+  interactKeyboard_Element: {fileID: 0}
+  interactController_Element: {fileID: 0}
+  isUsingController: 1
 --- !u!1 &2859127725858021683
 GameObject:
   m_ObjectHideFlags: 0

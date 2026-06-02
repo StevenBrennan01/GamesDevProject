@@ -14,12 +14,18 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
 
     public bool elevatorIsDown = false;
     public bool elevatorIsUp = false; 
+    [SerializeField] private BoxCollider playerBlocker;
     private bool isMoving = false;
 
     private void Awake()
     {
         consistentAudioSource.Stop();
         oneShotAudioSource.Stop();
+
+        if(playerBlocker != null)
+        {
+            playerBlocker.enabled = false;
+        }
     }
 
     public void MoveElevatorAutomatic(float delaySeconds)
@@ -28,6 +34,11 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
 
         if(elevatorIsDown)
         {
+            if(playerBlocker != null)
+            {
+                playerBlocker.enabled = true; // prevent player from entering the elevator while it's moving
+            }
+            
             StartCoroutine(DelayedMoveElevatorRoutine(targetPointTop, delaySeconds));
 
             consistentAudioSource.clip = elevatorMoveSFX;
@@ -38,6 +49,11 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
         }
         else
         {
+            if(playerBlocker != null)
+            {
+                playerBlocker.enabled = true; // prevent player from entering the elevator while it's moving
+            }
+
             StartCoroutine(DelayedMoveElevatorRoutine(targetPointBottom, delaySeconds));
 
             consistentAudioSource.clip = elevatorMoveSFX;
@@ -54,6 +70,11 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
 
         if(elevatorIsDown)
         {
+            if(playerBlocker != null)
+            {
+                playerBlocker.enabled = true; // prevent player from entering the elevator while it's moving
+            }
+
             StartCoroutine(MoveElevatorRoutine(targetPointTop));
 
             consistentAudioSource.clip = elevatorMoveSFX;
@@ -64,6 +85,11 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
         }
         else
         {
+            if(playerBlocker != null)
+            {
+                playerBlocker.enabled = true; // prevent player from entering the elevator while it's moving
+            }
+
             StartCoroutine(MoveElevatorRoutine(targetPointBottom));
 
             consistentAudioSource.clip = elevatorMoveSFX;
@@ -89,6 +115,10 @@ public class ElevatorMovement : MonoBehaviour, IInteraction
             yield return null;
         }
 
+        if(playerBlocker != null)
+        {
+            playerBlocker.enabled = false;
+        }
         isMoving = false;
         consistentAudioSource.Stop();
         oneShotAudioSource.PlayOneShot(elevatorStopSFX);

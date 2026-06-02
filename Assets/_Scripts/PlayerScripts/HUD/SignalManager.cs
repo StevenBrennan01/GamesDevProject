@@ -9,6 +9,7 @@ public class SignalManager : MonoBehaviour
     private PlayerStateController playerState;
     private SignalBoostController signalBoostController;
     private LevelLoadManager levelLoadManager;
+    private ControllerCheck controllerCheck;
     [SerializeField] private Volume globalVolume;
 
     [Header("-= Signal HUD Elements =-")]
@@ -17,9 +18,10 @@ public class SignalManager : MonoBehaviour
     [SerializeField] private GameObject[] signalIcons;
     [SerializeField] private GameObject TimerParent;
     [SerializeField] private GameObject TimerFillImage;
-    [SerializeField] private TextMeshProUGUI signalLostText;
+    [SerializeField] private TextMeshProUGUI signalLostText_Keyboard;
+    [SerializeField] private TextMeshProUGUI signalLostText_Controller;
 
-     [Header("-= Signal Boost Values =-")]
+    [Header("-= Signal Boost Values =-")]
 
     [Header("-= Signal Distance Values =-")]
     [Space(5)]
@@ -90,7 +92,8 @@ public class SignalManager : MonoBehaviour
         TimerParent.SetActive(false);
         TimerFillImage.SetActive(false);
         isSignalBoostActive = false;
-        signalLostText.gameObject.SetActive(false);
+        signalLostText_Keyboard.gameObject.SetActive(false);
+        signalLostText_Controller.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -108,7 +111,16 @@ public class SignalManager : MonoBehaviour
         {
             SetSignalIcons(3);
             ApplyBoostedSignalPostFX();
-            signalLostText.gameObject.SetActive(false);
+
+            if(!controllerCheck.isUsingController)
+            {
+                signalLostText_Keyboard.gameObject.SetActive(false);
+            }
+            else
+            {
+                signalLostText_Controller.gameObject.SetActive(false);
+            }
+
             return;
         }
 
@@ -149,7 +161,15 @@ public class SignalManager : MonoBehaviour
                     StopCoroutine(noSignalFlickerCoroutine);
                     noSignalFlickerCoroutine = null;
 
-                    signalLostText.gameObject.SetActive(false);
+                    if (!controllerCheck.isUsingController)
+                    {
+                        signalLostText_Keyboard.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        signalLostText_Controller.gameObject.SetActive(false);
+                    }
+
 
                     if (signalParent != null)
                     {
@@ -234,9 +254,16 @@ public class SignalManager : MonoBehaviour
             noSignalFlickerCoroutine = null;
         }
 
-        if (signalLostText != null)
+        if (controllerCheck != null)
         {
-            signalLostText.gameObject.SetActive(false);
+            if (!controllerCheck.isUsingController)
+            {
+                signalLostText_Keyboard.gameObject.SetActive(false);
+            }
+            else
+            {
+                signalLostText_Controller.gameObject.SetActive(false);
+            }
         }
 
         // if (signalParent != null)
@@ -321,18 +348,40 @@ public class SignalManager : MonoBehaviour
                 if (Time.time - startTime >= maxDurationBeforeReset)
                 {
                     signalParent.SetActive(false);
-                    signalLostText.gameObject.SetActive(false);
+                    if (!controllerCheck.isUsingController)
+                    {
+                        signalLostText_Keyboard.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        signalLostText_Controller.gameObject.SetActive(false);
+                    }
                     levelLoadManager.ReloadCurrentLevel();
                     yield break;
                 }
 
                 signalParent.SetActive(false);
-                signalLostText.gameObject.SetActive(false);
+                if (!controllerCheck.isUsingController)
+                {
+                    signalLostText_Keyboard.gameObject.SetActive(false);
+                }
+                else
+                {
+                    signalLostText_Controller.gameObject.SetActive(false);
+                }
+
                 PlaySignalSfx(ringGlitchSFX);
                 yield return new WaitForSeconds(0.2f);
 
                 signalParent.SetActive(true);
-                signalLostText.gameObject.SetActive(true);
+                if (!controllerCheck.isUsingController)
+                {
+                    signalLostText_Keyboard.gameObject.SetActive(true);
+                }
+                else
+                {
+                    signalLostText_Controller.gameObject.SetActive(true);
+                }
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -369,13 +418,6 @@ public class SignalManager : MonoBehaviour
             signalIcons[flickerIndex].SetActive(false);
             PlaySignalSfx(ringGlitchSFX);
             yield return new WaitForSeconds(0.1f);
-
-            // signalIcons[flickerIndex].SetActive(true);
-            // yield return new WaitForSeconds(0.1f);
-
-            // signalIcons[flickerIndex].SetActive(false);
-            // PlaySignalSfx(ringGlitchSFX);
-            // yield return new WaitForSeconds(0.1f);
         }
         else
         {
