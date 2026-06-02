@@ -36,4 +36,9 @@ public class AudioEventRelay : MonoBehaviour
     {
         playerAudioController.PlayLeverPullSFX();
     }
+
+    public void HeadInteractionAudioRelay()
+    {
+        playerAudioController.PlayHeadInteractSFX();
+    }
 }
