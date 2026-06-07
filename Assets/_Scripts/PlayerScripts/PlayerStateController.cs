@@ -94,7 +94,7 @@ public class PlayerStateController : MonoBehaviour
     private float fpYaw;
     private float fpPitch;
 
-    [SerializeField] private bool secondPersonMovementLocked;     
+    [SerializeField] private bool lockBasisRotations;     
     private Vector3 placedMovementForward;
     private Vector3 placedMovementRight;
 
@@ -246,6 +246,17 @@ public class PlayerStateController : MonoBehaviour
         CurrentMovementMode = MovementMode.SecondPerson;
 
         targetVolume.headVisualiser.SetActive(false);
+
+        if(lockBasisRotations)
+        {
+            placedMovementForward = anchor.forward;
+            placedMovementForward.y = 0f;
+            placedMovementForward.Normalize();
+
+            placedMovementRight = anchor.right;
+            placedMovementRight.y = 0f;
+            placedMovementRight.Normalize();
+        }
 
         // if (placedHeadVolume.isHeadCharger) now being done in the individual interaction objects to avoid issues
         // {
@@ -442,9 +453,10 @@ public class PlayerStateController : MonoBehaviour
         Transform basis;
         if (CurrentMovementMode == MovementMode.SecondPerson && placedVirtualCamera != null) // Is in 2nd Person
         {
-            if(secondPersonMovementLocked)
+            if(lockBasisRotations)
             {
-                // locking movement from camera stuff
+                // If the basis rotations are locked, use the forward and right vectors calculated at the moment of placement
+                return placedMovementForward * moveInput.y + placedMovementRight * moveInput.x;
             }
 
             basis = placedVirtualCamera.transform;
