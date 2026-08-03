@@ -258,11 +258,6 @@ public class PlayerStateController : MonoBehaviour
             placedMovementRight.Normalize();
         }
 
-        // if (placedHeadVolume.isHeadCharger) now being done in the individual interaction objects to avoid issues
-        // {
-        //     // Begin charging battery
-        // }
-
         yield return new WaitForSeconds(lockSecondsAfterPlacing);
 
         isBlending = false;
@@ -277,22 +272,6 @@ public class PlayerStateController : MonoBehaviour
         if (potentialPlacementVolume != placedHeadVolume) return;
         if (isTransitioningHead) return;
         if (!playerLocomotion.isGrounded) return;
-
-        //playerHead.transform.position = carriedMount.position;
-        //playerHead.transform.rotation = carriedMount.rotation;
-
-        //if (carriedMount != null && carriedVirtualCamera != null)
-        //{
-        //    playerHead.transform.SetParent(carriedMount.transform, false);
-        //    playerHead.transform.localPosition = Vector3.zero;
-        //    playerHead.transform.localRotation = Quaternion.identity;
-        //}
-
-        // carriedMount currently equals the transform of the playerHeadPivot also.
-        // This is because the head now does not actually return to the player, but remains at the current anchor -
-        // until the player interacts with a new anchor. Then, the head gets put on new anchor -
-        // and the camera shifts to new anchor.
-        // This is ok as the head is invisible
 
         playerInput.SetMovementAndCameraLocked(true);
         StartCoroutine(PickupHeadRoutine(placedHeadVolume));
